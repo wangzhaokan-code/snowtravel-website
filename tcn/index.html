@@ -10,7 +10,7 @@
 <body>
   <header class="site-header">
     <a class="brand" href="./" aria-label="雪旅首頁">
-      <span class="brand-mark">雪</span>
+      <img class="brand-logo" src="../assets/logo/snowtravel-logo.png" alt="雪旅 Snowtravel">
       <span><strong>雪旅</strong><small>Snowtravel</small></span>
     </a>
     <nav class="site-nav" aria-label="主導覽">
@@ -43,6 +43,7 @@
 
     <section class="section feature-band" aria-labelledby="school-entry-title">
       <div>
+        <img class="section-logo section-logo-xueyuan" src="../assets/logo/xueyuan-logo.png" alt="雪緣中文滑雪學校">
         <p class="eyebrow">Ski School</p>
         <h2 id="school-entry-title">雪緣中文滑雪學校</h2>
         <p>目前官網的核心頁面。已整理課程、雪場、價格表與課費計算器，方便客人先估算，再把需求發給客服確認。</p>
@@ -91,34 +92,46 @@
 
     <section class="section contact-section" id="contact">
       <div class="section-heading">
-        <p class="eyebrow">Contact</p>
         <h2>聯絡方式</h2>
-        <p>正式上線前，二維碼仍以確認後版本為準。手機端可先使用文字資訊聯絡。</p>
       </div>
       <div class="contact-layout">
-        <div class="text-panel contact-card">
-          <p><strong>WhatsApp / 電話：</strong><a href="tel:+817041210414">+81 70-4121-0414</a></p>
-          <p><strong>Email：</strong><a href="mailto:snowtravel1107@gmail.com">snowtravel1107@gmail.com</a></p>
-          <p><strong>Wechat：</strong>SkiingWang</p>
-          <p><strong>Line：</strong>正式連結待確認</p>
-          <div class="contact-actions">
-            <a class="button primary" href="Skischool/#calculator">先估算課費</a>
-            <a class="button ghost" href="mailto:snowtravel1107@gmail.com">Email 諮詢</a>
-          </div>
+        <div class="text-panel contact-card contact-copy-card">
+          <button class="contact-copy-row" type="button" data-copy-label="聯繫電話 / WhatsApp" data-copy-value="+81 70-4121-0414"><strong>聯繫電話<br><small>WhatsApp</small></strong><span>+81 70-4121-0414</span></button>
+          <button class="contact-copy-row" type="button" data-copy-label="Email" data-copy-value="snowtravel1107@gmail.com"><strong>Email</strong><span>snowtravel1107@gmail.com</span></button>
+          <button class="contact-copy-row" type="button" data-copy-label="Wechat" data-copy-value="SkiingWang"><strong>Wechat</strong><span>SkiingWang</span></button>
+          <button class="contact-copy-row" type="button" data-copy-label="Line ID" data-copy-value="Leixuemantian"><strong>Line ID</strong><span>Leixuemantian<small>Line ID 跨國不互通，可直接掃 QR Code 添加好友。</small></span></button>
+          <p class="contact-copy-status" aria-live="polite" data-contact-copy-status></p>
         </div>
-        <div class="qr-row" aria-label="二維碼占位">
-          <div class="qr-placeholder">Wechat<br><small>上線前確認</small></div>
-          <div class="qr-placeholder">Line<br><small>上線前確認</small></div>
-          <div class="qr-placeholder">WhatsApp<br><small>上線前確認</small></div>
+        <div class="qr-row" aria-label="聯絡方式二維碼">
+          <div class="qr-placeholder qr-card"><img src="../assets/qrcode/wechat.jpg" alt="Wechat SkiingWang 二維碼"><strong>Wechat</strong><small>SkiingWang</small></div>
+          <div class="qr-placeholder qr-card"><img src="../assets/qrcode/line.jpg" alt="Line ID Leixuemantian 二維碼"><strong>Line</strong><small>Leixuemantian</small></div>
+          <div class="qr-placeholder qr-card"><img src="../assets/qrcode/whatsapp.jpg" alt="WhatsApp +81 70-4121-0414 二維碼"><strong>WhatsApp</strong><small>+81 70-4121-0414</small></div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>株式会社雪旅 Snowtravel</p>
-    <p>〒060-0053 日本北海道札幌市中央区南3条東4丁目3-13-301</p>
-    <p>©2026 Snowtravel. Static site draft.</p>
+    <p>株式会社雪旅 Snowtravel Co., Ltd.</p>
+    <p>〒061-2273 北海道札幌市南区豊滝2丁目1-1</p>
+    <p>©2026 雪旅 版权所有</p>
   </footer>
+  <script>
+    (() => {
+      const copyStatus = document.querySelector('[data-contact-copy-status]');
+      document.querySelectorAll('[data-copy-value]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const value = button.dataset.copyValue || '';
+          const label = button.dataset.copyLabel || '內容';
+          try {
+            await navigator.clipboard.writeText(value);
+            if (copyStatus) copyStatus.textContent = `${label} 已複製：${value}`;
+          } catch (error) {
+            if (copyStatus) copyStatus.textContent = `請手動複製 ${label}：${value}`;
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
