@@ -35,11 +35,11 @@
       avatar: 'assets/images/coaches/wang/avatar.jpg',
       photos: [
         { src: 'assets/images/coaches/wang/photo-01.jpg', alt: 'Wang 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/wang/photo-02.jpg', alt: 'Wang 教練照片 2' },
+        { src: 'assets/images/coaches/wang/photo-03.jpg', alt: 'Wang 教練照片 3' },
+        { src: 'assets/images/coaches/wang/photo-04.jpg', alt: 'Wang 教練照片 4' },
         { src: 'assets/images/coaches/wang/photo-05.jpg', alt: 'Wang 教練照片 5', layout: 'wide' },
-        { src: 'assets/images/coaches/wang/photo-02.jpg', alt: 'Wang 教練照片 2', layout: 'wide' },
-        { src: 'assets/images/coaches/wang/photo-03.jpg', alt: 'Wang 教練照片 3', layout: 'wide' },
-        { src: 'assets/images/coaches/wang/photo-06.jpg', alt: 'Wang 教練照片 6', layout: 'wide' },
-        { src: 'assets/images/coaches/wang/photo-04.jpg', alt: 'Wang 教練照片 4', layout: 'wide' }
+        { src: 'assets/images/coaches/wang/photo-06.jpg', alt: 'Wang 教練照片 6' }
       ],
       certificateImages: [
         { title: '加拿大雙板指導員 CSIA 3級', src: 'assets/images/coaches/wang/certificate-csia-3.jpg' },
@@ -345,10 +345,11 @@
   };
   const mediaButton = (item, index, type) => {
     const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
+    const titleClass = type === '證照' ? ' coach-media-caption-overlay' : '';
     return `
     <button class="coach-media-thumb${layoutClass}" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
       <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${type} ${index + 1}`)}" loading="lazy">
-      ${item.title ? `<span>${escapeHtml(item.title)}</span>` : ''}
+      ${item.title ? `<span class="coach-media-caption${titleClass}">${escapeHtml(item.title)}</span>` : ''}
     </button>`;
   };
   const richParagraphs = (value, fallback = '教練簡介稍後補充。') => String(value || fallback)
