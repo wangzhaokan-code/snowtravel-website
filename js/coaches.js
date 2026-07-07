@@ -374,13 +374,13 @@
         </div>`;
     }
     if (tab === 'certificates') {
-      const certificateList = coach.certificates.length
-        ? `<ul>${coach.certificates.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
-        : '<p>證照資料準備中。</p>';
       const certificateImages = Array.isArray(coach.certificateImages) && coach.certificateImages.length
         ? `<div class="coach-media-grid coach-certificate-grid">${coach.certificateImages.map((item, index) => mediaButton(item, index, '證照')).join('')}</div>`
         : '';
-      return `${certificateList}${certificateImages}`;
+      const certificateList = coach.certificates.length && !(coach.id === 'wang' && certificateImages)
+        ? `<ul>${coach.certificates.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+        : '';
+      return certificateList || certificateImages ? `${certificateList}${certificateImages}` : '<p>證照資料準備中。</p>';
     }
     if (tab === 'photos') {
       return Array.isArray(coach.photos) && coach.photos.length
