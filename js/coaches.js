@@ -71,7 +71,20 @@
 
 作為一名耐心的教練，我會根據每位學員的特點制定個性化的教學方案，致力於幫助大家在滑雪中不斷進步。我熱衷於記錄每位學員的成長歷程，期待與你一起享受滑雪的樂趣！`,
       certificates: ['紐西蘭雙板指導員 NZSIA 兒童教學 1級', '紐西蘭單板指導員 SBINZ 1級', '紐西蘭雙板指導員 NZSIA 1級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/mina/photo-01.jpg', alt: '美娜 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/mina/photo-02.jpg', alt: '美娜 教練照片 2' },
+        { src: 'assets/images/coaches/mina/photo-03.jpg', alt: '美娜 教練照片 3' },
+        { src: 'assets/images/coaches/mina/photo-04.jpg', alt: '美娜 教練照片 4' },
+        { src: 'assets/images/coaches/mina/photo-05.jpg', alt: '美娜 教練照片 5', layout: 'wide' },
+        { src: 'assets/images/coaches/mina/photo-06.jpg', alt: '美娜 教練照片 6' }
+      ],
+      avatar: 'assets/images/coaches/mina/avatar.jpg',
+      certificateImages: [
+        { title: '紐西蘭雙板指導員 NZSIA 兒童教學 1級', src: 'assets/images/coaches/mina/certificate-nzsia-children-1.jpg' },
+        { title: '紐西蘭單板指導員 SBINZ 1級', src: 'assets/images/coaches/mina/certificate-sbinz-1.jpg' },
+        { title: '紐西蘭雙板指導員 NZSIA 1級', src: 'assets/images/coaches/mina/certificate-nzsia-1.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-mina',
       showInTeam: true,
@@ -94,7 +107,17 @@
 
 曾工作過雪場：白馬八方尾根滑雪場、靜岡Yeti滑雪場、新潟苗場滑雪場、岐阜Dynaland滑雪場。`,
       certificates: ['加拿大單板指導員 CASI 2級', '日本單板 JSBA C級指導員', 'JSBA 1st Class badge'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/kay/photo-01.jpg', alt: 'Kay 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/kay/photo-02.jpg', alt: 'Kay 教練照片 2' },
+        { src: 'assets/images/coaches/kay/photo-03.jpg', alt: 'Kay 教練照片 3' },
+        { src: 'assets/images/coaches/kay/photo-04.jpg', alt: 'Kay 教練照片 4' }
+      ],
+      avatar: 'assets/images/coaches/kay/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大單板指導員 CASI 2級', src: 'assets/images/coaches/kay/certificate-casi-2.jpg' },
+        { title: '日本單板 JSBA C級指導員', src: 'assets/images/coaches/kay/certificate-jsba-c.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-kay',
       showInTeam: true,
@@ -115,7 +138,18 @@
 
 教學經歷：2018/2019 Clubmed Sahoro、2019/2020 北海道Tomamu星野滑雪學校、2022/2023 Clubmed Tomamu、2023/2024 二世谷Niseko、2024 南半球 Australia Falls Creek Ski School。`,
       certificates: ['加拿大雙板指導員 CSIA 2級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/anita/photo-01.jpg', alt: 'Anita 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/anita/photo-02.jpg', alt: 'Anita 教練照片 2' },
+        { src: 'assets/images/coaches/anita/photo-03.jpg', alt: 'Anita 教練照片 3' },
+        { src: 'assets/images/coaches/anita/photo-04.jpg', alt: 'Anita 教練照片 4' },
+        { src: 'assets/images/coaches/anita/photo-05.jpg', alt: 'Anita 教練照片 5', layout: 'wide' },
+        { src: 'assets/images/coaches/anita/photo-06.jpg', alt: 'Anita 教練照片 6' }
+      ],
+      avatar: 'assets/images/coaches/anita/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 2級', src: 'assets/images/coaches/anita/certificate-csia-2.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-anita',
       showInTeam: true,
@@ -134,6 +168,12 @@
       intro: `教練簡介稍後補充。`,
       certificates: ['加拿大雙板指導員 CSIA 2級', '紐西蘭雙板指導員 NZSIA 兒童教學 1級', '加拿大雙板指導員 CSIA 1級'],
       photos: [],
+      avatar: 'assets/images/coaches/eddie/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 2級', src: 'assets/images/coaches/eddie/certificate-csia-2.jpg' },
+        { title: '紐西蘭雙板指導員 NZSIA 兒童教學 1級', src: 'assets/images/coaches/eddie/certificate-nzsia-children-1.jpg' },
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/eddie/certificate-csia-1.png' }
+      ],
       videos: [],
       detailId: 'coach-detail-eddie',
       showInTeam: true,
@@ -151,6 +191,10 @@
       intro: `教練簡介稍後補充。`,
       certificates: ['加拿大雙板指導員 CSIA 1級'],
       photos: [],
+      avatar: 'assets/images/coaches/tina/avatar.jpeg',
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/tina/certificate-csia-1.png' }
+      ],
       videos: [],
       detailId: 'coach-detail-tina',
       showInTeam: true,
@@ -168,6 +212,10 @@
       intro: `教練簡介稍後補充。`,
       certificates: ['加拿大雙板指導員 CSIA 2級'],
       photos: [],
+      avatar: 'assets/images/coaches/jessika/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大單板指導員 CASI 2級', src: 'assets/images/coaches/jessika/certificate-casi-2.png' }
+      ],
       videos: [],
       detailId: 'coach-detail-jessika',
       showInTeam: true,
@@ -188,7 +236,18 @@
 
 經歷：日本輕井澤王子滑雪學校教練、臺灣ISKI室內滑雪機助教、日本北海道星野滑雪場教練、中國廣州融創室內滑雪場教練。`,
       certificates: ['加拿大雙板指導員 CSIA 考官 1級', '加拿大雙板指導員 CSIA 3級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/leo/photo-01.jpg', alt: 'Leo 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/leo/photo-02.jpg', alt: 'Leo 教練照片 2' },
+        { src: 'assets/images/coaches/leo/photo-03.jpg', alt: 'Leo 教練照片 3' },
+        { src: 'assets/images/coaches/leo/photo-04.jpg', alt: 'Leo 教練照片 4' },
+        { src: 'assets/images/coaches/leo/photo-05.jpg', alt: 'Leo 教練照片 5', layout: 'wide' }
+      ],
+      avatar: 'assets/images/coaches/leo/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 考官 1級', src: 'assets/images/coaches/leo/certificate-csia-examiner-1.jpg' },
+        { title: '加拿大雙板指導員 CSIA 3級', src: 'assets/images/coaches/leo/certificate-csia-3.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-leo',
       showInTeam: true,
@@ -208,7 +267,19 @@
 
 速度與花式並存，音樂和雪花共舞，一起享受滑雪帶來的速度與激情！紐西蘭教學體系，日系滑行出身 + Freestyle 花式雙板。`,
       certificates: ['加拿大單板指導員 CASI 1級', '加拿大雙板指導員 CSIA 2級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/wulf/photo-01.jpg', alt: 'Wulf 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/wulf/photo-02.jpg', alt: 'Wulf 教練照片 2' },
+        { src: 'assets/images/coaches/wulf/photo-03.jpg', alt: 'Wulf 教練照片 3' },
+        { src: 'assets/images/coaches/wulf/photo-04.jpg', alt: 'Wulf 教練照片 4' },
+        { src: 'assets/images/coaches/wulf/photo-05.jpg', alt: 'Wulf 教練照片 5', layout: 'wide' },
+        { src: 'assets/images/coaches/wulf/photo-06.png', alt: 'Wulf 教練照片 6' }
+      ],
+      avatar: 'assets/images/coaches/wulf/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 2級', src: 'assets/images/coaches/wulf/certificate-csia-2.jpg' },
+        { title: '加拿大單板指導員 CASI 1級', src: 'assets/images/coaches/wulf/certificate-casi-1.png' }
+      ],
       videos: [],
       detailId: 'coach-detail-wulf',
       showInTeam: true,
@@ -229,7 +300,16 @@
 
 完全日式滑行風格。`,
       certificates: ['SAJ 公認單板準指導員', 'SAJ 公認單板 C級檢定員', 'JSBA C級指導員'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/daqiang/photo-01.jpg', alt: '大強 教練照片 1' },
+        { src: 'assets/images/coaches/daqiang/photo-02.jpg', alt: '大強 教練照片 2' }
+      ],
+      avatar: 'assets/images/coaches/daqiang/avatar.jpg',
+      certificateImages: [
+        { title: 'SAJ 公認單板準指導員', src: 'assets/images/coaches/daqiang/certificate-saj-snowboard-assistant.jpg' },
+        { title: 'SAJ 公認單板 C級檢定員', src: 'assets/images/coaches/daqiang/certificate-saj-snowboard-examiner2.jpg' },
+        { title: 'JSBA C級指導員', src: 'assets/images/coaches/daqiang/certificate-jsba-c.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-daqiang',
       showInTeam: true,
@@ -254,7 +334,18 @@
 23夏季：紐西蘭Cardrona滑雪。
 23/24日本雪季：北海道，主要駐點星野度假村。`,
       certificates: ['澳大利亞雙板指導員 APSI 1級', '紐西蘭單板指導員 SBINZ 1級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/pagi/photo-01.jpg', alt: 'Pagi 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/pagi/photo-02.jpg', alt: 'Pagi 教練照片 2' },
+        { src: 'assets/images/coaches/pagi/photo-03.jpg', alt: 'Pagi 教練照片 3' },
+        { src: 'assets/images/coaches/pagi/photo-04.jpg', alt: 'Pagi 教練照片 4' },
+        { src: 'assets/images/coaches/pagi/photo-05.jpg', alt: 'Pagi 教練照片 5', layout: 'wide' }
+      ],
+      avatar: 'assets/images/coaches/pagi/avatar.jpg',
+      certificateImages: [
+        { title: '澳大利亞雙板指導員 APSI 1級', src: 'assets/images/coaches/pagi/certificate-apsi-1.jpg' },
+        { title: '紐西蘭單板指導員 SBINZ 1級', src: 'assets/images/coaches/pagi/certificate-sbinz-1.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-pagi',
       showInTeam: true,
@@ -276,7 +367,18 @@
 證照：加拿大雙板滑雪系統CSIA Level 1教練執照、國職雙板滑雪指導員五級。
 比賽成績：2024年廣州融創雙板大迴轉女子精英組冠軍。`,
       certificates: ['加拿大雙板滑雪系統 CSIA Level 1 教練執照', '國職雙板滑雪指導員五級', '2024 年廣州融創雙板大迴轉女子精英組冠軍'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/zoe/photo-01.jpg', alt: 'Zoe 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/zoe/photo-02.jpg', alt: 'Zoe 教練照片 2' },
+        { src: 'assets/images/coaches/zoe/photo-03.jpg', alt: 'Zoe 教練照片 3' },
+        { src: 'assets/images/coaches/zoe/photo-04.jpg', alt: 'Zoe 教練照片 4' },
+        { src: 'assets/images/coaches/zoe/photo-05.jpg', alt: 'Zoe 教練照片 5', layout: 'wide' }
+      ],
+      avatar: 'assets/images/coaches/zoe/avatar.jpg',
+      certificateImages: [
+        { title: '加拿大雙板滑雪系統 CSIA Level 1 教練執照', src: 'assets/images/coaches/zoe/certificate-csia-1.jpg' },
+        { title: '2024 年廣州融創雙板大迴轉女子精英組冠軍', src: 'assets/images/coaches/zoe/certificate-certificate-champion.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-zoe',
       showInTeam: true,
@@ -300,7 +402,14 @@
 
 進階訓練：進階滑行包括樹林滑及基礎跳台亦可洽詢。`,
       certificates: ['紐西蘭單板指導員 SBINZ 1級', '加拿大雙板指導員 CSIA 1級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/shaun/photo-01.jpg', alt: 'Shaun 教練照片 1' }
+      ],
+      avatar: 'assets/images/coaches/shaun/avatar.jpg',
+      certificateImages: [
+        { title: '紐西蘭單板指導員 SBINZ 1級', src: 'assets/images/coaches/shaun/certificate-sbinz-1.jpg' },
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/shaun/certificate-csia-1.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-shaun',
       showInTeam: true,
@@ -320,7 +429,16 @@
 
 擅長親子教學、兒童教學、大人教學，都會提供滑雪拍照、影片。`,
       certificates: ['紐西蘭雙板指導員 1級', '紐西蘭單板指導員 1級', '日本單板檢定 SAJ 1級'],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/momo/photo-01.jpg', alt: 'Momo 教練照片 1' },
+        { src: 'assets/images/coaches/momo/photo-02.jpg', alt: 'Momo 教練照片 2' }
+      ],
+      avatar: 'assets/images/coaches/momo/avatar.jpg',
+      certificateImages: [
+        { title: '紐西蘭雙板指導員 1級', src: 'assets/images/coaches/momo/certificate-nzsia-1.jpg' },
+        { title: '紐西蘭單板指導員 1級', src: 'assets/images/coaches/momo/certificate-sbinz-1.jpg' },
+        { title: '日本單板檢定 SAJ 1級', src: 'assets/images/coaches/momo/certificate-saj-snowboard-1.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-momo',
       showInTeam: true,
@@ -377,7 +495,7 @@
       const certificateImages = Array.isArray(coach.certificateImages) && coach.certificateImages.length
         ? `<div class="coach-media-grid coach-certificate-grid">${coach.certificateImages.map((item, index) => mediaButton(item, index, '證照')).join('')}</div>`
         : '';
-      const certificateList = coach.certificates.length && !(coach.id === 'wang' && certificateImages)
+      const certificateList = coach.certificates.length && !certificateImages
         ? `<ul>${coach.certificates.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
         : '';
       return certificateList || certificateImages ? `${certificateList}${certificateImages}` : '<p>證照資料準備中。</p>';
