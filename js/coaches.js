@@ -34,12 +34,12 @@
       certificates: ['加拿大雙板指導員 CSIA 3級', '加拿大單板指導員 CASI 2級', '紐西蘭雙板指導員 NZSIA 2級', '紐西蘭單板指導員 SBINZ 1級', '日本單板檢定 SAJ 1級', '日本雙板檢定 SAJ 1級', '韓國雙板指導員 KSIA 1級'],
       avatar: 'assets/images/coaches/wang/avatar.jpg',
       photos: [
-        { src: 'assets/images/coaches/wang/photo-01.jpg', alt: 'Wang 教練照片 1' },
-        { src: 'assets/images/coaches/wang/photo-02.jpg', alt: 'Wang 教練照片 2' },
-        { src: 'assets/images/coaches/wang/photo-03.jpg', alt: 'Wang 教練照片 3' },
-        { src: 'assets/images/coaches/wang/photo-04.jpg', alt: 'Wang 教練照片 4' },
-        { src: 'assets/images/coaches/wang/photo-05.jpg', alt: 'Wang 教練照片 5' },
-        { src: 'assets/images/coaches/wang/photo-06.jpg', alt: 'Wang 教練照片 6' }
+        { src: 'assets/images/coaches/wang/photo-01.jpg', alt: 'Wang 教練照片 1', layout: 'tall' },
+        { src: 'assets/images/coaches/wang/photo-05.jpg', alt: 'Wang 教練照片 5', layout: 'wide' },
+        { src: 'assets/images/coaches/wang/photo-02.jpg', alt: 'Wang 教練照片 2', layout: 'wide' },
+        { src: 'assets/images/coaches/wang/photo-03.jpg', alt: 'Wang 教練照片 3', layout: 'wide' },
+        { src: 'assets/images/coaches/wang/photo-06.jpg', alt: 'Wang 教練照片 6', layout: 'wide' },
+        { src: 'assets/images/coaches/wang/photo-04.jpg', alt: 'Wang 教練照片 4', layout: 'wide' }
       ],
       certificateImages: [
         { title: '加拿大雙板指導員 CSIA 3級', src: 'assets/images/coaches/wang/certificate-csia-3.jpg' },
@@ -343,11 +343,14 @@
     const prefix = pagePath.includes('/tcn/Skischool/') ? '../../' : (pagePath.includes('/tcn/') ? '../' : '');
     return `${prefix}${cleanPath}`;
   };
-  const mediaButton = (item, index, type) => `
-    <button class="coach-media-thumb" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
+  const mediaButton = (item, index, type) => {
+    const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
+    return `
+    <button class="coach-media-thumb${layoutClass}" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
       <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${type} ${index + 1}`)}" loading="lazy">
       ${item.title ? `<span>${escapeHtml(item.title)}</span>` : ''}
     </button>`;
+  };
   const richParagraphs = (value, fallback = '教練簡介稍後補充。') => String(value || fallback)
     .split(/\n{2,}/)
     .map((paragraph) => paragraph.trim())
@@ -380,7 +383,7 @@
     }
     if (tab === 'photos') {
       return Array.isArray(coach.photos) && coach.photos.length
-        ? `<div class="coach-media-grid">${coach.photos.map((item, index) => mediaButton(item, index, '照片')).join('')}</div>`
+        ? `<div class="coach-media-grid coach-photo-mosaic">${coach.photos.map((item, index) => mediaButton(item, index, '照片')).join('')}</div>`
         : '<p>照片準備中。</p>';
     }
     return '<p>視頻準備中。</p>';
