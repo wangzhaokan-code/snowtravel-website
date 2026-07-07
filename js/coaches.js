@@ -32,7 +32,24 @@
 2024年夏：紐西蘭三錐山滑雪場（Treble Cone）參加單/雙板訓練，考取加拿大雙板指導員CSIA 3級、加拿大單板指導員CASI 2級
 2025年夏：紐西蘭三錐山滑雪場（Treble Cone）參加單/雙板訓練`,
       certificates: ['加拿大雙板指導員 CSIA 3級', '加拿大單板指導員 CASI 2級', '紐西蘭雙板指導員 NZSIA 2級', '紐西蘭單板指導員 SBINZ 1級', '日本單板檢定 SAJ 1級', '日本雙板檢定 SAJ 1級', '韓國雙板指導員 KSIA 1級'],
-      photos: [],
+      avatar: 'assets/images/coaches/wang/avatar.jpg',
+      photos: [
+        { src: 'assets/images/coaches/wang/photo-01.jpg', alt: 'Wang 教練照片 1' },
+        { src: 'assets/images/coaches/wang/photo-02.jpg', alt: 'Wang 教練照片 2' },
+        { src: 'assets/images/coaches/wang/photo-03.jpg', alt: 'Wang 教練照片 3' },
+        { src: 'assets/images/coaches/wang/photo-04.jpg', alt: 'Wang 教練照片 4' },
+        { src: 'assets/images/coaches/wang/photo-05.jpg', alt: 'Wang 教練照片 5' },
+        { src: 'assets/images/coaches/wang/photo-06.jpg', alt: 'Wang 教練照片 6' }
+      ],
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 3級', src: 'assets/images/coaches/wang/certificate-csia-3.jpg' },
+        { title: '加拿大單板指導員 CASI 2級', src: 'assets/images/coaches/wang/certificate-casi-2.jpg' },
+        { title: '紐西蘭雙板指導員 NZSIA 2級', src: 'assets/images/coaches/wang/certificate-nzsia-2.jpg' },
+        { title: '紐西蘭單板指導員 SBINZ 1級', src: 'assets/images/coaches/wang/certificate-sbinz-1.jpg' },
+        { title: '日本單板檢定 SAJ 1級', src: 'assets/images/coaches/wang/certificate-saj-snowboard-1.jpg' },
+        { title: '日本雙板檢定 SAJ 1級', src: 'assets/images/coaches/wang/certificate-saj-ski-1.jpg' },
+        { title: '韓國雙板指導員 KSIA 1級', src: 'assets/images/coaches/wang/certificate-ksia-1.jpg' }
+      ],
       videos: [],
       detailId: 'coach-detail-wang',
       showInTeam: true,
@@ -319,6 +336,18 @@
     return parts.length ? parts.join(' / ') : '證照確認中';
   };
   const languageText = (coach) => coach.languages.join('、');
+  const coachAssetUrl = (path) => {
+    const cleanPath = String(path || '').replace(/^\/+/, '');
+    if (!cleanPath) return '';
+    const pagePath = window.location.pathname;
+    const prefix = pagePath.includes('/tcn/Skischool/') ? '../../' : (pagePath.includes('/tcn/') ? '../' : '');
+    return `${prefix}${cleanPath}`;
+  };
+  const mediaButton = (item, index, type) => `
+    <button class="coach-media-thumb" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
+      <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${type} ${index + 1}`)}" loading="lazy">
+      ${item.title ? `<span>${escapeHtml(item.title)}</span>` : ''}
+    </button>`;
   const richParagraphs = (value, fallback = '教練簡介稍後補充。') => String(value || fallback)
     .split(/\n{2,}/)
     .map((paragraph) => paragraph.trim())
@@ -341,13 +370,46 @@
         </div>`;
     }
     if (tab === 'certificates') {
-      return coach.certificates.length
+      const certificateList = coach.certificates.length
         ? `<ul>${coach.certificates.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
         : '<p>證照資料準備中。</p>';
+      const certificateImages = Array.isArray(coach.certificateImages) && coach.certificateImages.length
+        ? `<div class="coach-media-grid coach-certificate-grid">${coach.certificateImages.map((item, index) => mediaButton(item, index, '證照')).join('')}</div>`
+        : '';
+      return `${certificateList}${certificateImages}`;
     }
-    if (tab === 'photos') return '<p>照片準備中。</p>';
+    if (tab === 'photos') {
+      return Array.isArray(coach.photos) && coach.photos.length
+        ? `<div class="coach-media-grid">${coach.photos.map((item, index) => mediaButton(item, index, '照片')).join('')}</div>`
+        : '<p>照片準備中。</p>';
+    }
     return '<p>視頻準備中。</p>';
   };
+
+  const closeCoachLightbox = () => {
+    const existing = document.querySelector('[data-coach-lightbox]');
+    if (existing) existing.remove();
+  };
+  const openCoachLightbox = (src, title) => {
+    if (!src) return;
+    closeCoachLightbox();
+    const lightbox = document.createElement('div');
+    lightbox.className = 'coach-lightbox';
+    lightbox.setAttribute('data-coach-lightbox', '');
+    lightbox.innerHTML = `
+      <button class="coach-lightbox-close" type="button" aria-label="關閉預覽">&times;</button>
+      <figure>
+        <img src="${escapeHtml(src)}" alt="${escapeHtml(title || '教練素材預覽')}">
+        ${title ? `<figcaption>${escapeHtml(title)}</figcaption>` : ''}
+      </figure>`;
+    document.body.appendChild(lightbox);
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox || event.target.closest('.coach-lightbox-close')) closeCoachLightbox();
+    });
+  };
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeCoachLightbox();
+  });
 
   const renderCoachTeam = () => {
     const oldGrid = document.querySelector('.coach-detail-grid');
@@ -362,7 +424,7 @@
           const certLines = coachCertLines(coach);
           return `
           <button id="coach-card-${coach.id}" class="coach-list-card" type="button" data-coach-id="${coach.id}" aria-expanded="false">
-            <span class="coach-avatar-placeholder">${escapeHtml(coach.name.slice(0, 1))}</span>
+            <span class="coach-avatar-placeholder">${coach.avatar ? `<img src="${escapeHtml(coachAssetUrl(coach.avatar))}" alt="${escapeHtml(coach.name)} 教練頭像" loading="lazy">` : escapeHtml(coach.name.slice(0, 1))}</span>
             <span class="coach-list-main${certLines.length === 1 ? ' is-single-cert' : ''}">
               <strong>${escapeHtml(coach.name)}</strong>
               ${certLines.map((line) => `<small>${escapeHtml(line)}</small>`).join('')}
@@ -433,6 +495,11 @@
       if (tab) {
         const coachId = profile.dataset.activeCoach;
         selectCoach(coachId, tab.dataset.coachTab, false);
+        return;
+      }
+      const media = event.target.closest('[data-coach-lightbox-src]');
+      if (media) {
+        openCoachLightbox(media.dataset.coachLightboxSrc, media.dataset.coachLightboxTitle);
       }
     });
 
