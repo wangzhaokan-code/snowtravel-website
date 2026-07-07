@@ -106,7 +106,7 @@
 自己初學時是自學十分辛苦，在接觸CASI及JSBA等教學方法後，希望協助大家更加快上手！喜歡照顧小孩滑雪及提升女士滑雪技術，建立自信。
 
 曾工作過雪場：白馬八方尾根滑雪場、靜岡Yeti滑雪場、新潟苗場滑雪場、岐阜Dynaland滑雪場。`,
-      certificates: ['加拿大單板指導員 CASI 2級', '日本單板 JSBA C級指導員', 'JSBA 1st Class badge'],
+      certificates: ['加拿大單板指導員 CASI 2級', '日本單板 JSBA C級指導員'],
       photos: [
         { src: 'assets/images/coaches/kay/photo-01.jpg', alt: 'Kay 教練照片 1', layout: 'tall' },
         { src: 'assets/images/coaches/kay/photo-02.jpg', alt: 'Kay 教練照片 2' },
@@ -214,7 +214,7 @@
       photos: [],
       avatar: 'assets/images/coaches/jessika/avatar.jpg',
       certificateImages: [
-        { title: '加拿大單板指導員 CASI 2級', src: 'assets/images/coaches/jessika/certificate-casi-2.png' }
+        { title: '加拿大雙板指導員 CSIA 2級', src: 'assets/images/coaches/jessika/certificate-casi-2.png' }
       ],
       videos: [],
       detailId: 'coach-detail-jessika',
@@ -366,7 +366,7 @@
 
 證照：加拿大雙板滑雪系統CSIA Level 1教練執照、國職雙板滑雪指導員五級。
 比賽成績：2024年廣州融創雙板大迴轉女子精英組冠軍。`,
-      certificates: ['加拿大雙板滑雪系統 CSIA Level 1 教練執照', '國職雙板滑雪指導員五級', '2024 年廣州融創雙板大迴轉女子精英組冠軍'],
+      certificates: ['加拿大雙板滑雪系統 CSIA Level 1 教練執照', '2024 年廣州融創雙板大迴轉女子精英組冠軍'],
       photos: [
         { src: 'assets/images/coaches/zoe/photo-01.jpg', alt: 'Zoe 教練照片 1', layout: 'tall' },
         { src: 'assets/images/coaches/zoe/photo-02.jpg', alt: 'Zoe 教練照片 2' },
