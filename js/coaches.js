@@ -53,19 +53,23 @@
       videos: [
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAguarrtwYouJG_pQM.mp4',
-          title: { zhHans: '视频 1', zhHant: '視頻 1' }
+          title: { zhHans: '视频 1', zhHant: '視頻 1' },
+          poster: 'assets/images/coaches/wang/video-01-poster.jpg'
         },
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAggJGLuAYo_qWR8AU.mp4',
-          title: { zhHans: '视频 2', zhHant: '視頻 2' }
+          title: { zhHans: '视频 2', zhHant: '視頻 2' },
+          poster: 'assets/images/coaches/wang/video-02-poster.jpg'
         },
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAgjpGLuAYouO_F7QQ.mp4',
-          title: { zhHans: '视频 3', zhHant: '視頻 3' }
+          title: { zhHans: '视频 3', zhHant: '視頻 3' },
+          poster: 'assets/images/coaches/wang/video-03-poster.jpg'
         },
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAgiZGLuAYom7PawAM.mp4',
-          title: { zhHans: '视频 4', zhHant: '視頻 4' }
+          title: { zhHans: '视频 4', zhHant: '視頻 4' },
+          poster: 'assets/images/coaches/wang/video-04-poster.jpg'
         }
       ],
       detailId: 'coach-detail-wang',
@@ -567,7 +571,7 @@
     return `
     <button class="coach-media-thumb coach-video-thumb${layoutClass}" type="button" aria-label="${escapeHtml(title)}" data-coach-lightbox-kind="video" data-coach-lightbox-src="${escapeHtml(item.url)}" data-coach-lightbox-title="${escapeHtml(title)}">
       <span class="coach-video-poster" aria-hidden="true">
-        <video src="${escapeHtml(item.url)}" preload="metadata" playsinline></video>
+        ${item.poster ? `<img src="${escapeHtml(coachAssetUrl(item.poster))}" alt="" loading="lazy">` : ''}
         <span class="coach-video-play">▶</span>
       </span>
     </button>`;
