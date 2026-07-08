@@ -35,29 +35,9 @@
   const translate = typeof i18n.t === 'function' ? i18n.t : (value) => localIsSimplified() ? localToSimplified(value) : String(value || '');
   const t = (value) => localIsSimplified() ? localToSimplified(translate(value)) : String(value || '');
 
-  const config = {
-    minDate: '2026-11-01',
-    maxDate: '2027-05-31',
-    resorts: {
-      '藻岩山': { full: 80000, half: 58000 },
-      '盤溪': { full: 80000, half: 58000 },
-      '手稻': { full: 80000, half: 58000 },
-      '留寿都': { full: 80000, half: 58000 },
-      '富良野': { full: 80000, half: 58000 },
-      '神居': { full: 80000, half: 58000 },
-      '札幌國際': { full: 80000, half: 58000 },
-      'Tomamu星野': { full: 85000, half: 58000 },
-      '十勝Sahoro': { full: 85000, half: 58000 },
-      '北海道其他雪場': { full: 80000, half: 58000 }
-    },
-    peakRanges: [
-      { start: '2026-12-21', end: '2027-01-07' },
-      { start: '2027-01-30', end: '2027-02-16' }
-    ],
-    peakFee: 10000,
-    extraPersonFee: 6000,
-    levelFees: { '': 0, '不指定': 0, '一級': 3000, '二級': 5000, '三級': 8000 }
-  };
+  const priceCore = window.SKI_LESSON_PRICE_CORE;
+  if (!priceCore) return;
+  const config = priceCore.config;
 
   const coachData = (window.SNOWTRAVEL_COACHES || [])
     .filter((coach) => coach.showInCalculator)
@@ -119,24 +99,14 @@
       coach.skiCertLabel ? `<div><dt>${t('雙板：')}</dt><dd>${safeText(coach.skiCertLabel)}</dd></div>` : ''
     ].filter(Boolean).join('');
   };
-  const parseLocalDate = (value) => {
-    if (!value) return null;
-    const parts = value.split('-').map(Number);
-    if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
-    return new Date(parts[0], parts[1] - 1, parts[2]);
-  };
+  const parseLocalDate = priceCore.parseLocalDate;
   const formatDate = (value) => {
     const date = parseLocalDate(value);
     if (!date) return t('未選擇日期');
     return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
   };
-  const dateToInputValue = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  const normalizeDateInput = (value) => {
-    const raw = String(value || '').trim();
-    const compact = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
-    if (compact) return `${compact[1]}-${compact[2]}-${compact[3]}`;
-    return raw;
-  };
+  const dateToInputValue = priceCore.dateToInputValue;
+  const normalizeDateInput = priceCore.normalizeDateInput;
   const defaultDateValue = () => {
     const todayRaw = new Date();
     const today = new Date(todayRaw.getFullYear(), todayRaw.getMonth(), todayRaw.getDate());
@@ -146,15 +116,11 @@
     if (today > max) return config.maxDate;
     return dateToInputValue(today);
   };
-  const inRange = (value, start, end) => {
-    const date = parseLocalDate(value);
-    return !!date && date >= parseLocalDate(start) && date <= parseLocalDate(end);
-  };
-  const isPeakDate = (value) => config.peakRanges.some((range) => inRange(value, range.start, range.end));
+  const inRange = priceCore.inRange;
+  const isPeakDate = priceCore.isPeakDate;
   const enabledCoaches = () => coachData.filter((coach) => coach.enabled);
   const getCoach = (id) => enabledCoaches().find((coach) => coach.id === id) || null;
-  const levelRank = (level) => ({ '一級': 1, '二級': 2, '三級': 3 }[level] || 0);
-  const higherLevel = (a, b) => levelRank(a) >= levelRank(b) ? a : b;
+  const higherLevel = priceCore.higherLevel;
   const boardAbility = (coach) => {
     if (!coach) return 'none';
     if (coach.snowboardLevel && coach.skiLevel) return 'both';
@@ -162,13 +128,7 @@
     if (coach.skiLevel) return 'ski';
     return 'none';
   };
-  const coachLevelForBoard = (coach, board) => {
-    if (!coach) return '';
-    if (board === '單板') return coach.snowboardLevel;
-    if (board === '雙板') return coach.skiLevel;
-    if (board === '單板+雙板') return higherLevel(coach.snowboardLevel, coach.skiLevel);
-    return '';
-  };
+  const coachLevelForBoard = priceCore.coachLevelForBoard;
   const resortOptions = () => Object.keys(config.resorts).map((name) => `<option value="${name}"${name === 'Tomamu星野' ? ' selected' : ''}>${t(name)}</option>`).join('');
   const coachOptions = () => enabledCoaches().map((coach) => `<option value="${coach.id}">${coach.displayText}</option>`).join('');
   const field = (card, name) => card.querySelector(`[data-field="${name}"]`);
@@ -409,11 +369,24 @@
     if (outOfSeason) message = t('請選擇 2026/11/01～2027/05/31 期間的日期');
     else if (!peopleValid) message = t('請輸入有效人數');
     const invalid = !!message;
-    const base = config.resorts[resort][type === 'full' ? 'full' : 'half'];
-    const peopleFee = Math.max(people - 2, 0) * config.extraPersonFee;
     const peak = dateValue && !outOfSeason && isPeakDate(dateValue);
-    const peakFee = peak ? config.peakFee : 0;
-    const subtotal = invalid ? 0 : base + peopleFee + peakFee + coachFee;
+    const price = priceCore.calculateCourse({
+      date: dateValue,
+      resort,
+      type,
+      people,
+      mode,
+      board,
+      level: mode === 'condition' ? field(card, 'level').value : '',
+      genderFee: mode === 'condition' ? Number(field(card, 'gender').value || 0) : 0,
+      backgroundFee: mode === 'condition' ? Number(field(card, 'background').value || 0) : 0,
+      coach: mode === 'specific' ? getCoach(field(card, 'coachId').value) : null
+    });
+    const base = price.base;
+    const peopleFee = price.peopleFee;
+    const peakFee = price.peakFee;
+    coachFee = price.coachFee;
+    const subtotal = invalid ? 0 : price.subtotal;
     return {
       valid: !invalid,
       dateText: formatDate(dateValue),
