@@ -99,9 +99,6 @@
     const targetId = detailLink.getAttribute('href').slice(1);
     event.preventDefault();
     activateCoachPanel();
-    if (window.location.hash !== `#${targetId}`) {
-      window.history.pushState(null, '', `#${targetId}`);
-    }
     window.dispatchEvent(new CustomEvent('snowtravel:coachHashChange', { detail: { hash: `#${targetId}` } }));
     window.setTimeout(() => {
       const target = document.getElementById(targetId);

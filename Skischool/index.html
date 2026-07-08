@@ -190,7 +190,11 @@
         };
         tabs.forEach((tab) => tab.addEventListener('click', () => activate(tab.dataset.panel)));
         const hashMap = { '#pricing': 'price-panel', '#calculator': 'price-panel', '#calculator-guide': 'price-panel', '#coaches': 'coach-panel', '#coach-rules': 'price-panel', '#service': 'price-panel', '#terms': 'terms-panel', '#faq': 'terms-panel', '#booking': 'booking-panel', '#contact': 'booking-panel' };
-        const scrollToHashTarget = (hash) => {
+        const clearPageHash = () => {
+          if (!window.location.hash) return;
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        };
+        const scrollToHashTarget = (hash, shouldClear = false) => {
           const target = document.querySelector(hash);
           if (!target) return;
           const header = document.querySelector('.site-header');
@@ -199,9 +203,10 @@
           const extraOffset = isMobile ? 26 : 18;
           const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
           window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+          if (shouldClear) clearPageHash();
         };
-        const activateFromHash = (shouldScroll = false) => {
-          const hash = window.location.hash;
+        const activateFromHash = (shouldScroll = false, incomingHash = window.location.hash, shouldClear = false) => {
+          const hash = incomingHash;
           const panelId = (hash.startsWith('#coach-detail-') || hash.startsWith('#coach-card-')) ? 'coach-panel' : hashMap[hash];
           if (panelId) activate(panelId);
           if (shouldScroll && hash) {
@@ -209,21 +214,18 @@
               if (hash.startsWith('#coach-detail-') || hash.startsWith('#coach-card-')) {
                 window.dispatchEvent(new CustomEvent('snowtravel:coachHashChange', { detail: { hash } }));
               }
-              scrollToHashTarget(hash);
+              scrollToHashTarget(hash, shouldClear);
             });
           }
         };
-        activateFromHash(!!window.location.hash);
-        window.addEventListener('hashchange', () => activateFromHash(true));
+        activateFromHash(!!window.location.hash, window.location.hash, !!window.location.hash);
+        window.addEventListener('hashchange', () => activateFromHash(true, window.location.hash, true));
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
           link.addEventListener('click', (event) => {
             const hash = link.getAttribute('href');
             if (!hashMap[hash] && !hash.startsWith('#coach-detail-') && !hash.startsWith('#coach-card-')) return;
             event.preventDefault();
-            if (window.location.hash !== hash) {
-              window.history.pushState(null, '', hash);
-            }
-            activateFromHash(true);
+            activateFromHash(true, hash, true);
           });
         });
 

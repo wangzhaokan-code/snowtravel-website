@@ -670,9 +670,6 @@
           ].map(([id, label]) => `<button type="button" class="${id === tab ? 'is-active' : ''}" data-coach-tab="${id}">${label}</button>`).join('')}
         </div>
         <div class="coach-profile-body" data-coach-tab-panel>${tabContent(coach, tab)}</div>`;
-      if (shouldPush && window.location.hash !== `#${coach.detailId}`) {
-        window.history.pushState(null, '', `#${coach.detailId}`);
-      }
     };
 
     oldGrid.addEventListener('click', (event) => {
@@ -693,8 +690,9 @@
       }
     });
 
-    const syncFromHash = () => {
-      const hash = window.location.hash.replace('#', '');
+    const syncFromHash = (event) => {
+      const eventHash = event && event.detail && event.detail.hash ? event.detail.hash : '';
+      const hash = (eventHash || window.location.hash).replace('#', '');
       const coach = coachesForTeam.find((item) => item.detailId === hash || `coach-card-${item.id}` === hash);
       if (coach) {
         selectCoach(coach.id, 'intro', false);
