@@ -9,6 +9,11 @@
   <link rel="alternate" hreflang="zh-Hans" href="./">
   <link rel="alternate" hreflang="zh-Hant" href="../tcn/Skischool/">
   <link rel="alternate" hreflang="x-default" href="./">
+  <script>
+    window.SNOWTRAVEL_INITIAL_HASH = window.location.hash;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!window.SNOWTRAVEL_INITIAL_HASH) window.scrollTo(0, 0);
+  </script>
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/coaches.js" defer></script>
   <script src="../js/calculator.js" defer></script>
@@ -218,7 +223,12 @@
             });
           }
         };
-        activateFromHash(!!window.location.hash, window.location.hash, !!window.location.hash);
+        const initialHash = window.SNOWTRAVEL_INITIAL_HASH || window.location.hash;
+        activateFromHash(!!initialHash, initialHash, !!initialHash);
+        if (!initialHash) {
+          window.requestAnimationFrame(() => window.scrollTo(0, 0));
+          window.addEventListener('load', () => window.setTimeout(() => window.scrollTo(0, 0), 0), { once: true });
+        }
         window.addEventListener('hashchange', () => activateFromHash(true, window.location.hash, true));
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
           link.addEventListener('click', (event) => {

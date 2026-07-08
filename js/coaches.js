@@ -50,7 +50,26 @@
         { title: '日本雙板檢定 SAJ 1級', src: 'assets/images/coaches/wang/certificate-saj-ski-1.jpg' },
         { title: '韓國雙板指導員 KSIA 1級', src: 'assets/images/coaches/wang/certificate-ksia-1.jpg' }
       ],
-      videos: [],
+      videos: [
+        {
+          url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAguarrtwYouJG_pQM.mp4',
+          title: { zhHans: '视频 1', zhHant: '視頻 1' },
+          layout: 'tall'
+        },
+        {
+          url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAggJGLuAYo_qWR8AU.mp4',
+          title: { zhHans: '视频 2', zhHant: '視頻 2' }
+        },
+        {
+          url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAgjpGLuAYouO_F7QQ.mp4',
+          title: { zhHans: '视频 3', zhHant: '視頻 3' }
+        },
+        {
+          url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAgiZGLuAYom7PawAM.mp4',
+          title: { zhHans: '视频 4', zhHant: '視頻 4' },
+          layout: 'wide'
+        }
+      ],
       detailId: 'coach-detail-wang',
       showInTeam: true,
       showInCalculator: true
@@ -502,7 +521,12 @@
     if (!cleanPath) return '';
     return `${siteBase()}${cleanPath}`;
   };
-  const localizeMedia = (item) => ({ ...item, alt: item.alt ? t(item.alt) : item.alt, title: item.title ? t(item.title) : item.title });
+  const localizedTitle = (title) => {
+    if (!title || typeof title !== 'object') return t(title);
+    return isSimplified() ? title.zhHans : title.zhHant;
+  };
+  const localizeMedia = (item) => ({ ...item, alt: item.alt ? t(item.alt) : item.alt, title: item.title ? localizedTitle(item.title) : item.title });
+  const localizeVideo = (item) => ({ ...item, title: localizedTitle(item.title) });
   const localizeCoach = (coach) => ({
     ...coach,
     name: t(coach.name),
@@ -516,7 +540,8 @@
     intro: t(coach.intro),
     certificates: (coach.certificates || []).map(t),
     photos: (coach.photos || []).map(localizeMedia),
-    certificateImages: (coach.certificateImages || []).map(localizeMedia)
+    certificateImages: (coach.certificateImages || []).map(localizeMedia),
+    videos: (coach.videos || []).map(localizeVideo)
   });
   const localizedCoaches = coaches.map(localizeCoach);
 
@@ -536,6 +561,17 @@
     <button class="coach-media-thumb${layoutClass}" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
       <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${t(type)} ${index + 1}`)}" loading="lazy">
       ${item.title ? `<span class="coach-media-caption${titleClass}">${escapeHtml(item.title)}</span>` : ''}
+    </button>`;
+  };
+  const videoButton = (item, index) => {
+    const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
+    const title = item.title || `${t('視頻')} ${index + 1}`;
+    return `
+    <button class="coach-media-thumb coach-video-thumb${layoutClass}" type="button" data-coach-lightbox-kind="video" data-coach-lightbox-src="${escapeHtml(item.url)}" data-coach-lightbox-title="${escapeHtml(title)}">
+      <span class="coach-video-poster" aria-hidden="true">
+        <span class="coach-video-play">▶</span>
+      </span>
+      <span class="coach-media-caption">${escapeHtml(title)}</span>
     </button>`;
   };
   const richParagraphs = (value, fallback = t('教練簡介稍後補充。')) => String(value || fallback)
@@ -573,23 +609,28 @@
         ? `<div class="coach-media-grid coach-photo-mosaic">${coach.photos.map((item, index) => mediaButton(item, index, t('照片'))).join('')}</div>`
         : `<p>${t('照片準備中。')}</p>`;
     }
-    return `<p>${t('視頻準備中。')}</p>`;
+    return Array.isArray(coach.videos) && coach.videos.length
+      ? `<div class="coach-media-grid coach-video-mosaic">${coach.videos.map(videoButton).join('')}</div>`
+      : `<p>${t('視頻準備中。')}</p>`;
   };
 
   const closeCoachLightbox = () => {
     const existing = document.querySelector('[data-coach-lightbox]');
     if (existing) existing.remove();
   };
-  const openCoachLightbox = (src, title) => {
+  const openCoachLightbox = (src, title, kind = 'image') => {
     if (!src) return;
     closeCoachLightbox();
     const lightbox = document.createElement('div');
     lightbox.className = 'coach-lightbox';
     lightbox.setAttribute('data-coach-lightbox', '');
+    const media = kind === 'video'
+      ? `<video src="${escapeHtml(src)}" controls autoplay playsinline preload="metadata"></video>`
+      : `<img src="${escapeHtml(src)}" alt="${escapeHtml(title || t('教練素材預覽'))}">`;
     lightbox.innerHTML = `
       <button class="coach-lightbox-close" type="button" aria-label="${t('關閉預覽')}">&times;</button>
       <figure>
-        <img src="${escapeHtml(src)}" alt="${escapeHtml(title || t('教練素材預覽'))}">
+        ${media}
         ${title ? `<figcaption>${escapeHtml(title)}</figcaption>` : ''}
       </figure>`;
     document.body.appendChild(lightbox);
@@ -686,7 +727,7 @@
       }
       const media = event.target.closest('[data-coach-lightbox-src]');
       if (media) {
-        openCoachLightbox(media.dataset.coachLightboxSrc, media.dataset.coachLightboxTitle);
+        openCoachLightbox(media.dataset.coachLightboxSrc, media.dataset.coachLightboxTitle, media.dataset.coachLightboxKind || 'image');
       }
     });
 
