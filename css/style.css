@@ -1007,34 +1007,43 @@ summary { cursor: pointer; font-weight: 800; }
   line-height: 1.35;
 }
 .coach-video-mosaic {
-  display: block;
-  column-count: 2;
-  column-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-top: 16px;
 }
 .coach-video-mosaic .coach-video-thumb {
-  display: inline-block;
+  display: block;
   width: 100%;
-  margin: 0 0 10px;
+  margin: 0;
   padding: 0;
   border-color: rgba(127, 180, 218, .45);
   background: linear-gradient(145deg, #f8fcff, #e7f3fb);
   box-shadow: 0 10px 22px rgba(33, 87, 130, .12);
-  break-inside: avoid;
 }
-.coach-video-thumb.is-tall .coach-video-poster { aspect-ratio: 4 / 5; }
-.coach-video-thumb.is-wide .coach-video-poster { aspect-ratio: 5 / 3; }
 .coach-video-poster {
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   color: var(--blue);
   background:
     radial-gradient(circle at 28% 18%, rgba(255,255,255,.95), rgba(255,255,255,0) 32%),
     linear-gradient(135deg, rgba(44, 136, 201, .14), rgba(151, 206, 237, .42));
+  overflow: hidden;
+}
+.coach-video-poster video {
+  grid-area: 1 / 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: transparent;
 }
 .coach-video-play {
+  grid-area: 1 / 1;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 54px;
@@ -1044,11 +1053,6 @@ summary { cursor: pointer; font-weight: 800; }
   color: var(--blue);
   font-size: 22px;
   box-shadow: 0 12px 28px rgba(22,34,51,.18);
-}
-.coach-video-thumb .coach-media-caption {
-  display: block;
-  padding: 9px 11px 11px;
-  color: var(--deep);
 }
 .coach-lightbox {
   position: fixed;
@@ -1098,8 +1102,7 @@ summary { cursor: pointer; font-weight: 800; }
   .coach-media-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .coach-photo-mosaic { column-count: 3; column-gap: 12px; }
   .coach-photo-mosaic .coach-media-thumb { margin-bottom: 12px; }
-  .coach-video-mosaic { column-count: 3; column-gap: 12px; }
-  .coach-video-mosaic .coach-video-thumb { margin-bottom: 12px; }
+  .coach-video-mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .terms-section { background: #fbfdff; }
 .policy-alert-strip div {

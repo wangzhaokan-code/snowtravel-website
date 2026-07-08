@@ -53,8 +53,7 @@
       videos: [
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAguarrtwYouJG_pQM.mp4',
-          title: { zhHans: '视频 1', zhHant: '視頻 1' },
-          layout: 'tall'
+          title: { zhHans: '视频 1', zhHant: '視頻 1' }
         },
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAggJGLuAYo_qWR8AU.mp4',
@@ -66,8 +65,7 @@
         },
         {
           url: 'https://32609586.s21v.faiusr.com/58/ABUIABA6GAAgiZGLuAYom7PawAM.mp4',
-          title: { zhHans: '视频 4', zhHant: '視頻 4' },
-          layout: 'wide'
+          title: { zhHans: '视频 4', zhHant: '視頻 4' }
         }
       ],
       detailId: 'coach-detail-wang',
@@ -567,11 +565,11 @@
     const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
     const title = item.title || `${t('視頻')} ${index + 1}`;
     return `
-    <button class="coach-media-thumb coach-video-thumb${layoutClass}" type="button" data-coach-lightbox-kind="video" data-coach-lightbox-src="${escapeHtml(item.url)}" data-coach-lightbox-title="${escapeHtml(title)}">
+    <button class="coach-media-thumb coach-video-thumb${layoutClass}" type="button" aria-label="${escapeHtml(title)}" data-coach-lightbox-kind="video" data-coach-lightbox-src="${escapeHtml(item.url)}" data-coach-lightbox-title="${escapeHtml(title)}">
       <span class="coach-video-poster" aria-hidden="true">
+        <video src="${escapeHtml(item.url)}" preload="metadata" playsinline></video>
         <span class="coach-video-play">▶</span>
       </span>
-      <span class="coach-media-caption">${escapeHtml(title)}</span>
     </button>`;
   };
   const richParagraphs = (value, fallback = t('教練簡介稍後補充。')) => String(value || fallback)
