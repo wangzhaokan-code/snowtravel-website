@@ -4,8 +4,36 @@
   const root = document.getElementById('se-calc-app');
   if (!root) return;
 
+  const localIsSimplified = () => (document.documentElement.lang || '').toLowerCase().includes('hans') || document.body.dataset.lang === 'zh-Hans';
+  const localSimplifiedPhrases = [
+    ['紐西蘭', '新西兰'],
+    ['教練', '教练'], ['課程', '课程'], ['課費計算器', '课费计算器'], ['價格', '价格'], ['計算器', '计算器'],
+    ['雙板', '双板'], ['單板', '单板'], ['預約', '预约'], ['聯絡', '联络'], ['聯繫', '联系'],
+    ['諮詢', '咨询'], ['咨詢', '咨询'], ['複製諮詢內容', '复制咨询内容'], ['複製咨詢內容', '复制咨询内容'],
+    ['確認', '确认'], ['學員', '学员'], ['適合', '适合'], ['體驗', '体验'], ['網站', '网站'],
+    ['資料', '资料'], ['證書', '证书'], ['證照', '证照'], ['指導員', '指导员'], ['資格', '资格'],
+    ['費用', '费用'], ['兒童', '儿童'], ['說明', '说明'], ['選擇', '选择'], ['頁面', '页面'],
+    ['開始', '开始'], ['服務', '服务'], ['專業', '专业'], ['視頻', '视频'], ['大強', '大强'],
+    ['纽西兰', '新西兰']
+  ];
+  const localSimplifiedChars = {
+    學: '学', 課: '课', 價: '价', 費: '费', 計: '计', 類: '类', 練: '练', 條: '条',
+    聯: '联', 絡: '络', 繫: '系', 複: '复', 製: '制', 雙: '双', 單: '单', 場: '场',
+    國: '国', 際: '际', 請: '请', 諮: '咨', 詢: '询', 員: '员', 級: '级', 導: '导',
+    證: '证', 書: '书', 資: '资', 備: '备', 註: '注', 詳: '详', 細: '细', 視: '视',
+    頻: '频', 準: '准', 預: '预', 訂: '订', 選: '选', 擇: '择', 總: '总', 數: '数',
+    節: '节', 無: '无', 錯: '错', 時: '时', 與: '与', 個: '个', 這: '这', 範: '范',
+    圍: '围', 輸: '输', 較: '较', 動: '动', 確: '确', 瀏: '浏', 覽: '览', 綠: '绿',
+    紅: '红', 藍: '蓝'
+  };
+  const localToSimplified = (value) => {
+    let text = String(value || '');
+    localSimplifiedPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
+    return text.replace(/[\u3400-\u9fff]/g, (char) => localSimplifiedChars[char] || char);
+  };
   const i18n = window.SNOWTRAVEL_I18N || {};
-  const t = typeof i18n.t === 'function' ? i18n.t : (value) => String(value || '');
+  const translate = typeof i18n.t === 'function' ? i18n.t : (value) => localIsSimplified() ? localToSimplified(value) : String(value || '');
+  const t = (value) => localIsSimplified() ? localToSimplified(translate(value)) : String(value || '');
 
   const config = {
     minDate: '2026-11-01',
