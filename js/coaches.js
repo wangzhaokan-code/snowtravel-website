@@ -446,39 +446,103 @@
     }
   ];
 
-  const teamCoaches = () => coaches.filter((coach) => coach.showInTeam);
-  const certificateSummary = (coach) => {
-    const parts = [];
-    if (coach.snowboardLevel) parts.push(`單板 ${coach.snowboardLevel}`);
-    if (coach.skiLevel) parts.push(`雙板 ${coach.skiLevel}`);
-    return parts.length ? parts.join(' / ') : '證照確認中';
+
+  const isSimplified = () => (document.documentElement.lang || '').toLowerCase().includes('hans') || document.body.dataset.lang === 'zh-Hans';
+  const simplifiedPhrases = [
+    ['教練', '教练'], ['課程', '课程'], ['課費計算器', '课费计算器'], ['價格', '价格'], ['計算器', '计算器'],
+    ['雙板', '双板'], ['單板', '单板'], ['預約', '预约'], ['聯絡', '联络'], ['聯繫', '联系'],
+    ['確認', '确认'], ['學員', '学员'], ['適合', '适合'], ['體驗', '体验'], ['網站', '网站'],
+    ['資料', '资料'], ['證書', '证书'], ['證照', '证照'], ['指導員', '指导员'], ['資格', '资格'],
+    ['費用', '费用'], ['兒童', '儿童'], ['說明', '说明'], ['選擇', '选择'], ['頁面', '页面'],
+    ['開始', '开始'], ['服務', '服务'], ['專業', '专业'], ['視頻', '视频'], ['大強', '大强']
+  ];
+  const simplifiedChars = {
+    緣: '缘', 學: '学', 課: '课', 價: '价', 費: '费', 計: '计', 體: '体', 簡: '简', 準: '准', 備: '备',
+    隊: '队', 團: '团', 練: '练', 條: '条', 務: '务', 報: '报', 頁: '页', 關: '关', 於: '于', 聯: '联',
+    絡: '络', 繫: '系', 電: '电', 話: '话', 點: '点', 擊: '击', 對: '对', 應: '应', 鍵: '键', 複: '复',
+    製: '制', 帳: '账', 號: '号', 雙: '双', 單: '单', 場: '场', 壽: '寿', 國: '国', 際: '际', 勝: '胜',
+    請: '请', 諮: '咨', 詢: '询', 員: '员', 裝: '装', 纜: '缆', 車: '车', 賃: '赁', 協: '协', 長: '长',
+    輪: '轮', 檔: '档', 說: '说', 礎: '础', 級: '级', 導: '导', 師: '师', 證: '证', 書: '书', 資: '资',
+    暫: '暂', 態: '态', 顯: '显', 將: '将', 給: '给', 優: '优', 區: '区', 圖: '图', 頭: '头', 語: '语',
+    內: '内', 幣: '币', 圓: '圆', 僅: '仅', 種: '种', 別: '别', 歡: '欢', 廣: '广', 東: '东', 粵: '粤',
+    韓: '韩', 強: '强', 紐: '纽', 蘭: '兰', 兒: '儿', 當: '当', 預: '预', 訂: '订', 讀: '读', 並: '并',
+    細: '细', 則: '则', 購: '购', 買: '买', 險: '险', 過: '过', 發: '发', 該: '该', 負: '负', 責: '责',
+    訊: '讯', 實: '实', 約: '约', 開: '开', 餘: '余', 無: '无', 錯: '错', 補: '补', 時: '时', 與: '与',
+    覽: '览', 會: '会', 總: '总', 選: '选', 擇: '择', 數: '数', 節: '节', 寫: '写', 結: '结', 貼: '贴',
+    屬: '属', 構: '构', 設: '设', 狀: '状', 產: '产', 經: '经', 歷: '历', 驗: '验', 線: '线', 標: '标',
+    題: '题', 顧: '顾', 問: '问', 認: '认', 離: '离', 償: '偿', 萬: '万', 齡: '龄', 從: '从', 現: '现',
+    駐: '驻', 灣: '湾', 冊: '册', 碼: '码', 掃: '扫', 類: '类', 刪: '删', 據: '据', 隱: '隐', 層: '层',
+    進: '进', 變: '变', 項: '项', 網: '网', 連: '连', 們: '们', 溝: '沟', 為: '为', 紹: '绍', 營: '营',
+    後: '后', 遊: '游', 記: '记', 間: '间', 彈: '弹', 嚴: '严', 須: '须', 續: '续', 獨: '独', 鈕: '钮',
+    終: '终', 詳: '详', 來: '来', 肅: '肃', 訓: '训', 馬: '马', 鳳: '凤', 園: '园', 檢: '检', 盤: '盘',
+    許: '许', 統: '统', 閱: '阅', 擔: '担', 純: '纯', 氣: '气', 惡: '恶', 還: '还', 災: '灾', 戰: '战',
+    爭: '争', 閉: '闭', 誤: '误', 況: '况', 傷: '伤', 權: '权', 臺: '台', 裡: '里', 愛: '爱', 滿: '满',
+    擁: '拥', 點: '点', 幫: '帮', 樂: '乐', 斷: '断', 專: '专', 針: '针', 領: '领', 樹: '树', 樣: '样',
+    賽: '赛', 縮: '缩', 壓: '压', 確: '确', 獲: '获', 譽: '誉', 滑: '滑', 較: '较', 動: '动',
+    個: '个', 這: '这', 範: '范', 圍: '围', 瀏: '浏', 輸: '输', 視: '视', 頻: '频', 亞: '亚'
   };
-  const languageText = (coach) => coach.languages.join('、');
-  const coachAssetUrl = (path) => {
+  const toSimplified = (value) => {
+    let text = String(value || '');
+    simplifiedPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
+    return text.replace(/[\u3400-\u9fff]/g, (char) => simplifiedChars[char] || char);
+  };
+  const t = (value) => isSimplified() ? toSimplified(value) : String(value || '');
+  const siteBase = () => {
+    const path = window.location.pathname || '/';
+    const marker = '/snowtravel-website/';
+    if (path.startsWith(marker)) return marker;
+    return '/';
+  };
+  const siteAssetUrl = (path) => {
     const cleanPath = String(path || '').replace(/^\/+/, '');
     if (!cleanPath) return '';
-    const pagePath = window.location.pathname;
-    const prefix = pagePath.includes('/tcn/Skischool/') ? '../../' : (pagePath.includes('/tcn/') ? '../' : '');
-    return `${prefix}${cleanPath}`;
+    return `${siteBase()}${cleanPath}`;
   };
+  const localizeMedia = (item) => ({ ...item, alt: item.alt ? t(item.alt) : item.alt, title: item.title ? t(item.title) : item.title });
+  const localizeCoach = (coach) => ({
+    ...coach,
+    name: t(coach.name),
+    displayName: t(coach.displayName),
+    skiLevel: coach.skiLevel,
+    snowboardLevel: coach.snowboardLevel,
+    skiCertLabel: t(coach.skiCertLabel),
+    snowboardCertLabel: t(coach.snowboardCertLabel),
+    background: t(coach.background),
+    languages: (coach.languages || []).map(t),
+    intro: t(coach.intro),
+    certificates: (coach.certificates || []).map(t),
+    photos: (coach.photos || []).map(localizeMedia),
+    certificateImages: (coach.certificateImages || []).map(localizeMedia)
+  });
+  const localizedCoaches = coaches.map(localizeCoach);
+
+  const teamCoaches = () => localizedCoaches.filter((coach) => coach.showInTeam);
+  const certificateSummary = (coach) => {
+    const parts = [];
+    if (coach.snowboardLevel) parts.push(`${t('單板')} ${t(coach.snowboardLevel)}`);
+    if (coach.skiLevel) parts.push(`${t('雙板')} ${t(coach.skiLevel)}`);
+    return parts.length ? parts.join(' / ') : t('證照確認中');
+  };
+  const languageText = (coach) => coach.languages.join('、');
+  const coachAssetUrl = siteAssetUrl;
   const mediaButton = (item, index, type) => {
     const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
-    const titleClass = type === '證照' ? ' coach-media-caption-overlay' : '';
+    const titleClass = type === t('證照') ? ' coach-media-caption-overlay' : '';
     return `
     <button class="coach-media-thumb${layoutClass}" type="button" data-coach-lightbox-src="${escapeHtml(coachAssetUrl(item.src))}" data-coach-lightbox-title="${escapeHtml(item.title || item.alt || '')}">
-      <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${type} ${index + 1}`)}" loading="lazy">
+      <img src="${escapeHtml(coachAssetUrl(item.src))}" alt="${escapeHtml(item.alt || item.title || `${t(type)} ${index + 1}`)}" loading="lazy">
       ${item.title ? `<span class="coach-media-caption${titleClass}">${escapeHtml(item.title)}</span>` : ''}
     </button>`;
   };
-  const richParagraphs = (value, fallback = '教練簡介稍後補充。') => String(value || fallback)
+  const richParagraphs = (value, fallback = t('教練簡介稍後補充。')) => String(value || fallback)
     .split(/\n{2,}/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean)
     .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
     .join('');
   const coachCertLines = (coach) => [
-    coach.snowboardCertLabel ? `單板：${coach.snowboardCertLabel}` : '',
-    coach.skiCertLabel ? `雙板：${coach.skiCertLabel}` : ''
+    coach.snowboardCertLabel ? `${t('單板：')}${coach.snowboardCertLabel}` : '',
+    coach.skiCertLabel ? `${t('雙板：')}${coach.skiCertLabel}` : ''
   ].filter(Boolean);
   const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 
@@ -486,26 +550,26 @@
     if (tab === 'intro') {
       return `
         <div class="coach-profile-intro">
-          <p><strong>背景：</strong><span>${escapeHtml(coach.background)}</span></p>
-          <p><strong>語言：</strong><span>${escapeHtml(languageText(coach))}</span></p>
+          <p><strong>${t('背景：')}</strong><span>${escapeHtml(coach.background)}</span></p>
+          <p><strong>${t('語言：')}</strong><span>${escapeHtml(languageText(coach))}</span></p>
           ${richParagraphs(coach.intro)}
         </div>`;
     }
     if (tab === 'certificates') {
       const certificateImages = Array.isArray(coach.certificateImages) && coach.certificateImages.length
-        ? `<div class="coach-media-grid coach-certificate-grid">${coach.certificateImages.map((item, index) => mediaButton(item, index, '證照')).join('')}</div>`
+        ? `<div class="coach-media-grid coach-certificate-grid">${coach.certificateImages.map((item, index) => mediaButton(item, index, t('證照'))).join('')}</div>`
         : '';
       const certificateList = coach.certificates.length && !certificateImages
         ? `<ul>${coach.certificates.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
         : '';
-      return certificateList || certificateImages ? `${certificateList}${certificateImages}` : '<p>證照資料準備中。</p>';
+      return certificateList || certificateImages ? `${certificateList}${certificateImages}` : `<p>${t('證照資料準備中。')}</p>`;
     }
     if (tab === 'photos') {
       return Array.isArray(coach.photos) && coach.photos.length
-        ? `<div class="coach-media-grid coach-photo-mosaic">${coach.photos.map((item, index) => mediaButton(item, index, '照片')).join('')}</div>`
-        : '<p>照片準備中。</p>';
+        ? `<div class="coach-media-grid coach-photo-mosaic">${coach.photos.map((item, index) => mediaButton(item, index, t('照片'))).join('')}</div>`
+        : `<p>${t('照片準備中。')}</p>`;
     }
-    return '<p>視頻準備中。</p>';
+    return `<p>${t('視頻準備中。')}</p>`;
   };
 
   const closeCoachLightbox = () => {
@@ -519,9 +583,9 @@
     lightbox.className = 'coach-lightbox';
     lightbox.setAttribute('data-coach-lightbox', '');
     lightbox.innerHTML = `
-      <button class="coach-lightbox-close" type="button" aria-label="關閉預覽">&times;</button>
+      <button class="coach-lightbox-close" type="button" aria-label="${t('關閉預覽')}">&times;</button>
       <figure>
-        <img src="${escapeHtml(src)}" alt="${escapeHtml(title || '教練素材預覽')}">
+        <img src="${escapeHtml(src)}" alt="${escapeHtml(title || t('教練素材預覽'))}">
         ${title ? `<figcaption>${escapeHtml(title)}</figcaption>` : ''}
       </figure>`;
     document.body.appendChild(lightbox);
@@ -546,7 +610,7 @@
           const certLines = coachCertLines(coach);
           return `
           <button id="coach-card-${coach.id}" class="coach-list-card" type="button" data-coach-id="${coach.id}" aria-expanded="false">
-            <span class="coach-avatar-placeholder">${coach.avatar ? `<img src="${escapeHtml(coachAssetUrl(coach.avatar))}" alt="${escapeHtml(coach.name)} 教練頭像" loading="lazy">` : escapeHtml(coach.name.slice(0, 1))}</span>
+            <span class="coach-avatar-placeholder">${coach.avatar ? `<img src="${escapeHtml(coachAssetUrl(coach.avatar))}" alt="${escapeHtml(coach.name)} ${t('教練頭像')}" loading="lazy">` : escapeHtml(coach.name.slice(0, 1))}</span>
             <span class="coach-list-main${certLines.length === 1 ? ' is-single-cert' : ''}">
               <strong>${escapeHtml(coach.name)}</strong>
               ${certLines.map((line) => `<small>${escapeHtml(line)}</small>`).join('')}
@@ -593,12 +657,12 @@
       profile.id = coach.detailId;
       profile.dataset.activeCoach = coach.id;
       profile.innerHTML = `
-        <div class="coach-profile-tabs" role="tablist" aria-label="${escapeHtml(coach.name)} 教練詳情">
+        <div class="coach-profile-tabs" role="tablist" aria-label="${escapeHtml(coach.name)} ${t('教練詳情')}">
           ${[
-            ['intro', '教練簡介'],
-            ['certificates', '教練證照'],
-            ['photos', '照片'],
-            ['videos', '視頻']
+            ['intro', t('教練簡介')],
+            ['certificates', t('教練證照')],
+            ['photos', t('照片')],
+            ['videos', t('視頻')]
           ].map(([id, label]) => `<button type="button" class="${id === tab ? 'is-active' : ''}" data-coach-tab="${id}">${label}</button>`).join('')}
         </div>
         <div class="coach-profile-body" data-coach-tab-panel>${tabContent(coach, tab)}</div>`;
@@ -644,7 +708,9 @@
     syncFromHash();
   };
 
-  window.SNOWTRAVEL_COACHES = coaches;
+  window.SNOWTRAVEL_COACHES = localizedCoaches;
+  window.SNOWTRAVEL_I18N = { isSimplified, toSimplified, t };
+  window.SNOWTRAVEL_SITE_ASSET_URL = siteAssetUrl;
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderCoachTeam);
   } else {

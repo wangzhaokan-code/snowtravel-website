@@ -70,13 +70,13 @@
       </div>
     </section>
     <section class="section calculator-section calculator-rebuild" id="calculator">
-      <div class="section-heading"><h2>课程价格计算器</h2><div class="terms-lead calculator-note" id="calculator-guide"><strong>计算器使用说明：</strong><ol><li>半日、单日或课程数量較少时，可直接使用课程 1 填写需求，继续添加课程可点击「添加下一节课程」按钮。</li><li>多日课程可选择批量添加课程中的连续日期或非连续日期，按日期添加后仍可单独修改每节课程。</li><li>完成后点击「复制咨询内容」按钮，将课程需求粘贴给客服。</li></ol></div></div>
+      <div class="section-heading"><h2>课程价格计算器</h2><div class="terms-lead calculator-note" id="calculator-guide"><strong>计算器使用说明：</strong><ol><li>半日、单日或课程数量较少时，可直接使用课程 1 填写需求，继续添加课程可点击「添加下一节课程」按钮。</li><li>多日课程可选择批量添加课程中的连续日期或非连续日期，按日期添加后仍可单独修改每节课程。</li><li>完成后点击「复制咨询内容」按钮，将课程需求粘贴给客服。</li></ol></div></div>
       
       <div class="se-calc-wrap" id="se-calc-app">
         <div class="se-calc-shell">
           <div class="calc-tool-header"><div><h3>课程需求</h3></div><span>最终价格与教练档期以人工确认为准</span></div>
           <div class="se-calc-body"><main class="se-calc-main"><div data-se-calc-bulk></div><div class="se-calc-course-list" data-se-calc-list></div></main>
-          <aside class="se-calc-side"><section class="se-calc-result" aria-live="polite"><h3 class="se-calc-result-title">计算结果</h3><div class="se-calc-stat-grid"><div class="se-calc-stat"><span>课程数</span><strong data-se-calc-count>0</strong></div><div class="se-calc-stat"><span>全天</span><strong data-se-calc-full>0</strong></div><div class="se-calc-stat"><span>半天</span><strong data-se-calc-half>0</strong></div></div><div class="se-calc-total"><span>总价</span><strong data-se-calc-total>¥0</strong></div><ul class="se-calc-summary" data-se-calc-summary></ul><button class="button primary calc-copy" type="button" data-se-calc-copy>复制咨询内容</button><p class="se-calc-copy-status" data-se-calc-copy-status></p><div class="se-calc-fallback" data-se-calc-fallback><label class="se-calc-label" for="se-calc-fallback-text">请手動复制以下内容</label><textarea class="se-calc-textarea" id="se-calc-fallback-text" data-se-calc-fallback-text readonly></textarea></div></section></aside></div>
+          <aside class="se-calc-side"><section class="se-calc-result" aria-live="polite"><h3 class="se-calc-result-title">计算结果</h3><div class="se-calc-stat-grid"><div class="se-calc-stat"><span>课程数</span><strong data-se-calc-count>0</strong></div><div class="se-calc-stat"><span>全天</span><strong data-se-calc-full>0</strong></div><div class="se-calc-stat"><span>半天</span><strong data-se-calc-half>0</strong></div></div><div class="se-calc-total"><span>总价</span><strong data-se-calc-total>¥0</strong></div><ul class="se-calc-summary" data-se-calc-summary></ul><button class="button primary calc-copy" type="button" data-se-calc-copy>复制咨询内容</button><p class="se-calc-copy-status" data-se-calc-copy-status></p><div class="se-calc-fallback" data-se-calc-fallback><label class="se-calc-label" for="se-calc-fallback-text">请手动复制以下内容</label><textarea class="se-calc-textarea" id="se-calc-fallback-text" data-se-calc-fallback-text readonly></textarea></div></section></aside></div>
         </div>
       </div>
     </section>
@@ -236,7 +236,7 @@
               await navigator.clipboard.writeText(value);
               if (copyStatus) copyStatus.textContent = `${label} 已复制：${value}`;
             } catch (error) {
-              if (copyStatus) copyStatus.textContent = `请手動复制 ${label}：${value}`;
+              if (copyStatus) copyStatus.textContent = `请手动复制 ${label}：${value}`;
             }
           });
         });
