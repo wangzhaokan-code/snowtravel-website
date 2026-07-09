@@ -290,7 +290,8 @@ summary { cursor: pointer; font-weight: 800; }
 .se-calc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .se-calc-field-wide { grid-column: 1 / -1; }
 .se-calc-label { display: block; font-size: 13px; font-weight: 700; color: #24364c; margin-bottom: 6px; }
-.se-calc-input, .se-calc-select, .se-calc-textarea { width: 100%; min-height: 42px; border: 1px solid #cbd8e3; border-radius: 8px; background: #fff; color: var(--ink); padding: 9px 11px; font-size: 15px; font-family: inherit; }
+.se-calc-input, .se-calc-select, .se-calc-textarea { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 42px; border: 1px solid #cbd8e3; border-radius: 8px; background: #fff; color: var(--ink); padding: 9px 11px; font-size: 15px; font-family: inherit; }
+.se-calc-input[type="date"] { appearance: none; -webkit-appearance: none; }
 .se-calc-textarea { min-height: 76px; resize: vertical; }
 .se-calc-hint { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
 .se-calc-panel { display: none; grid-column: 1 / -1; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--snow); }

@@ -13,7 +13,7 @@
       '神居': { full: 80000, half: 58000 },
       '札幌國際': { full: 80000, half: 58000 },
       'Tomamu星野': { full: 85000, half: 58000 },
-      '十勝Sahoro': { full: 85000, half: 58000 },
+      'Sahoro佐幌': { full: 85000, half: 58000 },
       '北海道其他雪場': { full: 80000, half: 58000 }
     },
     peakRanges: [
