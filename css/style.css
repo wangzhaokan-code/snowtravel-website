@@ -800,11 +800,35 @@ summary { cursor: pointer; font-weight: 800; }
   font-size: 12px;
   line-height: 1.35;
 }
+html[lang^="en"] body #coach-panel .coach-list-main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+html[lang^="en"] body #coach-panel .coach-list-main small {
+  min-width: 0;
+  font-size: 10px !important;
+  overflow-wrap: anywhere;
+}
+html[lang^="en"] body #coach-panel .coach-list-main strong { font-size: 15px !important; }
 .coach-list-main.is-single-cert {
-  grid-template-rows: auto 40px;
   align-self: stretch;
+  grid-template-rows: auto 40px;
 }
 .coach-list-main.is-single-cert small { align-self: center; }
+html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert {
+  display: grid;
+  grid-template-rows: auto 18px 18px;
+  gap: 4px;
+  min-height: 62px;
+  align-content: start;
+}
+html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert small {
+  grid-row: 2 / span 2;
+  align-self: center;
+}
 .coach-list-tags {
   display: none;
   grid-column: 1 / -1;

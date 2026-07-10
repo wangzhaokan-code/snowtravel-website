@@ -730,6 +730,7 @@ I specialize in lessons for families, children, and adults. I also provide skiin
       .replace(/KSIA Ski Instructor Level (\d+)/g, 'KSIA Level $1')
       .replace(/APSI Ski Instructor Level (\d+)/g, 'APSI Level $1')
       .replace(/\s*\((?:Canada|New Zealand|Japan|Korea|Australia)\)/g, '');
+    text = text.replace(/\bLevel\s+(\d+)\b/g, 'Lv$1');
     if (/[\u3400-\u9fff]/.test(text)) return 'Profile details are being confirmed. Please contact us for current lesson availability.';
     return text;
   };
@@ -765,7 +766,7 @@ I specialize in lessons for families, children, and adults. I also provide skiin
     snowboardCertLabel: coach.snowboardCertLabel ? t(coach.snowboardCertLabel) : '',
     background: coach.background ? t(coach.background) : '',
     languages: (coach.languages || []).map(t),
-    intro: isEnglish() ? (englishIntroByCoach.get(coach.name) || toEnglish(coach.intro)) : t(coach.intro),
+    intro: isEnglish() ? toEnglish(englishIntroByCoach.get(coach.name) || coach.intro) : t(coach.intro),
     certificates: (coach.certificates || []).map(t),
     photos: (coach.photos || []).map(localizeMedia),
     certificateImages: (coach.certificateImages || []).map(localizeMedia),
