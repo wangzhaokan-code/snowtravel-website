@@ -468,7 +468,9 @@
   ];
 
 
-  const isSimplified = () => (document.documentElement.lang || '').toLowerCase().includes('hans') || document.body.dataset.lang === 'zh-Hans';
+  const pageLang = () => ((document.documentElement.lang || '').toLowerCase() || (document.body.dataset.lang || '').toLowerCase());
+  const isEnglish = () => pageLang().startsWith('en') || document.body.dataset.lang === 'en';
+  const isSimplified = () => pageLang().includes('hans') || document.body.dataset.lang === 'zh-Hans';
   const simplifiedPhrases = [
     ['紐西蘭', '新西兰'],
     ['紐西蘭NZSIA', '新西兰NZSIA'],
@@ -511,7 +513,230 @@
     simplifiedPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
     return text.replace(/[\u3400-\u9fff]/g, (char) => simplifiedChars[char] || char);
   };
-  const t = (value) => isSimplified() ? toSimplified(value) : String(value || '');
+  const englishPhrases = [
+    ['Wang 教練', 'Wang'],
+    ['美娜 教練', 'Mina'],
+    ['美娜', 'Mina'],
+    ['Kay 教練', 'Kay'],
+    ['Anita 教練', 'Anita'],
+    ['Eddie 教練', 'Eddie'],
+    ['Tina 教練', 'Tina'],
+    ['Jessika 教練', 'Jessika'],
+    ['Leo 教練', 'Leo'],
+    ['Wulf 教練', 'Wulf'],
+    ['大強 教練', 'Daqiang'],
+    ['大強', 'Daqiang'],
+    ['Pagi 教練', 'Pagi'],
+    ['Zoe 教練', 'Zoe'],
+    ['Shaun 教練', 'Shaun'],
+    ['Momo 教練', 'Momo'],
+    ['教練簡介稍後補充。', 'Profile details are being confirmed. Please contact us for current lesson availability.'],
+    ['教練簡介', 'Profile'],
+    ['教練證照', 'Certifications'],
+    ['教練詳情', 'profile'],
+    ['教練素材預覽', 'Instructor media preview'],
+    ['教練頭像', 'instructor avatar'],
+    ['教練', 'Instructor'],
+    ['證照資料準備中。', 'Certification details coming soon.'],
+    ['照片準備中。', 'Photos coming soon.'],
+    ['視頻準備中。', 'Videos coming soon.'],
+    ['關閉預覽', 'Close preview'],
+    ['證照確認中', 'Certification pending'],
+    ['證照', 'Certification'],
+    ['照片', 'Photos'],
+    ['視頻', 'Video'],
+    ['背景：', 'Background:'],
+    ['語言：', 'Languages:'],
+    ['單板：', 'Snowboard: '],
+    ['雙板：', 'Ski: '],
+    ['單板', 'Snowboard'],
+    ['雙板', 'Ski'],
+    ['一級', 'Level 1'],
+    ['二級', 'Level 2'],
+    ['三級', 'Level 3'],
+    ['中文', 'Mandarin Chinese'],
+    ['英文', 'English'],
+    ['日文', 'Japanese'],
+    ['韓文', 'Korean'],
+    ['粵語', 'Cantonese'],
+    ['來自甘肅，定居日本', 'From Gansu, based in Japan'],
+    ['來自廣東，定居日本', 'From Guangdong, based in Japan'],
+    ['來自香港，定居日本', 'From Hong Kong, based in Japan'],
+    ['來自台灣', 'From Taiwan'],
+    ['來自新加坡', 'From Singapore'],
+    ['來自廣東', 'From Guangdong'],
+    ['來自香港', 'From Hong Kong'],
+    ['來自內蒙古，定居日本', 'From Inner Mongolia, based in Japan'],
+    ['來自山西，定居日本', 'From Shanxi, based in Japan'],
+    ['紐西蘭', 'New Zealand'],
+    ['加拿大', 'Canada'],
+    ['日本', 'Japan'],
+    ['指導員', 'Instructor'],
+    ['檢定', 'Certification'],
+    ['級', 'Level']
+  ];
+  const englishIntroByCoach = new Map([
+    ['Wang', `Wang began instructor training from his first day skiing.
+He has taught in Pyeongchang, Hakuba, and Hokkaido, and is now based in Hokkaido.
+
+Ski qualifications: CSIA Level 3, NZSIA Level 2, KSIA Level 1, and SAJ Level 1.
+Snowboard qualifications: CASI Level 2, SBINZ Level 1, and SAJ Level 1.
+
+Skiing experience:
+February 2013: ski training at Phoenix Park in Pyeongchang, South Korea.
+2013/14 to 2015/16 seasons: ski instructor at Phoenix Park in Pyeongchang, where he obtained KSIA Level 1.
+2016/17 season: ski instructor at Tsugaike Kogen in Hakuba, Japan.
+2017/18 season: ski instructor at Club Med Tomamu in Hokkaido.
+Summer 2018: ski and snowboard training at Treble Cone in New Zealand, obtaining NZSIA Level 2 and SBINZ Level 1.
+2018/19 season: ski and snowboard instructor in Niseko, Hokkaido.
+Summer 2019: ski training at Treble Cone in New Zealand.
+2019/20 to 2024/25 seasons: ski and snowboard instructor at resorts in Hokkaido, with SAJ ski and snowboard training and SAJ Level 1 and Level 2 qualifications.
+He later founded Snow Affinity Ski School and the Snow Travel companies.
+Summer 2024: ski and snowboard training at Treble Cone, obtaining CSIA Level 3 and CASI Level 2.
+Summer 2025: ski and snowboard training at Treble Cone.`],
+    ['美娜', `Welcome to my ski instructor profile. I am from Guangdong and have lived in beautiful Hokkaido for 12 years, where I have grown to love life here.
+
+I have nearly 10 years of travel agency experience and extensive knowledge of travel in Hokkaido. I hold SBINZ Level 1 and NZSIA Level 1 instructor qualifications.
+
+As a patient instructor, I create an individualized teaching plan for each guest and aim to help everyone keep improving on snow. I enjoy recording each guest's progress and look forward to enjoying skiing with you.`],
+    ['Kay', `I am from Hong Kong and am now based in Japan.
+
+After working at Hakuba Happo-One in 2018, I fell in love with skiing. I later taught at resort schools and worked as an assistant at a JSBA school. I enjoy visiting different resorts across Japan and learning from different instructors and systems, which has helped me understand skiing from multiple perspectives.
+
+Teaching myself as a beginner was difficult. After learning about teaching methods such as CASI and JSBA, I wanted to help others get started more quickly. I enjoy working with children and helping women improve their skiing and build confidence.
+
+Resorts where I have worked include Hakuba Happo-One, Yeti in Shizuoka, Naeba in Niigata, and Dynaland in Gifu.`],
+    ['Anita', `I am Anita from Taiwan. After finishing a skiing trip in the Southern Hemisphere, I am returning to Hokkaido, my second home.
+
+I have five seasons of teaching experience and am a patient, gentle, and engaging instructor. Come and enjoy the powder snow in Japan with me.
+
+Teaching experience:
+2018/19: Club Med Sahoro.
+2019/20: Hoshino Tomamu Ski School in Hokkaido.
+2022/23: Club Med Tomamu.
+2023/24: Niseko.
+2024: Australia Falls Creek Ski School.`],
+    ['Eddie', 'Profile details are being confirmed. Eddie can teach in English and Mandarin Chinese, subject to date and resort availability.'],
+    ['Tina', 'Profile details are being confirmed. Please contact us to confirm lesson availability and suitable lesson arrangements.'],
+    ['Jessika', 'Profile details are being confirmed. Jessika can teach in English, Mandarin Chinese, and Cantonese, subject to date and resort availability.'],
+    ['Leo', `I have three years and four seasons of teaching experience, and obtained CSIA Level 3 in my third year.
+
+I am good at explaining ski theory in everyday terms. My varied and engaging teaching methods make learning to ski easier, and I have helped several students obtain international instructor qualifications.
+
+Experience includes Karuizawa Prince Ski School in Japan, assisting at ISKI indoor ski facilities in Taiwan, Hoshino ski resorts in Hokkaido, and Guangzhou Sunac indoor ski facilities in China.`],
+    ['Wulf', `Alpine skiing and freestyle skiing offer many ways to progress.
+
+Speed and freestyle can come together as music and snow move together. Enjoy the speed and excitement that skiing brings. My background combines a New Zealand teaching system, Japanese-style skiing, and freestyle skiing.`],
+    ['大強', `I have been based in Hokkaido for 10 years.
+
+I encountered skiing in Hokkaido, learned to ski in Hokkaido, and fell in love with skiing in Hokkaido. Through skiing, I have changed and grown.
+
+My skiing style is fully Japanese.`],
+    ['Pagi', `Hi, I am Pagi. The sound of flattening things underfoot.
+
+I am a diving instructor in summer and a ski instructor in winter. Let us enjoy the sea of snow together.
+
+2019/20 Japan season: received a top Chinese instructor rating at Hoshino Resort.
+2022/23 Japan season: based at Hoshino Resort, with occasional lessons at Teine and Furano.
+Summer 2023: trained at Cardrona in New Zealand.
+2023/24 Japan season: based in Hokkaido, mainly at Hoshino Resort.`],
+    ['Zoe', `My main resort is Hoshino in Hokkaido, and I also have experience at Furano and Sapporo Kokusai. In summer, I work at Guangzhou Sunac indoor ski facilities.
+
+My teaching style is fun and patient. I can think from a beginner's perspective about how to learn efficiently.
+
+Qualifications: CSIA Level 1 ski instructor license and national vocational ski instructor Level 5.
+Competition result: 2024 Guangzhou Sunac women's elite ski giant slalom champion.`],
+    ['Shaun', `The 2024/25 season was my seventh season teaching. I provide lessons at resorts across Hokkaido.
+
+I began teaching in 2016 and have taught in Hakuba and other resorts in Nagano, Yuzawa in Niigata, and resorts across Hokkaido.
+
+Teaching specialty: beginners. I adjust lessons to each guest's situation, help beginners observe and understand resort terrain, and provide a basic introduction to the resort so they can enjoy skiing more in the future.
+
+Progression training: tree skiing and basic jumps can also be discussed.`],
+    ['Momo', `I have been based in Hokkaido for 10 years.
+
+I specialize in lessons for families, children, and adults. I also provide skiing photos and videos during lessons.`]
+  ]);
+  const toEnglish = (value) => {
+    let text = String(value || '');
+    if (!text) return '';
+    text = text
+      .replace(/加拿大雙板指導員\s*CSIA\s*(\d)級/g, 'CSIA Ski Instructor Level $1 (Canada)')
+      .replace(/加拿大單板指導員\s*CASI\s*(\d)級/g, 'CASI Snowboard Instructor Level $1 (Canada)')
+      .replace(/加拿大CSIA\s*(\d)級[，,]\s*(\d)級考官/g, 'CSIA Level $1, Level $2 Examiner')
+      .replace(/加拿大CSIA\s*(\d)級/g, 'CSIA Level $1 (Canada)')
+      .replace(/加拿大CASI\s*(\d)級/g, 'CASI Level $1 (Canada)')
+      .replace(/紐西蘭雙板指導員\s*NZSIA\s*(\d)級/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/紐西蘭單板指導員\s*SBINZ\s*(\d)級/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/紐西蘭\s*NZSIA\s*(\d)級/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/紐西蘭\s*SBINZ\s*(\d)級/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/紐西蘭雙板指導員\s*(\d)級/g, 'NZSIA Level $1')
+      .replace(/紐西蘭單板指導員\s*(\d)級/g, 'SBINZ Level $1')
+      .replace(/紐西蘭雙板指導員\s*NZSIA\s*兒童教學\s*(\d)級/g, 'NZSIA Ski Instructor Level $1 (Children\'s instruction, New Zealand)')
+      .replace(/紐西蘭雙板指導員\s*NZSIA\s*兒童教學/g, 'NZSIA Ski Instructor (Children\'s instruction, New Zealand)')
+      .replace(/加拿大雙板指導員\s*CSIA\s*考官\s*(\d)級/g, 'CSIA Ski Instructor Level $1 Examiner (Canada)')
+      .replace(/加拿大雙板滑雪系統\s*CSIA\s*Level\s*(\d)\s*教練執照/g, 'CSIA Ski Instructor Level $1 license (Canada)')
+      .replace(/加拿大雙板滑雪系統\s*CSIA\s*Level\s*(\d)教練執照/g, 'CSIA Ski Instructor Level $1 license (Canada)')
+      .replace(/日本單板\s*JSBA\s*C級指導員/g, 'JSBA C-level snowboard instructor')
+      .replace(/JSBA\s*C級指導員/g, 'JSBA C-level instructor')
+      .replace(/SAJ\s*公認單板準指導員/g, 'SAJ certified associate snowboard instructor')
+      .replace(/SAJ\s*公認單板\s*C級檢定員/g, 'SAJ certified snowboard examiner, C level')
+      .replace(/SAJ准指导员/g, 'SAJ associate instructor')
+      .replace(/2024\s*年廣州融創雙板大迴轉女子精英組冠軍/g, '2024 Guangzhou Sunac indoor ski resort women\'s elite giant slalom champion')
+      .replace(/澳大利亞雙板指導員\s*APSI\s*(\d)級/g, 'APSI Ski Instructor Level $1 (Australia)')
+      .replace(/澳大利亞\s*APSI\s*(\d)級/g, 'APSI Ski Instructor Level $1 (Australia)')
+      .replace(/日本單板檢定\s*SAJ\s*(\d)級/g, 'SAJ Snowboard Certification Level $1 (Japan)')
+      .replace(/日本雙板檢定\s*SAJ\s*(\d)級/g, 'SAJ Ski Certification Level $1 (Japan)')
+      .replace(/日本雙板指導員\s*SAJ\s*(\d)級/g, 'SAJ Ski Instructor Level $1 (Japan)')
+      .replace(/日本單板指導員\s*SAJ\s*(\d)級/g, 'SAJ Snowboard Instructor Level $1 (Japan)')
+      .replace(/韓國雙板指導員\s*KSIA\s*(\d)級/g, 'KSIA Ski Instructor Level $1 (Korea)');
+    englishPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
+    text = text
+      .replace(/加拿大雙板指導員\s*CSIA\s*(\d)Level/g, 'CSIA Ski Instructor Level $1 (Canada)')
+      .replace(/加拿大單板指導員\s*CASI\s*(\d)Level/g, 'CASI Snowboard Instructor Level $1 (Canada)')
+      .replace(/加拿大CSIA\s*(\d)Level/g, 'CSIA Level $1 (Canada)')
+      .replace(/加拿大CASI\s*(\d)Level/g, 'CASI Level $1 (Canada)')
+      .replace(/CanadaSkiInstructor\s*CSIA\s*(\d)Level/g, 'CSIA Ski Instructor Level $1 (Canada)')
+      .replace(/CanadaSnowboardInstructor\s*CASI\s*(\d)Level/g, 'CASI Snowboard Instructor Level $1 (Canada)')
+      .replace(/CanadaCSIA\s*(\d)Level/g, 'CSIA Level $1 (Canada)')
+      .replace(/CanadaCASI\s*(\d)Level/g, 'CASI Level $1 (Canada)')
+      .replace(/New Zealand雙板Instructor\s*NZSIA\s*(\d)Level/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/New Zealand單板Instructor\s*SBINZ\s*(\d)Level/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/New Zealand雙板Instructor\s*(\d)Level/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/New Zealand單板Instructor\s*(\d)Level/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/New ZealandSkiInstructor\s*NZSIA\s*(\d)Level/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/New ZealandSnowboardInstructor\s*SBINZ\s*(\d)Level/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/New ZealandSkiInstructor\s*(\d)Level/g, 'NZSIA Ski Instructor Level $1 (New Zealand)')
+      .replace(/New ZealandSnowboardInstructor\s*(\d)Level/g, 'SBINZ Snowboard Instructor Level $1 (New Zealand)')
+      .replace(/Japan雙板Instructor\s*SAJ\s*(\d)Level/g, 'SAJ Ski Instructor Level $1 (Japan)')
+      .replace(/Japan單板Certification\s*SAJ\s*(\d)Level/g, 'SAJ Snowboard Certification Level $1 (Japan)')
+      .replace(/Japan滑雪Instructor\s*SAJ\s*(\d)Level/g, 'SAJ Ski Instructor Level $1 (Japan)')
+      .replace(/JapanSkiInstructor\s*SAJ\s*(\d)Level/g, 'SAJ Ski Instructor Level $1 (Japan)')
+      .replace(/JapanSnowboardCertification\s*SAJ\s*(\d)Level/g, 'SAJ Snowboard Certification Level $1 (Japan)')
+      .replace(/Japan滑雪Instructor\s*SAJ\s*(\d)Level/g, 'SAJ Ski Instructor Level $1 (Japan)')
+      .replace(/CSIA雙板三LevelInstructor資格/g, 'CSIA Ski Instructor Level 3 certification')
+      .replace(/CASI單板二LevelInstructor資格/g, 'CASI Snowboard Instructor Level 2 certification')
+      .replace(/(\d+)年(\d+)季教學經驗/g, '$1 years and $2 seasons of teaching experience')
+      .replace(/(\d+)年教學經驗/g, '$1 years of teaching experience')
+      .replace(/(\d+)季教學/g, '$1 seasons of teaching');
+    text = text
+      .replace(/CSIA Ski Instructor Level (\d+) Examiner/g, 'CSIA Level $1 Examiner')
+      .replace(/CSIA Ski Instructor Level (\d+) license/g, 'CSIA Level $1')
+      .replace(/CSIA Ski Instructor Level (\d+)/g, 'CSIA Level $1')
+      .replace(/CASI Snowboard Instructor Level (\d+)/g, 'CASI Level $1')
+      .replace(/NZSIA Ski Instructor Level (\d+)/g, 'NZSIA Level $1')
+      .replace(/SBINZ Snowboard Instructor Level (\d+)/g, 'SBINZ Level $1')
+      .replace(/SAJ (?:Snowboard Certification|Ski Certification|Ski Instructor|Snowboard Instructor) Level (\d+)/g, 'SAJ Level $1')
+      .replace(/KSIA Ski Instructor Level (\d+)/g, 'KSIA Level $1')
+      .replace(/APSI Ski Instructor Level (\d+)/g, 'APSI Level $1')
+      .replace(/\s*\((?:Canada|New Zealand|Japan|Korea|Australia)\)/g, '');
+    if (/[\u3400-\u9fff]/.test(text)) return 'Profile details are being confirmed. Please contact us for current lesson availability.';
+    return text;
+  };
+  const t = (value) => {
+    if (isEnglish()) return toEnglish(value);
+    return isSimplified() ? toSimplified(value) : String(value || '');
+  };
   const siteBase = () => {
     const path = window.location.pathname || '/';
     const marker = '/snowtravel-website/';
@@ -525,6 +750,7 @@
   };
   const localizedTitle = (title) => {
     if (!title || typeof title !== 'object') return t(title);
+    if (isEnglish()) return title.en || '';
     return isSimplified() ? title.zhHans : title.zhHant;
   };
   const localizeMedia = (item) => ({ ...item, alt: item.alt ? t(item.alt) : item.alt, title: item.title ? localizedTitle(item.title) : item.title });
@@ -535,11 +761,11 @@
     displayName: t(coach.displayName),
     skiLevel: coach.skiLevel,
     snowboardLevel: coach.snowboardLevel,
-    skiCertLabel: t(coach.skiCertLabel),
-    snowboardCertLabel: t(coach.snowboardCertLabel),
-    background: t(coach.background),
+    skiCertLabel: coach.skiCertLabel ? t(coach.skiCertLabel) : '',
+    snowboardCertLabel: coach.snowboardCertLabel ? t(coach.snowboardCertLabel) : '',
+    background: coach.background ? t(coach.background) : '',
     languages: (coach.languages || []).map(t),
-    intro: t(coach.intro),
+    intro: isEnglish() ? (englishIntroByCoach.get(coach.name) || toEnglish(coach.intro)) : t(coach.intro),
     certificates: (coach.certificates || []).map(t),
     photos: (coach.photos || []).map(localizeMedia),
     certificateImages: (coach.certificateImages || []).map(localizeMedia),
@@ -554,7 +780,7 @@
     if (coach.skiLevel) parts.push(`${t('雙板')} ${t(coach.skiLevel)}`);
     return parts.length ? parts.join(' / ') : t('證照確認中');
   };
-  const languageText = (coach) => coach.languages.join('、');
+  const languageText = (coach) => coach.languages.join(isEnglish() ? ' / ' : '、');
   const coachAssetUrl = siteAssetUrl;
   const mediaButton = (item, index, type) => {
     const layoutClass = item.layout ? ` is-${String(item.layout).replace(/[^a-z0-9-]/gi, '')}` : '';
@@ -754,7 +980,7 @@
   };
 
   window.SNOWTRAVEL_COACHES = localizedCoaches;
-  window.SNOWTRAVEL_I18N = { isSimplified, toSimplified, t };
+  window.SNOWTRAVEL_I18N = { isSimplified, isEnglish, toSimplified, toEnglish, t };
   window.SNOWTRAVEL_SITE_ASSET_URL = siteAssetUrl;
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderCoachTeam);

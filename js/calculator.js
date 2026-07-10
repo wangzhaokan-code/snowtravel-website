@@ -4,7 +4,9 @@
   const root = document.getElementById('se-calc-app');
   if (!root) return;
 
-  const localIsSimplified = () => (document.documentElement.lang || '').toLowerCase().includes('hans') || document.body.dataset.lang === 'zh-Hans';
+  const pageLang = () => ((document.documentElement.lang || '').toLowerCase() || (document.body.dataset.lang || '').toLowerCase());
+  const localIsEnglish = () => pageLang().startsWith('en') || document.body.dataset.lang === 'en';
+  const localIsSimplified = () => pageLang().includes('hans') || document.body.dataset.lang === 'zh-Hans';
   const localSimplifiedPhrases = [
     ['紐西蘭', '新西兰'],
     ['教練', '教练'], ['課程', '课程'], ['課費計算器', '课费计算器'], ['價格', '价格'], ['計算器', '计算器'],
@@ -31,9 +33,137 @@
     localSimplifiedPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
     return text.replace(/[\u3400-\u9fff]/g, (char) => localSimplifiedChars[char] || char);
   };
+  const localEnglishPhrases = [
+    ['Tomamu星野', 'Tomamu'],
+    ['札幌國際', 'Sapporo Kokusai'],
+    ['留寿都', 'Rusutsu'],
+    ['手稻', 'Sapporo Teine'],
+    ['藻岩山', 'Mt. Moiwa'],
+    ['盤溪', 'Sapporo Bankei'],
+    ['富良野', 'Furano'],
+    ['神居', 'Kamui Ski Links'],
+    ['Sahoro佐幌', 'Sahoro'],
+    ['北海道其他雪場', 'Other Hokkaido resorts'],
+    ['批量添加課程', 'Bulk Add Lessons'],
+    ['批量添加方式', 'Bulk Add Mode'],
+    ['連續日期', 'Date Range'],
+    ['非連續日期', 'Specific Dates'],
+    ['開始日期', 'Start Date'],
+    ['結束日期', 'End Date'],
+    ['課程日期', 'Lesson Dates'],
+    ['例如：20261201, 20261203, 20261206', 'Example: 20261201, 20261203, 20261206'],
+    ['日期格式：yyyymmdd', 'Date format: yyyymmdd'],
+    ['可用逗號、空格或換行分隔多個日期。', 'Separate multiple dates with commas, spaces, or line breaks.'],
+    ['請選擇有效的開始日期和結束日期。', 'Please select a valid start date and end date.'],
+    ['結束日期不能早於開始日期。', 'The end date cannot be earlier than the start date.'],
+    ['請輸入至少一個課程日期。', 'Please enter at least one lesson date.'],
+    ['請輸入有效人數。', 'Please enter a valid number of guests.'],
+    ['請輸入有效人數', 'Please enter a valid number of guests'],
+    ['雪場', 'Resort'],
+    ['課程時長', 'Duration'],
+    ['課程類型', 'Duration'],
+    ['人數', 'Number of Guests'],
+    ['滑行程度', 'Ability level'],
+    ['教練安排方式', 'Instructor Request'],
+    ['教練安排', 'Instructor Request'],
+    ['不指定', 'No Preference'],
+    ['指定教練條件', 'Request conditions'],
+    ['指定具體教練', 'Request a specific instructor'],
+    ['指定具體教練：', 'Specific Instructor: '],
+    ['未選擇', 'Not Selected'],
+    ['單/雙板', 'Ski / Snowboard'],
+    ['單板+雙板', 'Ski + Snowboard'],
+    ['單板：', 'Snowboard:'],
+    ['雙板：', 'Ski:'],
+    ['單板', 'Snowboard'],
+    ['雙板', 'Ski'],
+    ['指定等級', 'Certification Level'],
+    ['一級', 'Level 1'],
+    ['二級', 'Level 2'],
+    ['三級', 'Level 3'],
+    ['性別', 'Gender'],
+    ['男教練', 'Male Instructor'],
+    ['女教練', 'Female Instructor'],
+    ['教練背景', 'Instructor Background'],
+    ['指定教練背景', 'Request Background'],
+    ['請選擇教練', 'Choose instructor'],
+    ['課程', 'Lesson'],
+    ['刪除本節課', 'Remove Lesson'],
+    ['日期', 'Date'],
+    ['全天 5小時', 'Full Day 5h'],
+    ['半天 3小時', 'Half Day 3h'],
+    ['初學/第一次', 'Beginner / First Time'],
+    ['初級/綠線', 'Beginner / Green Runs'],
+    ['中級/紅藍線', 'Intermediate / Red-Blue Runs'],
+    ['高級/黑線', 'Advanced / Black Runs'],
+    ['備註', 'Note'],
+    ['例如：兒童年齡、詳細滑行程度、多人水平不同等', 'Example: children ages, detailed level, mixed abilities, etc.'],
+    ['本節小計', 'Lesson Subtotal'],
+    ['添加下一節課程', 'Add another lesson'],
+    ['查看教練詳情', 'View Profile'],
+    ['背景：', 'Background:'],
+    ['語言：', 'Languages:'],
+    ['資料準備中', 'Details coming soon'],
+    ['該教練僅支持單板，已自動匹配。', 'This instructor teaches snowboard only. Snowboard has been selected automatically.'],
+    ['該教練僅支持雙板，已自動匹配。', 'This instructor teaches ski only. Ski has been selected automatically.'],
+    ['該教練支持單板/雙板，可選擇單板、雙板或單板+雙板。', 'This instructor can teach ski and snowboard. Please select ski, snowboard, or both.'],
+    ['該教練不支持所選板類，請重新選擇', 'This instructor does not support the selected discipline. Please choose again.'],
+    ['請選擇具體教練', 'Please select a specific instructor'],
+    ['請選擇 2026/11/01～2027/05/31 期間的日期', 'Please choose a date between 2026/11/01 and 2027/05/31'],
+    ['未選擇日期', 'No Date Selected'],
+    ['無', 'None'],
+    ['待完善', 'Incomplete'],
+    ['請先填寫至少一節有效課程。', 'Please complete at least one valid lesson.'],
+    ['基礎價格', 'Base Price'],
+    ['旺季加價', 'Peak Season Surcharge'],
+    ['人數加價', 'Additional Guest Fee'],
+    ['指定條件加價', 'Instructor Request Fee'],
+    ['教練安排：', 'Instructor Request: '],
+    ['【課程價格】', '[Lesson Price]'],
+    ['【課程明細】', '[Lesson Details]'],
+    ['【客人備註】', '[Guest Notes]'],
+    ['總價：', 'Total: '],
+    ['尚未填寫有效課程。', 'No valid lesson has been completed yet.'],
+    ['日期：', 'Date: '],
+    ['雪場：', 'Resort: '],
+    ['課程時長：', 'Duration: '],
+    ['人數：', 'Guests: '],
+    ['滑行程度：', 'Level: '],
+    ['基礎價格：', 'Base Price: '],
+    ['旺季加價：', 'Peak Season Surcharge: '],
+    ['人數加價：', 'Additional Guest Fee: '],
+    ['指定條件加價：', 'Instructor Request Fee: '],
+    ['小計：', 'Subtotal: '],
+    ['人', 'guests'],
+    ['已複製，可直接發給客服確認。', 'Copied. You can send it to our team for confirmation.'],
+    ['目前瀏覽器不支持自動複製，請手動複製下方內容。', 'Your browser does not support automatic copying. Please copy the details below manually.']
+  ];
+  const localToEnglish = (value) => {
+    let text = String(value || '');
+    if (text === '例如：兒童年齡、詳細滑行程度、多人水平不同等') return 'Example: guest ages, detailed ability level, mixed abilities, etc.';
+    if (text === '添加下一節課程') return 'Add another lesson';
+    text = text
+      .replace(/第\s*(\d+)\s*節：/g, 'Lesson $1: ')
+      .replace(/第\s*(\d+)\s*節/g, 'Lesson $1')
+      .replace(/全天：(\d+)\s*節/g, 'Full day: $1 lesson(s)')
+      .replace(/半天：(\d+)\s*節/g, 'Half day: $1 lesson(s)')
+      .replace(/已按連續日期加入\s*(\d+)\s*節課程。/g, 'Added $1 lesson(s) from the date range.')
+      .replace(/已按非連續日期加入\s*(\d+)\s*節課程。/g, 'Added $1 lesson(s) from the selected dates.')
+      .replace(/已自動去除\s*(\d+)\s*個重複日期，加入\s*(\d+)\s*節課程。/g, 'Removed $1 duplicate date(s) and added $2 lesson(s).')
+      .replace(/日期格式或範圍不正確：(.+?)。請使用 20261201 這樣的格式。/g, 'Invalid date format or range: $1. Please use a format such as 20261201.');
+    [...localEnglishPhrases].sort((a, b) => b[0].length - a[0].length).forEach(([from, to]) => { text = text.split(from).join(to); });
+    text = text.replace(/([A-Za-z][A-Za-z /-]*)：/g, '$1: ');
+    return text;
+  };
   const i18n = window.SNOWTRAVEL_I18N || {};
-  const translate = typeof i18n.t === 'function' ? i18n.t : (value) => localIsSimplified() ? localToSimplified(value) : String(value || '');
-  const t = (value) => localIsSimplified() ? localToSimplified(translate(value)) : String(value || '');
+  const translate = typeof i18n.t === 'function' && !localIsEnglish() ? i18n.t : (value) => localIsSimplified() ? localToSimplified(value) : String(value || '');
+  const t = (value) => {
+    if (localIsEnglish()) return localToEnglish(value);
+    const translated = translate(value);
+    if (localIsEnglish()) return localToEnglish(translated);
+    if (localIsSimplified()) return localToSimplified(translated);
+    return String(translated || '');
+  };
 
   const priceCore = window.SKI_LESSON_PRICE_CORE;
   if (!priceCore) return;
@@ -44,7 +174,7 @@
     .map((coach) => ({
       ...coach,
       displayText: coach.displayName,
-      language: (coach.languages || []).join('、'),
+      language: (coach.languages || []).join(localIsEnglish() ? ' / ' : '、'),
       publicBio: coach.intro || t('教練簡介稍後補充。'),
       detailUrl: coach.id ? `#coach-card-${coach.id}` : (coach.detailId ? `#${coach.detailId}` : ''),
       enabled: true
@@ -426,7 +556,7 @@
     summary.innerHTML = validCourses.map((item, index) => `
       <li class="se-calc-summary-item">
         <div class="se-calc-summary-head"><strong>${t(`第 ${index + 1} 節`)}</strong><span>${money(item.subtotal)}</span></div>
-        <div class="se-calc-summary-meta">${item.dateText} · ${item.resortText} · ${item.typeText} · ${item.people}${t('人')} · ${item.skiLevelText}</div>
+        <div class="se-calc-summary-meta">${item.dateText} · ${item.resortText} · ${item.typeText} · ${item.people}${localIsEnglish() ? ' ' : ''}${t('人')} · ${item.skiLevelText}</div>
         <dl class="se-calc-fee-list">
           <div><dt>${t('基礎價格')}</dt><dd>${money(item.base)}</dd></div>
           ${feeRow(t('旺季加價'), item.peakFee)}
