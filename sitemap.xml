@@ -97,12 +97,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://snowtravel.vip/furano-ski-lesson/</loc>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://snowtravel.vip/kamui-ski-lesson/</loc>
     <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -133,12 +127,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://snowtravel.vip/tcn/furano-ski-lesson/</loc>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://snowtravel.vip/tcn/kamui-ski-lesson/</loc>
     <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -153,6 +141,60 @@
   <url>
     <loc>https://snowtravel.vip/tcn/hokkaido-ski-lesson/</loc>
     <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
++  <url>
+    <loc>https://snowtravel.vip/en/tomamu-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/rusutsu-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/teine-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/sapporo-kokusai-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/moiwayama-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/bankei-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/kamui-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/sahoro-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://snowtravel.vip/en/hokkaido-ski-lesson/</loc>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
