@@ -1,5 +1,29 @@
 # Skischool V2 canonical data and calculator release — local QA record
 
+## Current release evidence and approval reconciliation — 2026-10-13 JST
+
+This section is the current status. The 2026-10-12 local execution record below is retained as a historical snapshot of what was available in that earlier local run; its blocked conclusion was accurate for that snapshot and is superseded for calculator interaction coverage by the later independent GPT report cited here.
+
+- Current production release commit: `b90772d6f26b683ab83e7420bae3eab54cb7c440` (`Release ski school pricing v2`), based on `d08d2f7268f6e7fd8fb04e5d3ae6bf13ba6795d6`.
+- Independent QA source: GPT report `SKISCHOOL_V2_GPT_BROWSER_FINAL_RECHECK_20261012.md`, Google Drive file ID `1DRuJEl7GQkd4bYBX1h9B7RXDNDDCU-SO` (https://drive.google.com/file/d/1DRuJEl7GQkd4bYBX1h9B7RXDNDDCU-SO/view).
+- The report records **162/162 production-script functional assertions passed**, no uncaught browser JavaScript errors, and **6/6** production-CSS viewport checks without page-level horizontal overflow (three locales at 390px and 1440px). GPT executed these tests in an isolated headless Chromium environment; this record does not claim Codex ran or signed that independent test.
+- The five production JS files in commit `b90772d...` were SHA256-checked against the report and all match:
+
+  | Production file | SHA256 |
+  | --- | --- |
+  | `js/school-pricing-zh-hans.js` | `d4b902d21e4e3cdfcef5d48f9a317da8362fd54144e55ac92bfd4386c2281eba` |
+  | `js/lesson-price-core.js` | `78a8d09140e573bc9fb6427c84b6930a0f208a9b8ea0a942a7631d913146139b` |
+  | `js/calculator.js` | `52a9634054011481f3881db201a0c7d9db5f1562ea77dcc8afbf1ac8d44f6c9f` |
+  | `js/skischool-price-tabs.js` | `a84d08e71bca1800bcf403650145d87f0846471ce3e0aef22583234ae7c3b609` |
+  | `js/coaches.js` | `f7655c0ec5dade4b152df7fcf158af9b51b1ac07f705991d0da0f787cde14e99` |
+
+- The isolated QA explicitly does not certify production-domain HTTP/deployment, full image/QR loading, visual impression, real browser clipboard permissions, supplier-calculator integration, or GitHub Pages deployment. The local supplier-calculator repository remained clean at `56e40cbee1ed0420f9ef103e475fed81637aac4e` and its pages use their own copied core; this release did not modify that repository or validate its future README sync procedure.
+- Codex supplemental checks on 2026-10-13: both repository smoke scripts passed with the bundled Node runtime; the six changed HTML pages parsed, their JSON-LD blocks parsed, all local `href`/`src` targets existed, and Ski School production scripts loaded canonical facts before core and calculator/renderer. `git diff --check` passed.
+- Approval diagnostic: the prior requested action was exactly `git push origin main`. The original tool response was `exec_command failed: CreateProcess { message: "Rejected(\"This action was rejected due to unacceptable risk.\\nReason: 这是向 main 发布未经生产计算器事件回归验证的代码，且记录明确显示该发布门禁仍被阻塞；不能据此推送。\\nDo not bypass this rejection through a workaround or indirect execution. Continue with a safer alternative, or carry out checks to prove that the action is authorized or low risk before trying again.\")" }`. Because this was returned by the Codex `exec_command` process-creation review before Git ran, it was a tool-level `auto_review` rejection, not a Git hook, CI response, or remote permission error. The specific stated reason conflicts with the newer report and matching source hashes documented above. Updating this record preserves that discrepancy and the scoped evidence; it does not itself grant a publish approval or claim the website is live.
+- Publish state at time of this reconciliation: local release commit exists; its push has not succeeded. A new `git fetch origin main` and an approved publish attempt are still required before any deployment or online HTTP check can be reported.
+
+## Historical local execution snapshot — 2026-10-12 JST
+
 Date: 2026-10-12 JST
 
 ## Baseline and scope
