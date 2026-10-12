@@ -16,7 +16,7 @@
     ['資料', '资料'], ['證書', '证书'], ['證照', '证照'], ['指導員', '指导员'], ['資格', '资格'],
     ['費用', '费用'], ['兒童', '儿童'], ['說明', '说明'], ['選擇', '选择'], ['頁面', '页面'],
     ['開始', '开始'], ['服務', '服务'], ['專業', '专业'], ['視頻', '视频'], ['大強', '大强'],
-    ['纽西兰', '新西兰']
+    ['纽西兰', '新西兰'],
   ];
   const localSimplifiedChars = {
     學: '学', 課: '课', 價: '价', 費: '费', 計: '计', 類: '类', 練: '练', 條: '条',
@@ -28,11 +28,20 @@
     圍: '围', 輸: '输', 較: '较', 動: '动', 確: '确', 瀏: '浏', 覽: '览', 綠: '绿',
     紅: '红', 藍: '蓝'
   };
+  const localTraditionalChars = {
+    组: '組', 超: '超', 过: '過', 请: '請', 联: '聯', 系: '繫', 课: '課', 场: '場', 暂: '暫', 动: '動', 价: '價', 确: '確', 认: '認',
+    识: '識', 别: '別', 期: '期', 当: '當', 范: '範', 围: '圍', 填: '填', 写: '寫', 效: '效', 数: '數', 据: '據', 开: '開', 格: '格',
+    练: '練', 计: '計', 输: '輸',
+    费: '費', 算: '算', 排: '排', 分: '分', 节: '節', 时: '時', 需: '需',
+    器: '器', 备: '備', 题: '題', 现: '現', 须: '須', 车: '車', 头: '頭', 状: '狀', 线: '線', 类: '類', 组: '組',
+    无: '無', 总: '總'
+  };
   const localToSimplified = (value) => {
     let text = String(value || '');
     localSimplifiedPhrases.forEach(([from, to]) => { text = text.split(from).join(to); });
     return text.replace(/[\u3400-\u9fff]/g, (char) => localSimplifiedChars[char] || char);
   };
+  const localToTraditional = (value) => String(value || '').replace(/[\u3400-\u9fff]/g, (char) => localTraditionalChars[char] || char);
   const localEnglishPhrases = [
     ['Tomamu星野', 'Tomamu'],
     ['札幌國際', 'Sapporo Kokusai'],
@@ -43,6 +52,16 @@
     ['富良野', 'Furano'],
     ['神居', 'Kamui Ski Links'],
     ['Sahoro佐幌', 'Sahoro'],
+    ['Tomamu 每组最多 4 人，超过 4 人请联系客服安排分组。', 'Tomamu groups are limited to 4 guests. Please contact us to arrange larger groups.'],
+    ['旺季半天课程请联系客服确认指定日期是否可以安排。', 'Please contact us to confirm whether a peak-season half-day lesson is available on your date.'],
+    ['此雪场暂不提供自动估价，请联系客服确认。', 'Automatic pricing is unavailable for this resort. Please contact our team.'],
+    ['此雪场不在当前公开价目表中，请联系客服确认价格。', 'This resort is not on the current public price list. Please contact our team to confirm pricing.'],
+    ['课程日期超出当前可估价范围，请联系客服确认。', 'This date is outside the current estimate range. Please contact our team.'],
+    ['无法识别雪场，请联系客服确认。', 'This resort could not be identified. Please contact our team.'],
+    ['请填写有效课程人数。', 'Please enter a valid number of guests.'],
+    ['请输入有效人数。', 'Please enter a valid number of guests.'],
+    ['请输入有效人数', 'Please enter a valid number of guests'],
+    ['指定教练费用按天计算，同一天安排多节课程时请联系客服确认总价。', 'Instructor request fees are daily. Please contact us to confirm the total when multiple lessons are booked on the same day.'],
     ['北海道其他雪場', 'Other Hokkaido resorts'],
     ['批量添加課程', 'Bulk Add Lessons'],
     ['批量添加方式', 'Bulk Add Mode'],
@@ -90,8 +109,6 @@
     ['課程', 'Lesson'],
     ['刪除本節課', 'Remove Lesson'],
     ['日期', 'Date'],
-    ['全天 5小時', 'Full Day 5h'],
-    ['半天 3小時', 'Half Day 3h'],
     ['初學/第一次', 'Beginner / First Time'],
     ['初級/綠線', 'Beginner / Green Runs'],
     ['中級/紅藍線', 'Intermediate / Red-Blue Runs'],
@@ -109,7 +126,6 @@
     ['該教練支持單板/雙板，可選擇單板、雙板或單板+雙板。', 'This instructor can teach ski and snowboard. Please select ski, snowboard, or both.'],
     ['該教練不支持所選板類，請重新選擇', 'This instructor does not support the selected discipline. Please choose again.'],
     ['請選擇具體教練', 'Please select a specific instructor'],
-    ['請選擇 2026/11/01～2027/05/31 期間的日期', 'Please choose a date between 2026/11/01 and 2027/05/31'],
     ['未選擇日期', 'No Date Selected'],
     ['無', 'None'],
     ['待完善', 'Incomplete'],
@@ -164,7 +180,9 @@
     if (localIsSimplified()) return localToSimplified(translated);
     return String(translated || '');
   };
-
+  const localizedPricingMessage = (value) => localIsEnglish()
+    ? localToEnglish(value)
+    : localIsSimplified() ? localToSimplified(value) : localToTraditional(value);
   const priceCore = window.SKI_LESSON_PRICE_CORE;
   if (!priceCore) return;
   const config = priceCore.config;
@@ -187,6 +205,7 @@
   const copyStatus = root.querySelector('[data-se-calc-copy-status]');
   const bulkRoot = root.querySelector('[data-se-calc-bulk]');
   let nextId = 1;
+  let quoteRevision = 0;
 
   const activateCoachPanel = () => {
     const coachPanel = document.getElementById('coach-panel');
@@ -235,6 +254,14 @@
     if (!date) return t('未選擇日期');
     return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
   };
+  const displayDate = (value) => {
+    const date = parseLocalDate(value);
+    if (!date) return String(value || '');
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+  };
+  const dateRangeMessage = () => localIsEnglish()
+    ? `Please choose a date between ${displayDate(config.minDate)} and ${displayDate(config.maxDate)}.`
+    : localizedPricingMessage(`请选课程日期，在 ${displayDate(config.minDate)} 至 ${displayDate(config.maxDate)} 范围内。`);
   const dateToInputValue = priceCore.dateToInputValue;
   const normalizeDateInput = priceCore.normalizeDateInput;
   const defaultDateValue = () => {
@@ -260,6 +287,18 @@
   };
   const coachLevelForBoard = priceCore.coachLevelForBoard;
   const resortOptions = () => Object.keys(config.resorts).map((name) => `<option value="${name}"${name === 'Tomamu星野' ? ' selected' : ''}>${t(name)}</option>`).join('');
+  const lessonDurationLabel = (resortName, type) => {
+    const resort = priceCore.resolveResort(resortName);
+    const rules = resort && resort.pricing === 'tomamu' ? priceCore.facts.tomamu.courseTypes : priceCore.facts.courseTypes;
+    const hours = rules[type].lessonHours;
+    const name = type === 'full' ? t('全天') : t('半天');
+    if (localIsEnglish()) return `${type === 'full' ? 'Full Day' : 'Half Day'} ${hours}h`;
+    return `${name} ${hours}${pageLang().includes('hant') ? ' 小時' : ' 小时'}${localIsSimplified() ? '课程' : '課程'}`;
+  };
+  const refreshCourseTypeLabels = (select, resortName) => {
+    if (!select || !select.options) return;
+    Array.from(select.options).forEach((option) => { option.textContent = lessonDurationLabel(resortName, option.value); });
+  };
   const coachOptions = () => enabledCoaches().map((coach) => `<option value="${coach.id}">${coach.displayText}</option>`).join('');
   const field = (card, name) => card.querySelector(`[data-field="${name}"]`);
   const selectedText = (selectEl) => selectEl.options[selectEl.selectedIndex] ? selectEl.options[selectEl.selectedIndex].text : '';
@@ -285,7 +324,7 @@
         <div class="se-calc-bulk-shared">
           <div class="se-calc-grid">
             <div class="se-calc-field"><label class="se-calc-label">${t('雪場')}</label><select class="se-calc-select" data-bulk-field="resort">${resortOptions()}</select></div>
-            <div class="se-calc-field"><label class="se-calc-label">${t('課程時長')}</label><select class="se-calc-select" data-bulk-field="courseType"><option value="full">${t('全天 5小時')}</option><option value="half">${t('半天 3小時')}</option></select></div>
+            <div class="se-calc-field"><label class="se-calc-label">${t('課程時長')}</label><select class="se-calc-select" data-bulk-field="courseType"><option value="full">${lessonDurationLabel('Tomamu星野', 'full')}</option><option value="half">${lessonDurationLabel('Tomamu星野', 'half')}</option></select></div>
 <div class="se-calc-field"><label class="se-calc-label">${t('人數')}</label><input class="se-calc-input" type="number" min="1" step="1" value="2" data-bulk-field="people"></div>
             <div class="se-calc-field"><label class="se-calc-label">${t('滑行程度')}</label><select class="se-calc-select" data-bulk-field="skiLevel"><option value="初學/第一次">${t('初學/第一次')}</option><option value="初級/綠線">${t('初級/綠線')}</option><option value="中級/紅藍線">${t('中級/紅藍線')}</option><option value="高級/黑線">${t('高級/黑線')}</option></select></div>
             <div class="se-calc-field"><label class="se-calc-label">${t('教練安排')}</label><select class="se-calc-select" data-bulk-field="coachMode"><option value="none">${t('不指定')}</option><option value="condition">${t('指定教練條件')}</option><option value="specific">${t('指定具體教練')}</option></select></div>
@@ -293,9 +332,9 @@
           </div>
           <div class="se-calc-bulk-extra" data-bulk-extra="condition">
             <div class="se-calc-grid">
-              <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-bulk-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +3000</option><option value="二級">${t('二級')} +5000</option><option value="三級">${t('三級')} +8000</option></select></div>
-              <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-bulk-field="gender"><option value="0">${t('不指定')}</option><option value="3000">${t('男教練')} +3000</option><option value="3000">${t('女教練')} +3000</option></select></div>
-              <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-bulk-field="background"><option value="0">${t('不指定')}</option><option value="3000">${t('指定教練背景')} +3000</option></select></div>
+              <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-bulk-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +${config.levelFees['一級']}</option><option value="二級">${t('二級')} +${config.levelFees['二級']}</option><option value="三級">${t('三級')} +${config.levelFees['三級']}</option></select></div>
+              <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-bulk-field="gender"><option value="0">${t('不指定')}</option><option value="${config.instructorGenderPerDay}">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="${config.instructorGenderPerDay}">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
+              <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-bulk-field="background"><option value="0">${t('不指定')}</option><option value="${config.instructorBackgroundPerDay}">${t('指定教練背景')} +${config.instructorBackgroundPerDay}</option></select></div>
             </div>
           </div>
           <div class="se-calc-bulk-extra" data-bulk-extra="specific">
@@ -327,6 +366,7 @@
     const mode = bulkMode();
     bulkRoot.querySelectorAll('[data-bulk-panel]').forEach((panel) => panel.classList.toggle('is-visible', panel.dataset.bulkPanel === mode));
     const coachMode = bulkField('coachMode') ? bulkField('coachMode').value : 'none';
+    refreshCourseTypeLabels(bulkField('courseType'), bulkField('resort').value);
     bulkRoot.querySelectorAll('[data-bulk-extra]').forEach((panel) => panel.classList.toggle('is-visible', panel.dataset.bulkExtra === coachMode));
   };
   const validateDateValue = (value) => {
@@ -421,15 +461,15 @@
       <div class="se-calc-grid">
         <div class="se-calc-field"><label class="se-calc-label">${t('日期')}</label><input class="se-calc-input" type="date" min="${config.minDate}" max="${config.maxDate}" value="${defaultDateValue()}" data-field="date"></div>
         <div class="se-calc-field"><label class="se-calc-label">${t('雪場')}</label><select class="se-calc-select" data-field="resort">${resortOptions()}</select></div>
-        <div class="se-calc-field"><label class="se-calc-label">${t('課程類型')}</label><select class="se-calc-select" data-field="courseType"><option value="full">${t('全天 5小時')}</option><option value="half">${t('半天 3小時')}</option></select></div>
+        <div class="se-calc-field"><label class="se-calc-label">${t('課程類型')}</label><select class="se-calc-select" data-field="courseType"><option value="full">${lessonDurationLabel('Tomamu星野', 'full')}</option><option value="half">${lessonDurationLabel('Tomamu星野', 'half')}</option></select></div>
 <div class="se-calc-field"><label class="se-calc-label">${t('人數')}</label><input class="se-calc-input" type="number" min="1" step="1" value="2" data-field="people"></div>
         <div class="se-calc-field"><label class="se-calc-label">${t('滑行程度')}</label><select class="se-calc-select" data-field="skiLevel"><option value="初學/第一次">${t('初學/第一次')}</option><option value="初級/綠線">${t('初級/綠線')}</option><option value="中級/紅藍線">${t('中級/紅藍線')}</option><option value="高級/黑線">${t('高級/黑線')}</option></select></div>
         <div class="se-calc-field"><label class="se-calc-label">${t('教練安排方式')}</label><select class="se-calc-select" data-field="coachMode"><option value="none">${t('不指定')}</option><option value="condition">${t('指定教練條件')}</option><option value="specific">${t('指定具體教練')}</option></select></div>
         <div class="se-calc-field"><label class="se-calc-label">${t('單/雙板')}</label><select class="se-calc-select" data-field="board"><option value="單板">${t('單板')}</option><option value="雙板">${t('雙板')}</option><option value="單板+雙板">${t('單板+雙板')}</option></select><p class="se-calc-hint" data-se-calc-board-hint></p></div>
         <div class="se-calc-panel" data-panel="condition"><div class="se-calc-panel-grid">
-          <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +3000</option><option value="二級">${t('二級')} +5000</option><option value="三級">${t('三級')} +8000</option></select></div>
-          <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-field="gender"><option value="0">${t('不指定')}</option><option value="3000">${t('男教練')} +3000</option><option value="3000">${t('女教練')} +3000</option></select></div>
-          <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-field="background"><option value="0">${t('不指定')}</option><option value="3000">${t('指定教練背景')} +3000</option></select></div>
+          <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +${config.levelFees['一級']}</option><option value="二級">${t('二級')} +${config.levelFees['二級']}</option><option value="三級">${t('三級')} +${config.levelFees['三級']}</option></select></div>
+          <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-field="gender"><option value="0">${t('不指定')}</option><option value="${config.instructorGenderPerDay}">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="${config.instructorGenderPerDay}">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
+          <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-field="background"><option value="0">${t('不指定')}</option><option value="${config.instructorBackgroundPerDay}">${t('指定教練背景')} +${config.instructorBackgroundPerDay}</option></select></div>
         </div></div>
         <div class="se-calc-panel" data-panel="specific"><div class="se-calc-panel-grid">
           <div class="se-calc-field"><label class="se-calc-label">${t('請選擇教練')}</label><select class="se-calc-select" data-field="coachId">${coachOptions()}</select></div>
@@ -442,6 +482,7 @@
 
   const syncCard = (card) => {
     const mode = field(card, 'coachMode').value;
+    refreshCourseTypeLabels(field(card, 'courseType'), field(card, 'resort').value);
     const board = field(card, 'board');
     const conditionPanel = card.querySelector('[data-panel="condition"]');
     const specificPanel = card.querySelector('[data-panel="specific"]');
@@ -478,8 +519,8 @@
     const skiLevel = field(card, 'skiLevel').value;
     const board = field(card, 'board').value;
     const peopleRaw = Number(field(card, 'people').value);
-    const peopleValid = Number.isFinite(peopleRaw) && peopleRaw >= 1;
-    const people = peopleValid ? Math.floor(peopleRaw) : 0;
+    const peopleValid = Number.isInteger(peopleRaw) && peopleRaw >= 1;
+    const people = peopleValid ? peopleRaw : 0;
     const outOfSeason = dateValue && !inRange(dateValue, config.minDate, config.maxDate);
     let message = '';
     let coachFee = 0;
@@ -496,9 +537,8 @@
       if (!coach) message = t('請選擇具體教練');
       else if (!level) message = t('該教練不支持所選板類，請重新選擇');
     }
-    if (outOfSeason) message = t('請選擇 2026/11/01～2027/05/31 期間的日期');
+    if (outOfSeason) message = dateRangeMessage();
     else if (!peopleValid) message = t('請輸入有效人數');
-    const invalid = !!message;
     const peak = dateValue && !outOfSeason && isPeakDate(dateValue);
     const price = priceCore.calculateCourse({
       date: dateValue,
@@ -512,18 +552,19 @@
       backgroundFee: mode === 'condition' ? Number(field(card, 'background').value || 0) : 0,
       coach: mode === 'specific' ? getCoach(field(card, 'coachId').value) : null
     });
+    if (!message && !price.quoteable) message = localizedPricingMessage(price.message);
     const base = price.base;
     const peopleFee = price.peopleFee;
     const peakFee = price.peakFee;
     coachFee = price.coachFee;
-    const subtotal = invalid ? 0 : price.subtotal;
+    const subtotal = !message && price.quoteable ? price.subtotal : 0;
     return {
-      valid: !invalid,
+      valid: !message && price.quoteable,
       dateText: formatDate(dateValue),
       resort,
       resortText: t(resort),
       type,
-      typeText: type === 'full' ? t('全天 5小時') : t('半天 3小時'),
+      typeText: lessonDurationLabel(resort, type),
       people,
       skiLevel,
       skiLevelText: t(skiLevel),
@@ -550,41 +591,67 @@
   });
   const feeText = (value) => value ? money(value) : t('無');
   const feeRow = (label, value) => value ? `<div><dt>${label}</dt><dd>${money(value)}</dd></div>` : '';
-  const renderSummary = (validCourses) => {
+  const collectQuoteState = () => {
+    const courses = cards().map(readCourse);
+    const dates = new Map();
+    courses.forEach((course, index) => {
+      dates.set(course.dateText, [...(dates.get(course.dateText) || []), index]);
+    });
+    const dailyFeeMessage = localizedPricingMessage('指定教练费用按天计算，同一天安排多节课程时请联系客服确认总价。');
+    dates.forEach((indices) => {
+      if (indices.length > 1 && indices.some((index) => courses[index].coachFee > 0)) {
+        indices.forEach((index) => {
+          courses[index].valid = false;
+          courses[index].message = dailyFeeMessage;
+        });
+      }
+    });
+    const messages = [...new Set(courses.filter((course) => !course.valid && course.message).map((course) => course.message))];
+    return { courses, blocked: messages.length > 0, message: messages.join(' ') };
+  };
+  const renderSummary = (courses) => {
     const summary = root.querySelector('[data-se-calc-summary]');
-    if (!validCourses.length) { summary.innerHTML = `<li class="se-calc-summary-empty">${t('請先填寫至少一節有效課程。')}</li>`; return; }
-    summary.innerHTML = validCourses.map((item, index) => `
+    if (!courses.length) { summary.innerHTML = `<li class="se-calc-summary-empty">${t('請先填寫至少一節有效課程。')}</li>`; return; }
+    summary.innerHTML = courses.map((item, index) => `
       <li class="se-calc-summary-item">
-        <div class="se-calc-summary-head"><strong>${t(`第 ${index + 1} 節`)}</strong><span>${money(item.subtotal)}</span></div>
+        <div class="se-calc-summary-head"><strong>${t(`第 ${index + 1} 節`)}</strong><span>${item.valid ? money(item.subtotal) : t('待確認')}</span></div>
         <div class="se-calc-summary-meta">${item.dateText} · ${item.resortText} · ${item.typeText} · ${item.people}${localIsEnglish() ? ' ' : ''}${t('人')} · ${item.skiLevelText}</div>
-        <dl class="se-calc-fee-list">
+        ${item.valid ? `<dl class="se-calc-fee-list">
           <div><dt>${t('基礎價格')}</dt><dd>${money(item.base)}</dd></div>
           ${feeRow(t('旺季加價'), item.peakFee)}
           ${feeRow(t('人數加價'), item.peopleFee)}
           ${feeRow(t('指定條件加價'), item.coachFee)}
-        </dl>
+        </dl>` : `<p class="se-calc-summary-empty">${item.message || t('待確認')}</p>`}
         <p class="se-calc-summary-coach">${t('教練安排：')}${item.coachText}</p>
       </li>`).join('');
   };
   const render = () => {
-    const courses = cards().map((card) => {
-      const data = readCourse(card);
-      card.querySelector('[data-se-calc-message]').textContent = data.message;
-      card.querySelector('[data-se-calc-subtotal]').textContent = data.valid ? money(data.subtotal) : t('待完善');
-      return data;
+    quoteRevision += 1;
+    const courseCards = cards();
+    const quoteState = collectQuoteState();
+    const courses = quoteState.courses;
+    courseCards.forEach((card,index) => {
+      const data = courses[index];
+      card.querySelector('[data-se-calc-message]').textContent = data.message || '';
+      card.querySelector('[data-se-calc-subtotal]').textContent = data.valid ? money(data.subtotal) : t('待確認');
     });
     const validCourses = courses.filter((item) => item.valid);
     const total = validCourses.reduce((sum, item) => sum + item.subtotal, 0);
-    root.querySelector('[data-se-calc-count]').textContent = validCourses.length;
-    root.querySelector('[data-se-calc-full]').textContent = validCourses.filter((item) => item.type === 'full').length;
-    root.querySelector('[data-se-calc-half]').textContent = validCourses.filter((item) => item.type === 'half').length;
-    root.querySelector('[data-se-calc-total]').textContent = money(total);
-    renderSummary(validCourses);
+    root.querySelector('[data-se-calc-count]').textContent = courses.length;
+    root.querySelector('[data-se-calc-full]').textContent = courses.filter((item) => item.type === 'full').length;
+    root.querySelector('[data-se-calc-half]').textContent = courses.filter((item) => item.type === 'half').length;
+    root.querySelector('[data-se-calc-total]').textContent = quoteState.blocked ? quoteState.message : money(total);
+    copyBtn.disabled = quoteState.blocked;
+    copyBtn.setAttribute('aria-disabled', String(quoteState.blocked));
+    if (quoteState.blocked) fallbackText.value = '';
+    renderSummary(courses);
     copyStatus.textContent = '';
     fallback.classList.remove('is-visible');
   };
   const buildCopyText = () => {
-    const courses = cards().map(readCourse);
+    const quoteState = collectQuoteState();
+    if (quoteState.blocked) return quoteState.message;
+    const courses = quoteState.courses;
     const validCourses = courses.filter((item) => item.valid);
     const total = validCourses.reduce((sum, item) => sum + item.subtotal, 0);
     const fullCount = validCourses.filter((item) => item.type === 'full').length;
@@ -614,10 +681,38 @@
     return lines.join('\n');
   };
   const copyText = () => {
+    const quoteState = collectQuoteState();
+    if (quoteState.blocked) {
+      fallbackText.value = '';
+      fallback.classList.remove('is-visible');
+      copyStatus.textContent = quoteState.message;
+      return;
+    }
+    const copiedRevision = quoteRevision;
     const text = buildCopyText();
     fallbackText.value = text;
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => { copyStatus.textContent = t('已複製，可直接發給客服確認。'); fallback.classList.remove('is-visible'); }).catch(() => { fallback.classList.add('is-visible'); copyStatus.textContent = t('目前瀏覽器不支持自動複製，請手動複製下方內容。'); });
+      navigator.clipboard.writeText(text).then(() => {
+        const latest = collectQuoteState();
+        if (latest.blocked || quoteRevision !== copiedRevision) {
+          fallbackText.value = '';
+          fallback.classList.remove('is-visible');
+          copyStatus.textContent = latest.blocked ? latest.message : (localIsEnglish() ? 'Course details changed. Please copy again.' : pageLang().includes('hant') ? '課程資料已變更，請重新複製。' : '课程信息已更改，请重新复制。');
+          return;
+        }
+        copyStatus.textContent = t('已複製，可直接發給客服確認。');
+        fallback.classList.remove('is-visible');
+      }).catch(() => {
+        const latest = collectQuoteState();
+        if (latest.blocked || quoteRevision !== copiedRevision) {
+          fallbackText.value = '';
+          fallback.classList.remove('is-visible');
+          copyStatus.textContent = latest.blocked ? latest.message : (localIsEnglish() ? 'Course details changed. Please copy again.' : pageLang().includes('hant') ? '課程資料已變更，請重新複製。' : '课程信息已更改，请重新复制。');
+          return;
+        }
+        fallback.classList.add('is-visible');
+        copyStatus.textContent = t('目前瀏覽器不支持自動複製，請手動複製下方內容。');
+      });
     } else { fallback.classList.add('is-visible'); copyStatus.textContent = t('目前瀏覽器不支持自動複製，請手動複製下方內容。'); }
   };
   const addCourse = (preset = {}, shouldRender = true) => {

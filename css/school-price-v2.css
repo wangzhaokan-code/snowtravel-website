@@ -1,0 +1,19 @@
+.school-price-v2-switcher{padding:14px;background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:8px;box-shadow:var(--soft-shadow)}
+.school-price-v2-tabs{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.school-price-v2-tab{appearance:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 17px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--deep);font:inherit;font-weight:800;cursor:pointer;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+.school-price-v2-tab:hover{border-color:rgba(31,111,159,.45);background:var(--ice)}
+.school-price-v2-tab.is-active{background:#2c9ee8;border-color:#2c9ee8;color:#fff;box-shadow:0 8px 18px rgba(31,111,159,.2)}
+.school-price-v2-tab .status-pill{margin:0;background:rgba(255,255,255,.16);color:inherit;border-color:rgba(255,255,255,.3);font-size:11px}
+.school-price-v2-tab:not(.is-active) .status-pill{background:#eaf6fc;color:var(--blue);border-color:#c8e4f3}
+.school-price-v2-tab:focus-visible{outline:3px solid rgba(44,158,232,.38);outline-offset:3px}
+.school-price-v2-panels{margin-top:18px}.school-price-v2-panel[hidden]{display:none!important}.school-price-v2-panel{display:none}.school-price-v2-panel.is-active{display:block}
+.school-price-v2-heading{display:flex;align-items:center;gap:10px;margin:16px 0 6px}.school-price-v2-heading h3{margin:0;color:var(--deep);font-size:24px}
+.school-price-v2-season{margin-top:20px}.school-price-v2-season>h4{margin:0 0 6px;color:var(--deep);font-size:21px}
+.school-price-v2-dates{display:grid;gap:3px;margin:0 2px 8px;color:var(--muted);font-size:13px}
+.school-price-v2-table{width:100%;min-width:680px}.school-price-v2-table caption{caption-side:top;padding:10px 12px;text-align:left;background:#fff;color:var(--muted);font-weight:700}
+.school-price-v2-table th,.school-price-v2-table td{padding:13px 15px}.school-price-v2-table td:not(:first-child),.school-price-v2-table thead th:not(:first-child){text-align:center}
+.school-price-v2-table tbody th{background:#fff;color:var(--deep);text-align:left;font-weight:800}.school-price-v2-table td{color:var(--blue);font-size:18px;font-weight:800;white-space:nowrap}
+.school-price-v2-table td.school-price-v2-contact{min-width:220px;color:var(--muted);font-size:15px;white-space:normal;background:var(--snow)}
+.school-price-v2-consult{display:grid;gap:5px;padding:20px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(135deg,#fff,#eef8fc)}.school-price-v2-consult strong{color:var(--blue);font-size:20px}.school-price-v2-consult span{color:var(--muted)}
+.school-price-v2-service{margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}.school-price-v2-service .section-heading{margin-bottom:12px}.school-price-v2-service .section-heading h4{margin:0;color:var(--deep);font-size:22px}.school-price-v2-service .terms-lead{max-width:none}
+@media(max-width:760px){.school-price-v2-tabs{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 7px}.school-price-v2-tab{scroll-snap-align:start;flex:0 0 auto}.school-price-v2-table{min-width:640px}}
