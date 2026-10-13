@@ -128,7 +128,8 @@
       return `<tr><th scope="row">${guestLabel(row.tier)}</th><td>${money(row.half.subtotal)}</td><td>${row.full.quoteable ? money(row.full.subtotal) : text.unsupported}</td></tr>`;
     }).join('');
     const groupTotal = english ? 'Group total (JPY)' : text.groupTotal;
-    return `<div class="table-wrap price-table-wrap"><table class="price-table refined-price-table school-price-v2-table"><caption>${text.labels[resort.id]} · ${isPeak ? text.peak : text.flat} · ${groupTotal}</caption><thead><tr><th scope="col">${text.guests}</th>${headers}</tr></thead><tbody>${body}</tbody></table></div>`;
+    const tableLabel = `${text.labels[resort.id]} · ${isPeak ? text.peak : text.flat} · ${groupTotal}`;
+    return `<div class="table-wrap price-table-wrap"><table class="price-table refined-price-table school-price-v2-table" aria-label="${tableLabel}"><thead><tr><th scope="col">${text.guests}</th>${headers}</tr></thead><tbody>${body}</tbody></table></div>`;
   };
   const serviceRows = resort => {
     if (resort.pricing === 'consult') return [[text.arrangement, text.consultText], [text.rentalTitle, text.rental]];
@@ -141,7 +142,7 @@
     const result = [
       [durationLabel('full', tomamu), fullCopy],
       [durationLabel('half', tomamu), halfCopy],
-      [text.extraTitle, text.extra.replace('{amount}', money(facts.fees.lessonExtensionPerHour))],
+      ...(!tomamu ? [[text.extraTitle, text.extra.replace('{amount}', money(facts.fees.lessonExtensionPerHour))]] : []),
       [text.turnsTitle, text.turns],
       [text.availabilityTitle, text.availability]
     ];
@@ -152,14 +153,14 @@
     } else result.splice(2, 0, [text.rentalTitle, text.rental]);
     return result;
   };
-  tabsRoot.innerHTML = resorts.map((resort, index) => `<button class="school-price-v2-tab${index === 0 ? ' is-active' : ''}" id="price-tab-${resort.id}" type="button" role="tab" aria-selected="${index === 0}" aria-controls="price-panel-${resort.id}" tabindex="${index === 0 ? 0 : -1}" data-price-tab="${resort.id}">${text.labels[resort.id]}${resort.officiallyRegistered ? `<span class="status-pill">${text.registered}</span>` : ''}</button>`).join('');
+  tabsRoot.innerHTML = resorts.map((resort, index) => `<button class="school-price-v2-tab${index === 0 ? ' is-active' : ''}" id="price-tab-${resort.id}" type="button" role="tab" aria-selected="${index === 0}" aria-controls="price-panel-${resort.id}" tabindex="${index === 0 ? 0 : -1}" data-price-tab="${resort.id}">${text.labels[resort.id]}</button>`).join('');
   panelsRoot.innerHTML = resorts.map((resort, index) => {
     const seasons = [false, true].map(isPeak => {
       const dates = isPeak ? peakDates() : offSeasonDates();
       return `<section class="school-price-v2-season" aria-labelledby="${resort.id}-${isPeak ? 'peak' : 'off'}"><h4 id="${resort.id}-${isPeak ? 'peak' : 'off'}">${isPeak ? text.peak : text.flat}</h4><div class="school-price-v2-dates">${dates.map(value => `<span>${value}</span>`).join('')}</div>${table(resort, isPeak)}</section>`;
     }).join('');
     const service = serviceRows(resort).map(([title, copyText]) => `<div class="lesson-row"><strong>${title}</strong><span>${copyText}</span></div>`).join('');
-    return `<section class="school-price-v2-panel${index === 0 ? ' is-active' : ''}" id="price-panel-${resort.id}" role="tabpanel" aria-labelledby="price-tab-${resort.id}" tabindex="0" data-price-panel="${resort.id}"${index ? ' hidden' : ''}><div class="school-price-v2-heading"><h3>${text.labels[resort.id]}</h3></div>${seasons}<section class="school-price-v2-service"><div class="section-heading"><h4>${text.service}</h4><p class="terms-lead service-fee-note">${text.feeNote}</p></div><div class="lesson-service-panel">${service}</div></section></section>`;
+    return `<section class="school-price-v2-panel${index === 0 ? ' is-active' : ''}" id="price-panel-${resort.id}" role="tabpanel" aria-labelledby="price-tab-${resort.id}" tabindex="0" data-price-panel="${resort.id}"${index ? ' hidden' : ''}><div class="school-price-v2-heading"><h3>${text.labels[resort.id]}</h3>${resort.officiallyRegistered ? `<span class="status-pill">${text.registered}</span>` : ''}</div>${seasons}<section class="school-price-v2-service"><div class="section-heading"><h4>${text.service}</h4><p class="terms-lead service-fee-note">${text.feeNote}</p></div><div class="lesson-service-panel">${service}</div></section></section>`;
   }).join('');
   const tabs = [...tabsRoot.querySelectorAll('[role="tab"]')];
   const panels = [...panelsRoot.querySelectorAll('[role="tabpanel"]')];

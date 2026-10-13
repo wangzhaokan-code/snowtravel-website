@@ -63,8 +63,30 @@ for (const lang of ['zh-Hans', 'zh-Hant', 'en']) {
 
   assert.equal(tabs.length, 7, `${lang}: seven resort tabs`);
   assert.equal(panels.length, 7, `${lang}: seven price panels`);
-  assert.equal((tabsRoot.html.match(/官方登记|官方登記|Officially registered/g) || []).length, 4,
-    `${lang}: only four registered resorts`);
+  const registeredLabel = lang === 'en' ? 'Officially registered' : lang === 'zh-Hant' ? '官方登記' : '官方登记';
+  assert.equal(tabsRoot.html.includes('status-pill'), false,
+    `${lang}: registration badges are not inside resort tabs`);
+  assert.equal((panelsRoot.html.match(/class="status-pill"/g) || []).length, 4,
+    `${lang}: four registration badges appear in resort headings`);
+  assert.match(panelsRoot.html, new RegExp(`<h3>${lang === 'zh-Hans' ? 'Tomamu 星野' : lang === 'zh-Hant' ? 'Tomamu 星野' : 'Tomamu'}</h3><span class="status-pill">${registeredLabel}</span>`),
+    `${lang}: registration badge follows the resort heading`);
+  assert.equal(panelsRoot.html.includes('<caption>'), false,
+    `${lang}: visible group-total table captions are removed`);
+  assert.match(panelsRoot.html, /<table[^>]+aria-label="[^\"]+"/,
+    `${lang}: table keeps a non-visible accessible name`);
+  const tomamuStart = panelsRoot.html.indexOf('data-price-panel="tomamu"');
+  const nextPanel = panelsRoot.html.indexOf('data-price-panel="rusutsu"');
+  const tomamuMarkup = panelsRoot.html.slice(tomamuStart, nextPanel);
+  const extensionTitle = lang === 'en' ? 'Extended lessons' : lang === 'zh-Hant' ? '延長課程' : '延长课程';
+  assert.equal(tomamuMarkup.includes(extensionTitle), false,
+    `${lang}: Tomamu omits the lesson-extension note`);
+  assert.equal(panelsRoot.html.slice(nextPanel).includes(extensionTitle), true,
+    `${lang}: non-Tomamu resorts retain the lesson-extension note`);
+  for (const page of ['Skischool/index.html', 'tcn/Skischool/index.html', 'en/Skischool/index.html']) {
+    const html = fs.readFileSync(path.join(__dirname, '..', page), 'utf8');
+    assert.equal(html.includes('price-tabs-v2-swipe-hint'), false,
+      `${page}: swipe-hint message is removed`);
+  }
   assert.match(panelsRoot.html, /¥58,000/);
   assert.match(panelsRoot.html, /¥122,000/);
   assert.match(panelsRoot.html, /2\.5/);
