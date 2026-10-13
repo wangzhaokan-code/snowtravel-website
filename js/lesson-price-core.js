@@ -86,7 +86,6 @@
       base = flat[type];
       peakFee = seasonal[type] - flat[type];
     } else {
-      if (peak && type === 'half') return unavailable('旺季半天课程请联系客服确认指定日期是否可以安排。');
       base = type === 'half' ? facts.standardResort.halfBase : facts.standardResort.fullBase;
       peopleFee = Math.max(people - facts.guestTiers[0].max, 0) * facts.fees.standardAdditionalGuestPerPerson;
       peakFee = peak ? facts.fees.peakPerLesson : 0;

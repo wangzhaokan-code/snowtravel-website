@@ -7,7 +7,8 @@
 .school-price-v2-panels{margin-top:18px}.school-price-v2-panel[hidden]{display:none!important}.school-price-v2-panel{display:none}.school-price-v2-panel.is-active{display:block}
 .school-price-v2-heading{display:flex;align-items:center;gap:10px;margin:16px 0 6px}.school-price-v2-heading h3{margin:0;color:var(--deep);font-size:24px}
 .school-price-v2-season{margin-top:20px}.school-price-v2-season>h4{margin:0 0 6px;color:var(--deep);font-size:21px}
-.school-price-v2-dates{display:grid;gap:3px;margin:0 2px 8px;color:var(--muted);font-size:13px}
+.school-price-v2-dates{display:grid;gap:3px;margin:0 0 12px;padding:12px 14px;color:var(--deep);font-size:13px}
+.school-price-v2-peak-note{margin-top:3px;color:var(--muted);font-weight:600}
 .school-price-v2-table{width:100%;min-width:680px}
 .school-price-v2-table th,.school-price-v2-table td{padding:13px 15px}.school-price-v2-table td:not(:first-child),.school-price-v2-table thead th:not(:first-child){text-align:center}
 .school-price-v2-table tbody th{background:#fff;color:var(--deep);text-align:left;font-weight:800}.school-price-v2-table td{color:var(--blue);font-size:18px;font-weight:800;white-space:nowrap}

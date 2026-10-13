@@ -122,9 +122,6 @@
     const isTomamu = resort.pricing === 'tomamu';
     const headers = `<th scope="col">${durationLabel('half', isTomamu)}</th><th scope="col">${durationLabel('full', isTomamu)}</th>`;
     const body = rows.map((row, index) => {
-      if (!row.half.quoteable) {
-        return `<tr><th scope="row">${guestLabel(row.tier)}</th>${index === 0 ? `<td class="school-price-v2-contact" rowspan="${rows.length}">${text.peakHalf}</td>` : ''}<td>${row.full.quoteable ? money(row.full.subtotal) : text.unsupported}</td></tr>`;
-      }
       return `<tr><th scope="row">${guestLabel(row.tier)}</th><td>${money(row.half.subtotal)}</td><td>${row.full.quoteable ? money(row.full.subtotal) : text.unsupported}</td></tr>`;
     }).join('');
     const groupTotal = english ? 'Group total (JPY)' : text.groupTotal;
@@ -157,7 +154,8 @@
   panelsRoot.innerHTML = resorts.map((resort, index) => {
     const seasons = [false, true].map(isPeak => {
       const dates = isPeak ? peakDates() : offSeasonDates();
-      return `<section class="school-price-v2-season" aria-labelledby="${resort.id}-${isPeak ? 'peak' : 'off'}"><h4 id="${resort.id}-${isPeak ? 'peak' : 'off'}">${isPeak ? text.peak : text.flat}</h4><div class="school-price-v2-dates">${dates.map(value => `<span>${value}</span>`).join('')}</div>${table(resort, isPeak)}</section>`;
+      const peakNote = isPeak && resort.pricing !== 'tomamu' ? `<span class="school-price-v2-peak-note">${text.peakHalf}</span>` : '';
+      return `<section class="school-price-v2-season" aria-labelledby="${resort.id}-${isPeak ? 'peak' : 'off'}"><h4 id="${resort.id}-${isPeak ? 'peak' : 'off'}">${isPeak ? text.peak : text.flat}</h4><div class="terms-lead school-price-v2-dates">${dates.map(value => `<span>${value}</span>`).join('')}${peakNote}</div>${table(resort, isPeak)}</section>`;
     }).join('');
     const service = serviceRows(resort).map(([title, copyText]) => `<div class="lesson-row"><strong>${title}</strong><span>${copyText}</span></div>`).join('');
     return `<section class="school-price-v2-panel${index === 0 ? ' is-active' : ''}" id="price-panel-${resort.id}" role="tabpanel" aria-labelledby="price-tab-${resort.id}" tabindex="0" data-price-panel="${resort.id}"${index ? ' hidden' : ''}><div class="school-price-v2-heading"><h3>${text.labels[resort.id]}</h3>${resort.officiallyRegistered ? `<span class="status-pill">${text.registered}</span>` : ''}</div>${seasons}<section class="school-price-v2-service"><div class="section-heading"><h4>${text.service}</h4><p class="terms-lead service-fee-note">${text.feeNote}</p></div><div class="lesson-service-panel">${service}</div></section></section>`;
