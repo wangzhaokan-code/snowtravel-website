@@ -14,7 +14,5 @@ body{padding-bottom:82px}
 @media(max-width:760px){.floating-booking{right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));padding:12px 18px;min-height:48px;font-size:.9rem}body{padding-bottom:85px}#booking{scroll-margin-top:116px}}
 @media(prefers-reduced-motion:reduce){.floating-booking{transition:none}.floating-booking:hover{transform:none}}
 
-/* Snow Zone preview: explicit TOP navigation control. */
-.site-header nav .nav-top{display:inline-flex;align-items:center;gap:4px;border:1px solid #b5d2dd;background:#eef5f8;color:#0758a8;border-radius:18px;padding:2px 10px;font-weight:700;white-space:nowrap}
-.site-header nav .nav-top:hover{background:#d9edf4;color:#03437d}
-@media(max-width:760px){.site-header nav{flex-wrap:wrap;justify-content:center;column-gap:10px;row-gap:6px}.site-header nav a{white-space:nowrap}.site-header nav .nav-top{padding:2px 9px}html{scroll-padding-top:120px}}
+/* Permit the five navigation links to wrap cleanly on smaller screens. */
+@media(max-width:760px){.site-header nav{flex-wrap:wrap;justify-content:center;column-gap:10px;row-gap:6px}.site-header nav a{white-space:nowrap}html{scroll-padding-top:120px}}
