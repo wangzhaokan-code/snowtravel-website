@@ -1,5 +1,28 @@
 # Skischool V2 canonical data and calculator release — local QA record
 
+## Dual-calculator independent browser QA and publish continuation — 2026-10-19 JST
+
+GPT 的独立隔离 Chromium 结果见项目文件 `07_落地页升级草案/DUAL_CALCULATOR_GPT_CHROMIUM_QA_20261017.md`：两套计算器 × 三语言 × 30 项，共 **180/180** 通过；12 个已展开日历 viewport（390px/1440px）无横向溢出，未捕获 JS 异常为零。该证据验收的是未提交同步源码，不代表线上部署验收。
+
+本次复核的官网 `js/calculator.js` 与 `css/style.css` SHA-256 分别为 `6498010415846bd26dc32eb7c2366e93fee87635b2bed41c82718a30f9f0c423` 与 `8b7fdf5ede84063ccdd20321531d630acc30e0d393b8f120a4dd888ea878ed5e`；规范价格事实与共享核心分别为 `d4b902d21e4e3cdfcef5d48f9a317da8362fd54144e55ac92bfd4386c2281eba`、`0fefba5db45e1477485c00721597b10ab8bb0dfe179e51bffa94dbdf5b95744b`。
+
+2026-10-19 本机回归：`tests/dual-calculator-bulk-range-gender-smoke.cjs` **4/4** 组、`tests/calculator-error-localization-smoke.cjs` **27/27** 文案断言、`tests/skischool-price-tabs-dom-smoke.cjs` **3/3** 语言通过；JS 语法与 `git diff --check` 通过。
+
+发布仍未开始。本次对该仓库执行 `git fetch origin main` 时 GitHub SSH 主机名 DNS 解析失败（`Could not resolve hostname github.com: -65563`）；没有 fresh remote SHA，因此未提交、未推送、未部署，也未做线上 URL 检查。官网 GitHub 远端此前已知比本地基线多 4 个提交，必须在网络恢复后 fetch 并安全整合，保留 Snow Zone 提交。
+
+## Current dual-calculator bulk range and gender fix — 2026-10-17 JST
+
+Status: **Codex technical closeout; ready for GPT isolated-browser QA. Not committed, pushed, or deployed.** This section supersedes earlier statements about current local source and local interaction coverage; earlier release/acceptance entries below remain historical evidence.
+
+- Official website Git root: `~/AI项目中心/工作区/雪旅官网制作/03_网站源码/`; branch `main`; starting/current local HEAD `5faf9b1d5a4155299bd6df24098927316406096c`. The local `origin/main` tracking ref has the same SHA. A fresh `git ls-remote origin refs/heads/main` could not resolve `github.com` (`ssh: Could not resolve hostname github.com: -65563`), so no fresh remote comparison was available.
+- Changed files: `js/calculator.js`, `css/style.css`, `tests/dual-calculator-bulk-range-gender-smoke.cjs`, this QA record. Canonical Simplified Chinese pricing facts and shared core were not changed; their hashes remain `d4b902d21e4e3cdfcef5d48f9a317da8362fd54144e55ac92bfd4386c2281eba` and `0fefba5db45e1477485c00721597b10ab8bb0dfe179e51bffa94dbdf5b95744b`.
+- Updated production calculator SHA-256: `6498010415846bd26dc32eb7c2366e93fee87635b2bed41c82718a30f9f0c423`.
+- Gender selection now uses `any` / `male` / `female` semantic values; only the two requested genders resolve to the existing canonical `instructorGenderPerDay` fee. Legacy numeric fee values map conservatively to male. Bulk presets and copy/display data retain the selected value.
+- The paired native date inputs were replaced by one custom month calendar with inclusive endpoint selection, highlighted range, single-day selection, incomplete-range rejection, reverse-date restart behavior, min/max enforcement from the shared pricing core, month navigation, arrow-key focus movement, Escape/Done close, and focus return. Non-contiguous date text handling remains.
+- Actual production scripts were exercised in a local event-driven DOM contract harness: `tests/dual-calculator-bulk-range-gender-smoke.cjs` **4/4 groups passed**, including three languages, bulk `any`/male/female, cross-year `2026-12-30`–`2027-01-02`, one-day generation, partial/reverse selections, disabled boundaries, keyboard movement, localized copied gender, and separate-date deduplication. Existing calculator localization smoke passed **27/27 locale-message assertions**; existing price-tab smoke passed **3/3 locales**. JavaScript syntax and `git diff --check` passed.
+- Isolated Chromium visual/runtime QA remains required. Playwright's bundled headless shell was not installed; one headless launch via the installed Google Chrome exited `SIGABRT` before loading a page. Per the loop's browser-failure rule, no retry or visible browser tab was created. Responsive 390px/1440px, console behavior, actual browser interaction, and production HTTP/deployment were not verified here.
+- Git publish gate remains closed pending GPT isolated-browser QA and fresh remote verification. No commit, push, deploy, or URL check was made. `codex_visible_tabs_created=0`; `codex_visible_tabs_remaining=0`; `user_browser_state_touched=false`; `user_terminal_sessions_touched=false`; `user_uat_runtime_touched=false`; `codex_test_runtime_cleaned=not_created`; `formal_runtime_left_available=true`.
+
 ## Current release evidence and approval reconciliation — 2026-10-13 JST
 
 This section is the current status. The 2026-10-12 local execution record below is retained as a historical snapshot of what was available in that earlier local run; its blocked conclusion was accurate for that snapshot and is superseded for calculator interaction coverage by the later independent GPT report cited here.

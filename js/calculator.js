@@ -314,8 +314,10 @@
         </div>
         <div class="se-calc-bulk-panel is-visible" data-bulk-panel="range">
           <div class="se-calc-grid">
-            <div class="se-calc-field"><label class="se-calc-label">${t('開始日期')}</label><input class="se-calc-input" type="date" min="${config.minDate}" max="${config.maxDate}" data-bulk-field="startDate" value="${defaultDateValue()}"></div>
-            <div class="se-calc-field"><label class="se-calc-label">${t('結束日期')}</label><input class="se-calc-input" type="date" min="${config.minDate}" max="${config.maxDate}" data-bulk-field="endDate" value="${defaultDateValue()}"></div>
+            <div class="se-calc-field se-calc-range-field"><span class="se-calc-label" id="se-calc-range-label">${rangeText.choose}</span><button class="se-calc-input se-calc-range-trigger" type="button" data-range-trigger aria-haspopup="dialog" aria-expanded="false" aria-labelledby="se-calc-range-label" aria-describedby="se-calc-range-status">${rangeText.pick}</button><p class="se-calc-hint" id="se-calc-range-status" data-range-status aria-live="polite">${rangeText.empty}</p>
+              <div class="se-calc-calendar" data-range-calendar role="dialog" aria-label="${rangeText.dialog}" hidden><div class="se-calc-calendar-head"><button type="button" class="se-calc-calendar-nav" data-calendar-prev aria-label="${rangeText.previous}">‹</button><strong data-calendar-month></strong><button type="button" class="se-calc-calendar-nav" data-calendar-next aria-label="${rangeText.next}">›</button></div><div class="se-calc-calendar-grid" data-calendar-grid role="grid" aria-label="${rangeText.dialog}"></div><div class="se-calc-calendar-foot"><span data-calendar-selection>${rangeText.empty}</span><button type="button" class="se-calc-button se-calc-button-secondary" data-calendar-done>${rangeText.done}</button></div></div>
+              <input type="hidden" data-bulk-field="startDate"><input type="hidden" data-bulk-field="endDate">
+            </div>
           </div>
         </div>
         <div class="se-calc-bulk-panel" data-bulk-panel="dates">
@@ -333,7 +335,7 @@
           <div class="se-calc-bulk-extra" data-bulk-extra="condition">
             <div class="se-calc-grid">
               <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-bulk-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +${config.levelFees['一級']}</option><option value="二級">${t('二級')} +${config.levelFees['二級']}</option><option value="三級">${t('三級')} +${config.levelFees['三級']}</option></select></div>
-              <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-bulk-field="gender"><option value="0">${t('不指定')}</option><option value="${config.instructorGenderPerDay}">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="${config.instructorGenderPerDay}">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
+              <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-bulk-field="gender"><option value="any">${t('不指定')}</option><option value="male">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="female">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
               <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-bulk-field="background"><option value="0">${t('不指定')}</option><option value="${config.instructorBackgroundPerDay}">${t('指定教練背景')} +${config.instructorBackgroundPerDay}</option></select></div>
             </div>
           </div>
@@ -351,10 +353,74 @@
     </details>`;
 
   const bulkField = (name) => bulkRoot ? bulkRoot.querySelector(`[data-bulk-field="${name}"]`) : null;
+  const rangeText = (() => {
+    if (localIsEnglish()) return { choose: 'Lesson date range', pick: 'Choose start and end dates', empty: 'Choose a start date, then an end date.', dialog: 'Choose lesson date range', previous: 'Previous month', next: 'Next month', done: 'Done' };
+    if (pageLang().includes('hant')) return { choose: '課程日期範圍', pick: '選擇開始與結束日期', empty: '請先選開始日期，再選結束日期。', dialog: '選擇課程日期範圍', previous: '上個月', next: '下個月', done: '完成' };
+    return { choose: '课程日期范围', pick: '选择开始与结束日期', empty: '请先选开始日期，再选结束日期。', dialog: '选择课程日期范围', previous: '上个月', next: '下个月', done: '完成' };
+  })();
+  let rangeStart = '';
+  let rangeEnd = '';
+  let calendarMonth = parseLocalDate(defaultDateValue());
+  let calendarFocusDate = '';
+  const calendarLocale = localIsEnglish() ? 'en' : pageLang().includes('hant') ? 'zh-Hant' : 'zh-Hans';
+  const formatCalendarDate = (value) => {
+    const date = parseLocalDate(value);
+    return date ? new Intl.DateTimeFormat(calendarLocale, { year: 'numeric', month: 'short', day: 'numeric' }).format(date) : '';
+  };
+  const dateKey = (date) => dateToInputValue(date);
+  const renderCalendar = () => {
+    if (!bulkRoot) return;
+    const title = bulkRoot.querySelector('[data-calendar-month]');
+    const grid = bulkRoot.querySelector('[data-calendar-grid]');
+    const selected = bulkRoot.querySelector('[data-calendar-selection]');
+    const status = bulkRoot.querySelector('[data-range-status]');
+    const trigger = bulkRoot.querySelector('[data-range-trigger]');
+    if (!title || !grid) return;
+    title.textContent = new Intl.DateTimeFormat(calendarLocale, { year: 'numeric', month: 'long' }).format(calendarMonth);
+    title.dataset.year = String(calendarMonth.getFullYear());
+    title.dataset.month = String(calendarMonth.getMonth() + 1);
+    const weekdays = localIsEnglish() ? ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] : ['日', '一', '二', '三', '四', '五', '六'];
+    const offset = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1).getDay();
+    const count = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
+    const cells = weekdays.map((day) => `<span class="se-calc-calendar-weekday" role="columnheader">${day}</span>`);
+    for (let i = 0; i < offset; i += 1) cells.push('<span class="se-calc-calendar-empty" role="gridcell"></span>');
+    for (let day = 1; day <= count; day += 1) {
+      const value = dateKey(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), day));
+      const disabled = !inRange(value, config.minDate, config.maxDate);
+      const inSelectedRange = rangeStart && rangeEnd && value >= rangeStart && value <= rangeEnd;
+      const endpoint = value === rangeStart || value === rangeEnd;
+      cells.push(`<button type="button" role="gridcell" class="se-calc-calendar-day${inSelectedRange ? ' is-in-range' : ''}${endpoint ? ' is-range-endpoint' : ''}" data-calendar-date="${value}" aria-label="${formatCalendarDate(value)}" aria-pressed="${endpoint}"${disabled ? ' disabled' : ''}>${day}</button>`);
+    }
+    grid.innerHTML = cells.join('');
+    const selectionText = rangeStart && rangeEnd ? `${formatCalendarDate(rangeStart)} — ${formatCalendarDate(rangeEnd)}` : rangeStart ? `${formatCalendarDate(rangeStart)} — ${rangeText.empty}` : rangeText.empty;
+    selected.textContent = selectionText;
+    status.textContent = selectionText;
+    trigger.textContent = rangeStart && rangeEnd ? selectionText : rangeText.pick;
+  };
+  const shiftCalendarMonth = (delta) => { calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + delta, 1); renderCalendar(); };
+  const setCalendarOpen = (open) => {
+    const calendar = bulkRoot.querySelector('[data-range-calendar]');
+    const trigger = bulkRoot.querySelector('[data-range-trigger]');
+    calendar.hidden = !open;
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) { renderCalendar(); (rangeStart && bulkRoot.querySelector(`[data-calendar-date="${rangeStart}"]:not(:disabled)`) || bulkRoot.querySelector(`[data-calendar-date="${dateKey(calendarMonth)}"]:not(:disabled)`) || bulkRoot.querySelector('[data-calendar-date]:not(:disabled)'))?.focus(); } else trigger.focus();
+  };
+  const chooseRangeDate = (value) => {
+    if (!validateDateValue(value)) return;
+    if (!rangeStart || rangeEnd) { rangeStart = value; rangeEnd = ''; }
+    else if (value < rangeStart) { rangeStart = value; rangeEnd = ''; }
+    else rangeEnd = value;
+    bulkField('startDate').value = rangeStart;
+    bulkField('endDate').value = rangeEnd;
+    renderCalendar();
+    bulkRoot.querySelector(`[data-calendar-date="${value}"]`)?.focus();
+  };
   const bulkMode = () => {
     const checked = bulkRoot ? bulkRoot.querySelector('input[name="se-calc-bulk-mode"]:checked') : null;
     return checked ? checked.value : 'range';
   };
+  const normalizeGenderValue = (value) => value === 'female' || value === 'male' ? value : value === 'any' || value === '0' || value == null || value === '' ? 'any' : Number(value) === config.instructorGenderPerDay ? 'male' : 'any';
+  const genderFeeFor = (value) => normalizeGenderValue(value) === 'any' ? 0 : config.instructorGenderPerDay;
   const setBulkStatus = (message, tone = '') => {
     const status = bulkRoot ? bulkRoot.querySelector('[data-se-calc-bulk-status]') : null;
     if (!status) return;
@@ -378,6 +444,7 @@
   };
   const parseBulkDateList = () => {
     if (bulkMode() === 'range') {
+      if (!rangeStart || !rangeEnd) return { dates: [], error: rangeText.empty };
       const startValue = bulkField('startDate').value;
       const endValue = bulkField('endDate').value;
       const start = validateDateValue(startValue);
@@ -414,7 +481,7 @@
   const applyCoursePreset = (card, preset = {}) => {
     Object.entries(preset).forEach(([name, value]) => {
       const input = field(card, name);
-      if (input && value !== undefined && value !== null) input.value = value;
+      if (input && value !== undefined && value !== null) input.value = name === 'gender' ? normalizeGenderValue(value) : value;
     });
     syncCard(card);
   };
@@ -449,9 +516,28 @@
     if (!bulkRoot) return;
     bulkRoot.innerHTML = bulkTemplate();
     syncBulkTool();
+    renderCalendar();
     bulkRoot.addEventListener('change', syncBulkTool);
     bulkRoot.addEventListener('click', (event) => {
       if (event.target.closest('[data-se-calc-bulk-generate]')) generateBulkCourses();
+      else if (event.target.closest('[data-range-trigger]')) setCalendarOpen(bulkRoot.querySelector('[data-range-calendar]').hidden);
+      else if (event.target.closest('[data-calendar-prev]')) shiftCalendarMonth(-1);
+      else if (event.target.closest('[data-calendar-next]')) shiftCalendarMonth(1);
+      else if (event.target.closest('[data-calendar-done]')) { if (rangeStart && rangeEnd) setCalendarOpen(false); }
+      else if (event.target.closest('[data-calendar-date]')) chooseRangeDate(event.target.closest('[data-calendar-date]').dataset.calendarDate);
+    });
+    bulkRoot.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !bulkRoot.querySelector('[data-range-calendar]').hidden) { setCalendarOpen(false); return; }
+      const dayButton = event.target.closest('[data-calendar-date]');
+      if (!dayButton || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+      event.preventDefault();
+      const date = parseLocalDate(dayButton.dataset.calendarDate);
+      date.setDate(date.getDate() + (event.key === 'ArrowLeft' ? -1 : event.key === 'ArrowRight' ? 1 : event.key === 'ArrowUp' ? -7 : 7));
+      calendarFocusDate = dateToInputValue(date);
+      if (!inRange(calendarFocusDate, config.minDate, config.maxDate)) { dayButton.focus(); return; }
+      calendarMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+      renderCalendar();
+      bulkRoot.querySelector(`[data-calendar-date="${calendarFocusDate}"]:not(:disabled)`)?.focus();
     });
   };
 
@@ -468,7 +554,7 @@
         <div class="se-calc-field"><label class="se-calc-label">${t('單/雙板')}</label><select class="se-calc-select" data-field="board"><option value="單板">${t('單板')}</option><option value="雙板">${t('雙板')}</option><option value="單板+雙板">${t('單板+雙板')}</option></select><p class="se-calc-hint" data-se-calc-board-hint></p></div>
         <div class="se-calc-panel" data-panel="condition"><div class="se-calc-panel-grid">
           <div class="se-calc-field"><label class="se-calc-label">${t('指定等級')}</label><select class="se-calc-select" data-field="level"><option value="不指定">${t('不指定')}</option><option value="一級">${t('一級')} +${config.levelFees['一級']}</option><option value="二級">${t('二級')} +${config.levelFees['二級']}</option><option value="三級">${t('三級')} +${config.levelFees['三級']}</option></select></div>
-          <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-field="gender"><option value="0">${t('不指定')}</option><option value="${config.instructorGenderPerDay}">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="${config.instructorGenderPerDay}">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
+          <div class="se-calc-field"><label class="se-calc-label">${t('性別')}</label><select class="se-calc-select" data-field="gender"><option value="any">${t('不指定')}</option><option value="male">${t('男教練')} +${config.instructorGenderPerDay}</option><option value="female">${t('女教練')} +${config.instructorGenderPerDay}</option></select></div>
           <div class="se-calc-field"><label class="se-calc-label">${t('教練背景')}</label><select class="se-calc-select" data-field="background"><option value="0">${t('不指定')}</option><option value="${config.instructorBackgroundPerDay}">${t('指定教練背景')} +${config.instructorBackgroundPerDay}</option></select></div>
         </div></div>
         <div class="se-calc-panel" data-panel="specific"><div class="se-calc-panel-grid">
@@ -526,7 +612,7 @@
     let coachFee = 0;
     let coachText = `${t('不指定')}；${t(board)}`;
     if (mode === 'condition') {
-      coachFee = (config.levelFees[field(card, 'level').value] || 0) + Number(field(card, 'gender').value || 0) + Number(field(card, 'background').value || 0);
+      coachFee = (config.levelFees[field(card, 'level').value] || 0) + genderFeeFor(field(card, 'gender').value) + Number(field(card, 'background').value || 0);
       const conditionParts = [t('指定教練條件'), t(board), selectedText(field(card, 'level')), selectedText(field(card, 'gender')), selectedText(field(card, 'background'))].filter((item) => item && item !== t('不指定'));
       coachText = conditionParts.join('；');
     } else if (mode === 'specific') {
@@ -548,7 +634,7 @@
       mode,
       board,
       level: mode === 'condition' ? field(card, 'level').value : '',
-      genderFee: mode === 'condition' ? Number(field(card, 'gender').value || 0) : 0,
+      genderFee: mode === 'condition' ? genderFeeFor(field(card, 'gender').value) : 0,
       backgroundFee: mode === 'condition' ? Number(field(card, 'background').value || 0) : 0,
       coach: mode === 'specific' ? getCoach(field(card, 'coachId').value) : null
     });
