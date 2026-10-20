@@ -757,6 +757,7 @@ summary { cursor: pointer; font-weight: 800; }
   box-shadow: 0 10px 24px rgba(22,34,51,.06);
   cursor: pointer;
 }
+.coach-list-card-static { cursor: default; }
 .coach-list-card.is-active {
   border-color: var(--blue);
   background: linear-gradient(180deg, #fff, #eef8fc);
@@ -800,7 +801,7 @@ summary { cursor: pointer; font-weight: 800; }
 }
 .coach-list-main {
   display: grid;
-  grid-template-rows: auto 18px 18px;
+  grid-template-rows: auto minmax(18px, auto) minmax(18px, auto);
   gap: 4px;
   min-width: 0;
   min-height: 62px;
@@ -836,7 +837,7 @@ html[lang^="en"] body #coach-panel .coach-list-main strong { font-size: 15px !im
 .coach-list-main.is-single-cert small { align-self: center; }
 html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert {
   display: grid;
-  grid-template-rows: auto 18px 18px;
+  grid-template-rows: auto minmax(18px, auto) minmax(18px, auto);
   gap: 4px;
   min-height: 62px;
   align-content: start;

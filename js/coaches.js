@@ -243,6 +243,82 @@
       showInCalculator: true
     },
     {
+      id: 'max',
+      name: 'Max',
+      displayName: 'Max 教練',
+      skiLevel: '二級',
+      snowboardLevel: '',
+      skiCertLabel: '紐西蘭雙板指導員 NZSIA 2級',
+      background: '',
+      languages: [],
+      intro: '',
+      certificates: [],
+      photos: [],
+      certificateImages: [],
+      videos: [],
+      showInTeam: true,
+      showInCalculator: false,
+      showDetail: false
+    },
+    {
+      id: 'raymond',
+      name: 'Raymond',
+      displayName: 'Raymond 教練',
+      skiLevel: '一級',
+      snowboardLevel: '一級',
+      skiCertLabel: '加拿大雙板指導員 CSIA 1級',
+      snowboardCertLabel: '加拿大單板指導員 CASI 1級',
+      background: '',
+      languages: [],
+      intro: '',
+      certificates: [],
+      photos: [],
+      avatar: 'assets/images/coaches/raymond/avatar.jpg',
+      certificateImages: [],
+      videos: [],
+      showInTeam: true,
+      showInCalculator: false,
+      showDetail: false
+    },
+    {
+      id: 'igo',
+      name: 'Igo',
+      displayName: 'Igo 教練',
+      skiLevel: '一級',
+      snowboardLevel: '',
+      skiCertLabel: '加拿大雙板指導員 CSIA 1級',
+      background: '',
+      languages: [],
+      intro: '',
+      certificates: [],
+      photos: [],
+      avatar: 'assets/images/coaches/igo/avatar.jpg',
+      certificateImages: [],
+      videos: [],
+      showInTeam: true,
+      showInCalculator: false,
+      showDetail: false
+    },
+    {
+      id: 'yara',
+      name: 'Yara',
+      displayName: 'Yara 教練',
+      skiLevel: '一級',
+      snowboardLevel: '',
+      skiCertLabel: '加拿大雙板指導員 CSIA 1級',
+      background: '',
+      languages: [],
+      intro: '',
+      certificates: [],
+      photos: [],
+      avatar: 'assets/images/coaches/yara/avatar.jpg',
+      certificateImages: [],
+      videos: [],
+      showInTeam: true,
+      showInCalculator: false,
+      showDetail: false
+    },
+    {
       id: 'leo',
       name: 'Leo',
       displayName: 'Leo 教練',
@@ -522,6 +598,10 @@
     ['Eddie 教練', 'Eddie'],
     ['Tina 教練', 'Tina'],
     ['Jessika 教練', 'Jessika'],
+    ['Max 教練', 'Max'],
+    ['Raymond 教練', 'Raymond'],
+    ['Igo 教練', 'Igo'],
+    ['Yara 教練', 'Yara'],
     ['Leo 教練', 'Leo'],
     ['Wulf 教練', 'Wulf'],
     ['大強 教練', 'Daqiang'],
@@ -880,16 +960,20 @@ I specialize in lessons for families, children, and adults. I also provide skiin
     oldGrid.className = 'coach-team-app';
     oldGrid.innerHTML = `
       <div class="coach-list-grid" data-coach-list>
-        ${coachesForTeam.map((coach, index) => {
+        ${coachesForTeam.map((coach) => {
           const certLines = coachCertLines(coach);
+          const cardTag = coach.showDetail === false ? 'article' : 'button';
+          const cardAttributes = coach.showDetail === false
+            ? ''
+            : `type="button" data-coach-id="${coach.id}" aria-expanded="false"`;
           return `
-          <button id="coach-card-${coach.id}" class="coach-list-card" type="button" data-coach-id="${coach.id}" aria-expanded="false">
+          <${cardTag} id="coach-card-${coach.id}" class="coach-list-card${coach.showDetail === false ? ' coach-list-card-static' : ''}" ${cardAttributes}>
             <span class="coach-avatar-placeholder">${coach.avatar ? `<img src="${escapeHtml(coachAssetUrl(coach.avatar))}" alt="${escapeHtml(coach.name)} ${t('教練頭像')}" loading="lazy">` : escapeHtml(coach.name.slice(0, 1))}</span>
             <span class="coach-list-main${certLines.length === 1 ? ' is-single-cert' : ''}">
               <strong>${escapeHtml(coach.name)}</strong>
               ${certLines.map((line) => `<small>${escapeHtml(line)}</small>`).join('')}
             </span>
-          </button>`;
+          </${cardTag}>`;
         }).join('')}
         <article class="coach-profile-panel" data-coach-profile aria-live="polite"></article>
       </div>
@@ -963,7 +1047,7 @@ I specialize in lessons for families, children, and adults. I also provide skiin
     const syncFromHash = (event) => {
       const eventHash = event && event.detail && event.detail.hash ? event.detail.hash : '';
       const hash = (eventHash || window.location.hash).replace('#', '');
-      const coach = coachesForTeam.find((item) => item.detailId === hash || `coach-card-${item.id}` === hash);
+      const coach = coachesForTeam.find((item) => item.showDetail !== false && (item.detailId === hash || `coach-card-${item.id}` === hash));
       if (coach) {
         selectCoach(coach.id, 'intro', false);
         return;
