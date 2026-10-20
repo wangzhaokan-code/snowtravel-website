@@ -29,3 +29,6 @@
 .access-map-link:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 @media(max-width:760px){.access-grid{grid-template-columns:minmax(0,1fr);gap:28px}.access-copy h3{margin-bottom:17px}.access-route-figure{width:100%;max-width:560px;margin:0 auto}}
 @media(max-width:390px){.access-copy .text-link{font-size:.84rem}}
+
+/* Secondary eligibility information below activity price names. */
+.price-card .price-condition{display:block;margin-top:4px;font-size:.77rem;line-height:1.55;color:#566676;font-weight:400;white-space:normal}
