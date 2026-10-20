@@ -968,6 +968,9 @@ html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert small {
   object-position: center;
   border-radius: inherit;
 }
+#coach-card-max .coach-avatar-placeholder img {
+  object-position: center top;
+}
 .coach-media-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

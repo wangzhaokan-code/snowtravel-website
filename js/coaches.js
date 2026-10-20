@@ -254,6 +254,7 @@
       intro: '',
       certificates: [],
       photos: [],
+      avatar: 'assets/images/coaches/max/avatar.jpg',
       certificateImages: [],
       videos: [],
       showInTeam: true,
