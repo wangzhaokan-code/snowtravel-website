@@ -26,7 +26,7 @@
 .access-copy .text-link{margin-top:13px;font-size:.92rem}
 .access-route-figure{margin:0;min-width:0}
 .access-map-link{display:block;line-height:0}
-.access-map-link img{display:block;width:100%;max-width:355px;height:auto;object-fit:contain}
+.access-map-link img{display:block;width:100%;max-width:600px;height:auto;object-fit:contain}
 .access-map-link:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 @media(max-width:760px){.access-grid{grid-template-columns:minmax(0,1fr);gap:28px}.access-copy h3{margin-bottom:17px}.access-route-figure{width:100%;max-width:560px;margin:0 auto}}
 @media(max-width:390px){.access-copy .text-link{font-size:.84rem}}
@@ -39,3 +39,14 @@
 .organizer-contact p:last-child{margin-bottom:0}
 .organizer-contact .contact-email{overflow-wrap:anywhere}
 @media(max-width:760px){.hero-intro .hero-copy h1 .hero-title-logo{width:min(100%,420px)}.organizer-contact{padding:18px 16px}}
+
+/* Hero captions stay in normal flow below the video. */
+.hero-notes{padding:10px max(6vw,24px);background:#f7fafb;color:#526374;text-align:right;font-size:.78rem;line-height:1.65;overflow-wrap:anywhere}
+.hero-notes p{margin:0}
+.hero-notes p+p{margin-top:.2em}
+@media(max-width:390px){.hero-notes{padding:9px 18px;font-size:.72rem}}
+
+/* Keep the three visitor notices visually distinct from organizer details. */
+.closing-info .visitor-notes{max-width:900px;margin:0 auto}
+.closing-info .visitor-notes p{margin:0 0 .8em;line-height:1.8}
+.closing-info .visitor-notes p:last-child{margin-bottom:0}
