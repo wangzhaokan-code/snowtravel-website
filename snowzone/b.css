@@ -10,6 +10,7 @@
 .hero-intro .hero-copy{position:static;left:auto;top:auto;transform:none;width:min(1120px,100%);margin:0 auto;padding:clamp(38px,5vw,68px) max(6vw,24px) clamp(42px,5vw,68px);text-align:center;color:var(--ink)}
 .hero-intro .eyebrow{color:#338d9b}
 .hero-intro .hero-copy h1{font:700 clamp(3rem,6.5vw,5.4rem)/.98 Georgia,serif;color:var(--ink);margin:12px 0 18px;letter-spacing:-.035em;text-shadow:none}
+.hero-intro .hero-copy h1 .hero-title-logo{display:block;width:min(100%,520px);height:auto;margin:0 auto}
 .hero-intro .hero-copy p{ text-shadow:none }
 .hero-intro .lead{font-size:clamp(1.05rem,2vw,1.25rem);font-weight:600;margin:.5em 0}
 .hero-intro .hero-date{font-size:.9rem;margin:16px 0 0;color:#425768}
@@ -32,3 +33,9 @@
 
 /* Secondary eligibility information below activity price names. */
 .price-card .price-condition{display:block;margin-top:4px;font-size:.77rem;line-height:1.55;color:#566676;font-weight:400;white-space:normal}
+
+.organizer-contact{max-width:760px;margin:26px auto 0;padding:20px 24px;background:#f7fafb;border-left:3px solid var(--accent)}
+.organizer-contact p{margin:0 0 9px}
+.organizer-contact p:last-child{margin-bottom:0}
+.organizer-contact .contact-email{overflow-wrap:anywhere}
+@media(max-width:760px){.hero-intro .hero-copy h1 .hero-title-logo{width:min(100%,420px)}.organizer-contact{padding:18px 16px}}
