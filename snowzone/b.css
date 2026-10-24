@@ -50,3 +50,15 @@
 .closing-info .visitor-notes{max-width:900px;margin:0 auto}
 .closing-info .visitor-notes p{margin:0 0 .8em;line-height:1.8}
 .closing-info .visitor-notes p:last-child{margin-bottom:0}
+
+
+/* Customer-supplied Snow Zone venue map, with a full-resolution PDF zoom path. */
+.venue-map-section{background:#f7fafb}
+.venue-map-figure{max-width:1120px;margin:0 auto}
+.venue-map-link{display:block;max-width:100%;line-height:0;background:#fff;border:1px solid var(--line)}
+.venue-map-link img{display:block;width:100%;max-width:100%;height:auto;object-fit:contain}
+.venue-map-link:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.venue-map-caption{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin:12px 0 0;color:#526374;font-size:.84rem;line-height:1.65}
+.venue-map-caption .text-link{flex-shrink:0}
+@media(max-width:760px){.venue-map-caption{flex-direction:column;gap:6px}}
+@media(max-width:390px){.venue-map-caption{font-size:.78rem}}
