@@ -270,7 +270,7 @@
       skiCertLabel: '加拿大CSIA 1級',
       snowboardCertLabel: '加拿大CASI 1級',
       background: '來自香港',
-      languages: ['粵語', '英文', '中文', '日文'],
+      languages: ['粵語', '英文', '中文'],
       intro: '',
       certificates: [],
       photos: [
