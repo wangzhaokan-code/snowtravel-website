@@ -317,7 +317,7 @@
       skiLevel: '一級',
       snowboardLevel: '',
       skiCertLabel: '加拿大CSIA 1級',
-      background: '出生於廣東',
+      background: '',
       languages: [],
       intro: '',
       certificates: [],
