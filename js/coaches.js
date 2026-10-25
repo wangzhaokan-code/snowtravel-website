@@ -259,7 +259,7 @@
       ],
       avatar: 'assets/images/coaches/max/avatar.jpg',
       certificateImages: [
-        { title: { zhHans: '新西兰双板指导员 NZSIA Ski 2级', zhHant: '紐西蘭雙板指導員 NZSIA Ski 2級', en: 'NZSIA Ski Level 2 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-ski-2.jpg' },
+        { title: { zhHans: '新西兰双板指导员 NZSIA 2级', zhHant: '紐西蘭雙板指導員 NZSIA 2級', en: 'NZSIA Ski Level 2 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-ski-2.jpg' },
         { title: { zhHans: '新西兰双板指导员 NZSIA Freeski 1级', zhHant: '紐西蘭雙板指導員 NZSIA Freeski 1級', en: 'NZSIA Freeski Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-freeski-1.jpg' },
         { title: { zhHans: '新西兰双板指导员 NZSIA Telemark 1级', zhHant: '紐西蘭雙板指導員 NZSIA Telemark 1級', en: 'NZSIA Telemark Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-telemark-1.jpg' },
         { title: { zhHans: '新西兰双板指导员 NZSIA 儿童教学 1级', zhHant: '紐西蘭雙板指導員 NZSIA 兒童教學 1級', en: 'NZSIA Children\'s Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-children-1.jpg' }
