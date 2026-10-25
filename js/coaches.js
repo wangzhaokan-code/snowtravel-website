@@ -250,7 +250,7 @@
       snowboardLevel: '',
       skiCertLabel: '紐西蘭NZSIA 2級',
       background: '來自台灣',
-      languages: ['中文'],
+      languages: ['中文', '英文'],
       intro: '',
       certificates: [],
       photos: [
