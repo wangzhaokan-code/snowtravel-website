@@ -273,13 +273,20 @@
       languages: [],
       intro: '',
       certificates: [],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/raymond/photo-01.jpg', alt: 'Raymond 教練滑行照片 1' },
+        { src: 'assets/images/coaches/raymond/photo-02.jpg', alt: 'Raymond 教練滑行照片 2', layout: 'wide' }
+      ],
       avatar: 'assets/images/coaches/raymond/avatar.jpg',
-      certificateImages: [],
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/raymond/certificate-csia-1.jpg' },
+        { title: '加拿大單板指導員 CASI 1級', src: 'assets/images/coaches/raymond/certificate-casi-1.jpg' }
+      ],
       videos: [],
       showInTeam: true,
       showInCalculator: false,
-      showDetail: false
+      detailId: 'coach-detail-raymond',
+      showDetail: true
     },
     {
       id: 'igo',
