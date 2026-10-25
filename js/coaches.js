@@ -295,17 +295,20 @@
       skiLevel: '一級',
       snowboardLevel: '',
       skiCertLabel: '加拿大CSIA 1級',
-      background: '',
+      background: '來自台灣',
       languages: [],
       intro: '',
       certificates: [],
       photos: [],
       avatar: 'assets/images/coaches/igo/avatar.jpg',
-      certificateImages: [],
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/igo/certificate-csia-1.jpg' }
+      ],
       videos: [],
       showInTeam: true,
       showInCalculator: false,
-      showDetail: false
+      detailId: 'coach-detail-igo',
+      showDetail: true
     },
     {
       id: 'yara',
@@ -314,17 +317,20 @@
       skiLevel: '一級',
       snowboardLevel: '',
       skiCertLabel: '加拿大CSIA 1級',
-      background: '',
+      background: '出生於廣東',
       languages: [],
       intro: '',
       certificates: [],
       photos: [],
       avatar: 'assets/images/coaches/yara/avatar.jpg',
-      certificateImages: [],
+      certificateImages: [
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/yara/certificate-csia-1.jpg' }
+      ],
       videos: [],
       showInTeam: true,
       showInCalculator: false,
-      showDetail: false
+      detailId: 'coach-detail-yara',
+      showDetail: true
     },
     {
       id: 'leo',
@@ -651,6 +657,7 @@
     ['來自廣東，定居日本', 'From Guangdong, based in Japan'],
     ['來自香港，定居日本', 'From Hong Kong, based in Japan'],
     ['來自台灣', 'From Taiwan'],
+    ['出生於廣東', 'Born in Guangdong'],
     ['來自新加坡', 'From Singapore'],
     ['來自廣東', 'From Guangdong'],
     ['來自香港', 'From Hong Kong'],
