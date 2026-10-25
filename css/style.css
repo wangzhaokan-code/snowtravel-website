@@ -1641,3 +1641,20 @@ html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert small {
 .qr-card { padding: 10px; gap: 7px; border-style: solid; background: #fff; }
 .qr-card img { display: block; width: 100%; max-width: 132px; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 6px; background: #fff; }
 .qr-card strong { color: var(--deep); line-height: 1.1; }
+
+/* Raymond has two published photos: use two balanced columns instead of newspaper-style multicolumn flow. */
+.coach-profile-panel[data-active-coach="raymond"] .coach-photo-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  column-count: auto;
+}
+.coach-profile-panel[data-active-coach="raymond"] .coach-photo-mosaic .coach-media-thumb {
+  display: block;
+  margin: 0;
+}
+@media (max-width: 620px) {
+  .coach-profile-panel[data-active-coach="raymond"] .coach-photo-mosaic {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
