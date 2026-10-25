@@ -249,17 +249,26 @@
       skiLevel: '二級',
       snowboardLevel: '',
       skiCertLabel: '紐西蘭NZSIA 2級',
-      background: '',
-      languages: [],
+      background: '來自台灣',
+      languages: ['中文'],
       intro: '',
       certificates: [],
-      photos: [],
+      photos: [
+        { src: 'assets/images/coaches/max/photo-01.jpg', alt: 'Max 教練雙板滑行照片 1' },
+        { src: 'assets/images/coaches/max/photo-02.jpg', alt: 'Max 教練雙板滑行照片 2', layout: 'wide' }
+      ],
       avatar: 'assets/images/coaches/max/avatar.jpg',
-      certificateImages: [],
+      certificateImages: [
+        { title: { zhHans: '新西兰 NZSIA 双板 2级', zhHant: '紐西蘭 NZSIA 雙板 2級', en: 'NZSIA Ski Level 2 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-ski-2.jpg' },
+        { title: { zhHans: '新西兰 NZSIA Freeski 1级', zhHant: '紐西蘭 NZSIA Freeski 1級', en: 'NZSIA Freeski Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-freeski-1.jpg' },
+        { title: { zhHans: '新西兰 NZSIA Telemark 1级', zhHant: '紐西蘭 NZSIA Telemark 1級', en: 'NZSIA Telemark Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-telemark-1.jpg' },
+        { title: { zhHans: '新西兰 NZSIA 儿童教学 1级', zhHant: '紐西蘭 NZSIA 兒童教學 1級', en: 'NZSIA Children\'s Level 1 (New Zealand)' }, src: 'assets/images/coaches/max/certificate-nzsia-children-1.jpg' }
+      ],
       videos: [],
       showInTeam: true,
       showInCalculator: false,
-      showDetail: false
+      detailId: 'coach-detail-max',
+      showDetail: true
     },
     {
       id: 'raymond',

@@ -1658,3 +1658,20 @@ html[lang^="en"] body #coach-panel .coach-list-main.is-single-cert small {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Max has two verified photos: keep two balanced columns on desktop without changing other coach galleries. */
+.coach-profile-panel[data-active-coach="max"] .coach-photo-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  column-count: auto;
+}
+.coach-profile-panel[data-active-coach="max"] .coach-photo-mosaic .coach-media-thumb {
+  display: block;
+  margin: 0;
+}
+@media (max-width: 620px) {
+  .coach-profile-panel[data-active-coach="max"] .coach-photo-mosaic {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
