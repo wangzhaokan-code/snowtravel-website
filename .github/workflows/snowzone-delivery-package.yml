@@ -1,0 +1,38 @@
+name: Build Snow Zone static handoff ZIP
+on:
+  push:
+    branches:
+      - package/snowzone-gtm-delivery-20261027
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare official site package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out/snowzone
+          cp -a snowzone/. out/snowzone/
+          rm -f out/snowzone/assets/DomeSnowZone_preview_480p_tiny.mp4
+          test "$(grep -o 'GTM-WRQM2V3' out/snowzone/index.html | wc -l)" -eq 2
+          test "$(grep -o 'class="bokunWidget"' out/snowzone/index.html | wc -l)" -eq 1
+          cat > out/DEPLOYMENT_NOTES_ja.txt <<'EOF'
+          DOME Snow Zone / 札幌ドーム公式サイト制作会社向け納品
+          - ページ本体は snowzone/index.html です。
+          - b.css、favicon.svg、assets 内の画像・動画・PDFを相対パスのまま配置してください。
+          - GTM ID GTM-WRQM2V3 は納品HTMLのhead/bodyに組込済みです。既存サーバーのGTM/計測タグとの重複を本番担当者が必ず確認してください。
+          - 札幌ドーム公式公開先 https://www.sapporo-dome.co.jp/snowzone/ は納品候補のURLであり、弊社ではサーバーへのアップロードや稼働確認を実施していません。
+          - 現行HTMLには正式URLのcanonical、og:url、og:imageは未設定です。公式公開が確定した際に制作会社側でご確認ください。
+          - GTMプレビューモード、予約処理、携帯表示などは公式サイトでの最終確認が必要です。
+          EOF
+          ( cd out; find snowzone -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt )
+          ( cd out; zip -r -q ../DOME_Snow_Zone_GTM_WRQM2V3_delivery_20261027.zip snowzone DEPLOYMENT_NOTES_ja.txt SHA256SUMS.txt )
+          test -s DOME_Snow_Zone_GTM_WRQM2V3_delivery_20261027.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snowzone-gtm-handoff-20261027
+          path: DOME_Snow_Zone_GTM_WRQM2V3_delivery_20261027.zip
+          if-no-files-found: error
