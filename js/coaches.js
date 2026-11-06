@@ -141,8 +141,9 @@
       ],
       videos: [],
       detailId: 'coach-detail-kay',
-      showInTeam: true,
-      showInCalculator: true
+      showInTeam: false,
+      showInCalculator: false,
+      showDetail: false
     },
     {
       id: 'anita',
