@@ -187,7 +187,17 @@
       snowboardCertLabel: '加拿大CASI 1級',
       background: '來自新加坡',
       languages: ['中文', '英文'],
-      intro: `教練簡介稍後補充。`,
+      intro: {
+        zhHans: `我喜欢探索群山，并且乐在其中。我喜欢教滑雪，也喜欢拍摄美丽的雪景。我性格随和、注重细节，特别重视安全，希望为学员带来难忘的体验。期待我们一起玩得开心，留下美好的回忆！
+
+我在日本、新西兰、瑞士和奥地利滑雪超过 14 年。为了成为专业教练，我在同一个雪季取得了 CSIA 1级、CSIA 2级、CASI 1级和 NZSIA 儿童教学 1级资格。`,
+        zhHant: `我喜歡探索群山，並且樂在其中。我喜歡教滑雪，也喜歡拍攝美麗的雪景。我性格隨和、注重細節，特別重視安全，希望為學員帶來難忘的體驗。期待我們一起玩得開心，留下美好的回憶！
+
+我在日本、紐西蘭、瑞士和奧地利滑雪超過 14 年。為了成為專業教練，我在同一個雪季取得了 CSIA 1級、CSIA 2級、CASI 1級和 NZSIA 兒童教學 1級資格。`,
+        en: `I love to explore mountains and have a lot of fun doing it. Enjoys teaching and taking lots of photographs of the beautiful snowy scenery. Easy going and attentive to details, I emphasize on safety and providing an unforgettable experience for my clients. Let's have a lot of fun and beautiful memories together!
+
+Over 14 yrs of skiing in Japan, New Zealand, Switzerland and Austria. Obtained CSIA L1, L2, CASI L1 and NZSIA Kids teach L1 in the same season to be a professional instructor.`
+      },
       certificates: ['加拿大雙板指導員 CSIA 2級', '紐西蘭雙板指導員 NZSIA 兒童教學 1級', '加拿大雙板指導員 CSIA 1級'],
       photos: [],
       avatar: 'assets/images/coaches/eddie/avatar.jpg',
@@ -210,7 +220,23 @@
       skiCertLabel: '加拿大CSIA 1級',
       background: '來自廣東',
       languages: ['中文', '粵語'],
-      intro: `教練簡介稍後補充。`,
+      intro: {
+        zhHans: `Tina，中粤单双板滑雪教练，拥有丰富的滑雪教学经验，具备专业滑雪教学资质，精通单板、双板双项教学。教学覆盖零基础入门、站姿与重心建立、刹车换刃、平行式滑行，青少年、成人均可授课，教学以安全为首要前提。
+
+除了技术指导，更注重给学员情绪支持。擅长接纳学员的紧张、害怕，耐心引导，不催促、不施压，懂得安抚畏难心态。因材施教，根据每个人的接受节奏、心理状态定制教学计划，帮学员放下焦虑，建立自信。
+
+期待我们的相遇。`,
+        zhHant: `Tina，中粵單雙板滑雪教練，擁有豐富的滑雪教學經驗，具備專業滑雪教學資質，精通單板、雙板雙項教學。教學涵蓋零基礎入門、站姿與重心建立、剎車換刃、平行式滑行，青少年、成人均可授課，教學以安全為首要前提。
+
+除了技術指導，更注重給學員情緒支持。擅長接納學員的緊張、害怕，耐心引導，不催促、不施壓，懂得安撫畏難心態。因材施教，根據每個人的接受節奏、心理狀態制定教學計畫，幫學員放下焦慮，建立自信。
+
+期待我們的相遇。`,
+        en: `I'm Tina, a Mandarin- and Cantonese-speaking ski and snowboard instructor with extensive teaching experience and professional qualifications in both disciplines. My lessons cover everything from first-time basics, stance and balance, stopping and edge changes, to parallel skiing. I teach both teenagers and adults, always putting safety first.
+
+Beyond technical instruction, I also focus on emotional support. I understand that students can feel nervous or afraid. I guide them patiently, without rushing or pressure, and adapt the lessons to each person's learning pace and mindset, helping them let go of anxiety and build confidence.
+
+I look forward to meeting you!`
+      },
       certificates: ['加拿大雙板指導員 CSIA 1級'],
       photos: [],
       avatar: 'assets/images/coaches/tina/avatar.jpeg',
@@ -281,7 +307,23 @@
       snowboardCertLabel: '加拿大CASI 1級',
       background: '來自香港',
       languages: ['粵語', '英文', '中文'],
-      intro: '',
+      intro: {
+        zhHans: `嗨，我是 Raymond！从键盘前逃跑到雪山的前工程师，擅长用力学拯救在雪地上受挫的灵魂。
+
+滑雪本质就是重心与物理的游戏。无论是初学想顺利转弯，还是进阶刻滑，我都能把动作拆解成听得懂的底层逻辑，帮你找出卡关盲点，告别恐惧！
+
+期待今个雪季跟大家一起快乐、安全地进步！`,
+        zhHant: `嗨，我是 Raymond！從鍵盤前逃跑到雪山的前工程師，擅長用力學拯救在雪地上受挫的靈魂。
+
+滑雪本質就是重心與物理的遊戲。無論是初學想順利轉彎，還是進階刻滑，我都能把動作拆解成聽得懂的底層邏輯，幫你找出卡關盲點，告別恐懼！
+
+期待今個雪季跟大家一起快樂、安全地進步！`,
+        en: `Hi, I'm Raymond! I'm a former engineer who escaped from behind the keyboard to the mountains. I love using physics to help people overcome their frustrations on snow.
+
+Skiing is essentially a game of balance and physics. Whether you're a beginner learning to turn smoothly or an advanced skier or snowboarder working on carving, I can break down each movement into easy-to-understand fundamentals, helping you identify what's holding you back and overcome your fears!
+
+I look forward to making happy, safe progress together this ski season!`
+      },
       certificates: [],
       photos: [
         { src: 'assets/images/coaches/raymond/photo-01.jpg', alt: 'Raymond 教練滑行照片 1' },
@@ -329,7 +371,17 @@
       skiCertLabel: '加拿大CSIA 1級',
       background: '來自廣東',
       languages: ['中文', '英文'],
-      intro: '',
+      intro: {
+        zhHans: `Hi，我是雅婷，英文名 Yara，是一名中英文滑雪教练。
+
+我的教学风格温和耐心，讲解通俗易懂，不会给学员制造压力。熟知新手初学容易紧张、畏惧摔倒的心态，会带着你慢慢建立平衡感，夯实基础动作。教学节奏跟随你的适应能力调整，不只教会滑雪技巧，也希望你感受滑雪的乐趣，我还可以帮你抓拍滑行瞬间，留存雪场美好记录。`,
+        zhHant: `Hi，我是雅婷，英文名 Yara，是一名中英文滑雪教練。
+
+我的教學風格溫和耐心，講解通俗易懂，不會給學員製造壓力。熟知新手初學容易緊張、畏懼摔倒的心態，會帶著你慢慢建立平衡感，夯實基礎動作。教學節奏跟隨你的適應能力調整，不只教會滑雪技巧，也希望你感受滑雪的樂趣，我還可以幫你抓拍滑行瞬間，留存雪場美好記錄。`,
+        en: `Hi, I'm Yating, and my English name is Yara. I'm a ski instructor who teaches in Mandarin Chinese and English.
+
+My teaching style is gentle and patient, with clear, easy-to-follow explanations and no unnecessary pressure. I understand how nervous beginners can feel, especially when they are afraid of falling. I'll guide you step by step to develop balance and a solid foundation, adjusting the pace to how comfortably you adapt. Beyond teaching skiing techniques, I hope to help you enjoy skiing. I can also capture photos of your skiing moments so you can keep those memories from the slopes.`
+      },
       certificates: [],
       photos: [],
       avatar: 'assets/images/coaches/yara/avatar.jpg',
@@ -721,8 +773,6 @@ Teaching experience:
 2022/23: Club Med Tomamu.
 2023/24: Niseko.
 2024: Australia Falls Creek Ski School.`],
-    ['Eddie', 'Profile details are being confirmed. Eddie can teach in English and Mandarin Chinese, subject to date and resort availability.'],
-    ['Tina', 'Profile details are being confirmed. Please contact us to confirm lesson availability and suitable lesson arrangements.'],
     ['Jessika', 'Profile details are being confirmed. Jessika can teach in English, Mandarin Chinese, and Cantonese, subject to date and resort availability.'],
     ['Leo', `I have three years and four seasons of teaching experience, and obtained CSIA Level 3 in my third year.
 
@@ -871,7 +921,9 @@ I specialize in lessons for families, children, and adults. I also provide skiin
     snowboardCertLabel: coach.snowboardCertLabel ? t(coach.snowboardCertLabel) : '',
     background: coach.background ? t(coach.background) : '',
     languages: (coach.languages || []).map(t),
-    intro: isEnglish() ? toEnglish(englishIntroByCoach.get(coach.name) || coach.intro) : t(coach.intro),
+    intro: coach.intro && typeof coach.intro === 'object'
+      ? localizedTitle(coach.intro)
+      : (isEnglish() ? toEnglish(englishIntroByCoach.get(coach.name) || coach.intro) : t(coach.intro)),
     certificates: (coach.certificates || []).map(t),
     photos: (coach.photos || []).map(localizeMedia),
     certificateImages: (coach.certificateImages || []).map(localizeMedia),
