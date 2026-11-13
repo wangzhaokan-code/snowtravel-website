@@ -349,7 +349,29 @@ I look forward to making happy, safe progress together this ski season!`
       skiCertLabel: '加拿大CSIA 1級',
       background: '來自台灣',
       languages: ['中文'],
-      intro: '',
+      intro: {
+        zhHans: `把每一次滑行，变成满载而归的雪地冒险！
+
+走过初学时的害怕与卡关，深知自我摸索的畏惧。
+用对的节奏陪伴、拆解步骤，带你稳扎稳打享受雪地
+至于狼狈跌倒嘛…不保证完全没有，
+但保证带你摔得安全、笑得开心！让你在雪地不再孤单无助
+这趟旅程，让我带你安心出发！`,
+        zhHant: `把每一次滑行，變成滿載而歸的雪地冒險！
+
+走過初學時的害怕與卡關，深知自我摸索的畏懼。
+用對的節奏陪伴、拆解步驟，帶你穩扎穩打享受雪地
+至於狼狽跌倒嘛…不保證完全沒有，
+但保證帶你摔得安全、笑得開心！讓你在雪地不再孤單無助
+這趟旅程，讓我帶你安心出發！`,
+        en: `Turn every run into a rewarding adventure on the snow!
+
+I know what it's like to feel scared or stuck as a beginner, and how daunting it can be to figure things out on your own.
+I'll guide you at a pace that works for you, breaking each skill down step by step so you can build a solid foundation and enjoy the snow.
+As for those awkward falls… I can't promise there won't be any,
+but I promise to help you fall safely and laugh along the way! You won't have to feel lost or alone on the slopes.
+Let me guide you on this adventure so you can set off with confidence!`
+      },
       certificates: [],
       photos: [],
       avatar: 'assets/images/coaches/igo/avatar.jpg',
