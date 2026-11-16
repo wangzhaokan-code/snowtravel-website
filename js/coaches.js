@@ -259,7 +259,29 @@ I look forward to meeting you!`
       skiCertLabel: '加拿大CSIA 2級',
       background: '來自香港',
       languages: ['中文', '英文', '粵語'],
-      intro: `教練簡介稍後補充。`,
+      intro: {
+        zhHans: `Hello，亲爱的朋友们！我是来自香港的 Jessika。
+
+我深信，快乐不只是进步后的奖励，它本身就是学习的工具，也是最快的进步方式。因为真正有效的学习发生在你放松、享受其中的时候，而不是全身紧绷的时候。
+
+和我一起滑雪，你会感受到我源源不断的活力，也少不了欢声笑语。我的目标是让每位学员在课堂上都感到自己有能力做到，也受到悉心照顾，并在回家时带着征服壮丽雪坡的自豪感。
+
+忘掉自己正在“学习”吧——你只是在雪地上度过最棒的一天。快来加入我，让我们一起重新发现滑雪的乐趣！`,
+        zhHant: `Hello，親愛的朋友們！我是來自香港的 Jessika。
+
+我深信，快樂不只是進步後的獎勵，它本身就是學習的工具，也是最快的進步方式。因為真正有效的學習發生在你放鬆、享受其中的時候，而不是全身緊繃的時候。
+
+和我一起滑雪，你會感受到我源源不絕的活力，也少不了歡聲笑語。我的目標是讓每位學員在課堂上都感到自己有能力做到，也受到悉心照顧，並在回家時帶著征服壯麗雪坡的自豪感。
+
+忘掉自己正在「學習」吧——你只是在雪地上度過最棒的一天。快來加入我，讓我們一起重新發現滑雪的樂趣！`,
+        en: `Hello lovelies! This is Jessika from Hong Kong.
+
+I am a strong believer that fun isn't just the reward—it's the tool and the fastest path to progress. Because effective learning happens when you're relaxed and having fun, not when you're rigid.
+
+When skiing with me, expect my bottomless energy and some good laughs. My goal is to let everyone feel as capable and cared for in class, and go home with the pride of having conquered some magnificent slopes.
+
+Forget you're "learning"—you're just having the best day on snow. Come join me and make skiing fun again together!`
+      },
       certificates: ['加拿大雙板指導員 CSIA 2級'],
       photos: [],
       avatar: 'assets/images/coaches/jessika/avatar.jpg',
@@ -797,7 +819,6 @@ Teaching experience:
 2022/23: Club Med Tomamu.
 2023/24: Niseko.
 2024: Australia Falls Creek Ski School.`],
-    ['Jessika', 'Profile details are being confirmed. Jessika can teach in English, Mandarin Chinese, and Cantonese, subject to date and resort availability.'],
     ['Leo', `I have three years and four seasons of teaching experience, and obtained CSIA Level 3 in my third year.
 
 I am good at explaining ski theory in everyday terms. My varied and engaging teaching methods make learning to ski easier, and I have helped several students obtain international instructor qualifications.
