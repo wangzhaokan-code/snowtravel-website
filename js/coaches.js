@@ -216,8 +216,9 @@ Over 14 yrs of skiing in Japan, New Zealand, Switzerland and Austria. Obtained C
       name: 'Tina',
       displayName: 'Tina 教練',
       skiLevel: '一級',
-      snowboardLevel: '',
+      snowboardLevel: '一級',
       skiCertLabel: '加拿大CSIA 1級',
+      snowboardCertLabel: '加拿大CASI 1級',
       background: '來自廣東',
       languages: ['中文', '粵語'],
       intro: {
@@ -237,11 +238,12 @@ Beyond technical instruction, I also focus on emotional support. I understand th
 
 I look forward to meeting you!`
       },
-      certificates: ['加拿大雙板指導員 CSIA 1級'],
+      certificates: ['加拿大雙板指導員 CSIA 1級', '加拿大單板指導員 CASI 1級'],
       photos: [],
       avatar: 'assets/images/coaches/tina/avatar.jpeg',
       certificateImages: [
-        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/tina/certificate-csia-1.png' }
+        { title: '加拿大雙板指導員 CSIA 1級', src: 'assets/images/coaches/tina/certificate-csia-1.png' },
+        { title: { zhHans: '加拿大单板指导员 CASI 1级', zhHant: '加拿大單板指導員 CASI 1級', en: 'CASI Snowboard Instructor Level 1 (Canada)' }, src: 'assets/images/coaches/tina/certificate-casi-1.jpg' }
       ],
       videos: [],
       detailId: 'coach-detail-tina',
