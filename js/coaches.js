@@ -317,7 +317,7 @@ Forget you're "learning"—you're just having the best day on snow. Come join me
       ],
       videos: [],
       showInTeam: true,
-      showInCalculator: false,
+      showInCalculator: true,
       detailId: 'coach-detail-max',
       showDetail: true
     },
@@ -360,7 +360,7 @@ I look forward to making happy, safe progress together this ski season!`
       ],
       videos: [],
       showInTeam: true,
-      showInCalculator: false,
+      showInCalculator: true,
       detailId: 'coach-detail-raymond',
       showDetail: true
     },
@@ -404,7 +404,7 @@ Let me guide you on this adventure so you can set off with confidence!`
       ],
       videos: [],
       showInTeam: true,
-      showInCalculator: false,
+      showInCalculator: true,
       detailId: 'coach-detail-igo',
       showDetail: true
     },
@@ -436,7 +436,7 @@ My teaching style is gentle and patient, with clear, easy-to-follow explanations
       ],
       videos: [],
       showInTeam: true,
-      showInCalculator: false,
+      showInCalculator: true,
       detailId: 'coach-detail-yara',
       showDetail: true
     },
